@@ -70,5 +70,38 @@
     "termsTitle": "Kullanım Şartları",
     "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."
   },
-  "cities": {}
+  "cities": {
+    "istanbul": {
+      "sourceMode": "adapter",
+      "sourceName": "",
+      "sourceUrl": "",
+      "prices": {
+        "gram": {
+          "buy": 0,
+          "sell": 0
+        },
+        "ceyrek": {
+          "buy": 0,
+          "sell": 0
+        },
+        "yarim": {
+          "buy": 0,
+          "sell": 0
+        },
+        "tam": {
+          "buy": 0,
+          "sell": 0
+        },
+        "cumhuriyet": {
+          "buy": 0,
+          "sell": 0
+        },
+        "bilezik22": {
+          "buy": 0,
+          "sell": 0
+        }
+      },
+      "updatedAt": "2026-08-25T08:12:58.509Z"
+    }
+  }
 }
