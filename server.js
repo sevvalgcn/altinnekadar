@@ -100,7 +100,7 @@ app.post("/api/admin/logout",(req,res)=>{res.setHeader("Set-Cookie","ank_admin=;
 
 const verifiedSources={}; // Doğrulanmış şehir adaptörleri buraya eklenir.
 app.get("/api/admin/config",requireAdmin,(req,res)=>res.json({config:siteConfig,cities:CITIES}));
-app.get("/api/admin/status",requireAdmin,(req,res)=>{const configuredSources=Object.values(siteConfig.cities||{}).filter(x=>x.sourceMode==="manual"||x.sourceMode==="adapter").length;res.json({service:"altinnekadar.com.tr",node:process.version,uptime:process.uptime(),adapters:Object.keys(verifiedSources).length,configuredSources,githubPersistence:Boolean(ghEnv().token&&ghEnv().owner&&ghEnv().repo)});});
+app.get("/api/admin/status",requireAdmin,async(req,res)=>{const configuredSources=Object.values(siteConfig.cities||{}).filter(x=>x.sourceMode==="manual"||x.sourceMode==="adapter").length;const central=await fetchCentralGold();res.json({service:"altinnekadar.com.tr",node:process.version,uptime:process.uptime(),adapters:Object.keys(verifiedSources).length,configuredSources,centralGoldConfigured:Boolean(process.env.GOLD_API_KEY),centralGoldLive:Boolean(central?.prices?.length),centralGoldUpdatedAt:central?.fetchedAt||null,centralGoldCacheMinutes:CENTRAL_GOLD_TTL/60000,centralGoldLastError:centralGoldCache.lastError,githubPersistence:Boolean(ghEnv().token&&ghEnv().owner&&ghEnv().repo)})});
 app.put("/api/admin/config",requireAdmin,async(req,res)=>{try{const c=safeConfig(req.body?.config);saveLocal(c);let githubCommitted=false;try{githubCommitted=await persistConfig(c)}catch(e){console.error("GitHub config:",e.message)}goldCache.clear();res.json({ok:true,githubCommitted})}catch{res.status(400).json({error:"invalid_config"})}});
 
 const ALLOWED_MIME={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","image/x-icon":"ico"};
@@ -116,20 +116,24 @@ app.post("/api/admin/media",requireAdmin,async(req,res)=>{try{
 
 app.get("/api/site-config",(req,res)=>{res.set("Cache-Control","public,max-age=30").json({site:siteConfig.site,home:siteConfig.home,navigation:siteConfig.navigation,footer:siteConfig.footer,fx:siteConfig.fx,tools:siteConfig.tools,ads:siteConfig.ads})});
 
+
+const CENTRAL_GOLD_BASE="https://api.apinoktam.erenozdemir.com.tr/v1/altin";
+const CENTRAL_GOLD_TTL=Math.max(5,Number(process.env.GOLD_CACHE_MINUTES)||60)*60_000;
+let centralGoldCache={time:0,data:null,lastError:null};
+function parseGoldNumber(v){if(typeof v==="number")return Number.isFinite(v)?v:null;let s=String(v??"").trim();if(!s)return null;if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",", ".");else if(s.includes(","))s=s.replace(",", ".");const n=Number(s);return Number.isFinite(n)?n:null}
+function centralGoldKey(item){const symbol=String(item?.sembol||"").toUpperCase(),tur=String(item?.tur||"").toLocaleLowerCase("tr-TR"),isim=String(item?.isim||"").toLocaleLowerCase("tr-TR");if(symbol==="GRA"||tur==="gram"||isim.includes("gram alt"))return "gram";if(tur==="ceyrek"||tur==="çeyrek"||isim.includes("çeyrek"))return "ceyrek";if(tur==="yarim"||tur==="yarım"||isim.includes("yarım"))return "yarim";if(tur==="tam"||isim.includes("tam alt"))return "tam";if(tur==="cumhuriyet"||isim.includes("cumhuriyet"))return "cumhuriyet";if(tur.includes("22")||isim.includes("22 ayar"))return "bilezik22";return null}
+function centralGoldName(key){return {gram:"Gram Altın",ceyrek:"Çeyrek Altın",yarim:"Yarım Altın",tam:"Tam Altın",cumhuriyet:"Cumhuriyet Altını",bilezik22:"22 Ayar Bilezik"}[key]||key}
+async function fetchCentralGold(force=false){const now=Date.now();if(!force&&centralGoldCache.data&&now-centralGoldCache.time<CENTRAL_GOLD_TTL)return centralGoldCache.data;const apiKey=process.env.GOLD_API_KEY;if(!apiKey){centralGoldCache.lastError="GOLD_API_KEY_missing";return centralGoldCache.data||null}try{const r=await fetch(CENTRAL_GOLD_BASE,{headers:{"x-api-key":apiKey,"Accept":"application/json","User-Agent":"AltinNeKadar.com.tr/1.0"},signal:AbortSignal.timeout(10000)});if(!r.ok)throw new Error(`gold_api_http_${r.status}`);const json=await r.json(),items=json?.data?.kalemler;if(!Array.isArray(items)||!items.length)throw new Error("gold_api_invalid_format");const prices=[],seen=new Set();for(const item of items){const key=centralGoldKey(item);if(!key||seen.has(key))continue;const buy=parseGoldNumber(item.alis),sell=parseGoldNumber(item.satis),change=parseGoldNumber(item.degisim);if(buy==null&&sell==null)continue;prices.push({key,name:centralGoldName(key),buy:buy??sell??0,sell:sell??buy??0,change:change??0});seen.add(key)}if(!prices.some(p=>p.key==="gram"))throw new Error("gold_api_missing_gram");const data={verified:true,central:true,sourceName:"apinoktam Altın API",sourceUrl:"https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",providerSource:json?.meta?.kaynak||"truncgil.com",updatedAt:json?.data?.tarih||json?.meta?.updatedAt||new Date().toISOString(),fetchedAt:new Date().toISOString(),prices};centralGoldCache={time:now,data,lastError:null};return data}catch(err){centralGoldCache.lastError=String(err?.message||err);console.error("Central gold:",centralGoldCache.lastError);return centralGoldCache.data||null}}
+
 const goldCache=new Map(),GOLD_TTL=30_000;
 async function cityGold(city){
  const cfg=siteConfig.cities?.[city];
- if(cfg?.sourceMode==="manual"){
-  const names={gram:"Gram Altın",ceyrek:"Çeyrek Altın",yarim:"Yarım Altın",tam:"Tam Altın",cumhuriyet:"Cumhuriyet Altını",bilezik22:"22 Ayar Bilezik"};
-  const prices=Object.entries(cfg.prices||{}).filter(([,p])=>Number(p.sell)>0).map(([key,p])=>({key,name:names[key]||key,buy:Number(p.buy)||0,sell:Number(p.sell)||0,change:0}));
-  if(prices.length)return{city,verified:false,manual:true,sourceName:cfg.sourceName||"Panelden girilen fiyat",sourceUrl:cfg.sourceUrl||"",updatedAt:cfg.updatedAt||new Date().toISOString(),prices};
- }
- const src=verifiedSources[city];if(!src||cfg?.sourceMode==="none")return null;
- const hit=goldCache.get(city);if(hit&&Date.now()-hit.time<GOLD_TTL)return hit.data;
- const raw=await src.fetchPrices();if(!raw||!Array.isArray(raw.prices)||!raw.prices.length)throw new Error("invalid source");
- const data={city,verified:true,sourceName:cfg?.sourceName||src.sourceName,sourceUrl:cfg?.sourceUrl||src.sourceUrl,updatedAt:raw.updatedAt||new Date().toISOString(),prices:raw.prices};
- goldCache.set(city,{time:Date.now(),data});return data;
+ if(cfg?.sourceMode==="manual"){const names={gram:"Gram Altın",ceyrek:"Çeyrek Altın",yarim:"Yarım Altın",tam:"Tam Altın",cumhuriyet:"Cumhuriyet Altını",bilezik22:"22 Ayar Bilezik"};const prices=Object.entries(cfg.prices||{}).filter(([,p])=>Number(p.sell)>0).map(([key,p])=>({key,name:names[key]||key,buy:Number(p.buy)||0,sell:Number(p.sell)||0,change:0}));if(prices.length)return{city,verified:false,manual:true,central:false,sourceName:cfg.sourceName||"Panelden girilen yerel fiyat",sourceUrl:cfg.sourceUrl||"",updatedAt:cfg.updatedAt||new Date().toISOString(),prices}}
+ const src=verifiedSources[city];
+ if(src&&cfg?.sourceMode!=="none"){const hit=goldCache.get(city);if(hit&&Date.now()-hit.time<GOLD_TTL)return hit.data;const raw=await src.fetchPrices();if(!raw||!Array.isArray(raw.prices)||!raw.prices.length)throw new Error("invalid source");const data={city,verified:true,manual:false,central:false,sourceName:cfg?.sourceName||src.sourceName,sourceUrl:cfg?.sourceUrl||src.sourceUrl,updatedAt:raw.updatedAt||new Date().toISOString(),prices:raw.prices};goldCache.set(city,{time:Date.now(),data});return data}
+ const central=await fetchCentralGold();if(!central)return null;return {...central,city,local:false,sourceName:"Türkiye Geneli Canlı Altın Verisi • apinoktam"};
 }
+app.get("/api/gold",async(req,res)=>{const force=req.query.refresh==="1"&&validSession(req);const data=await fetchCentralGold(force);if(!data)return res.status(503).json({error:"central_gold_unavailable",configured:Boolean(process.env.GOLD_API_KEY)});res.set("Cache-Control","public,max-age=30,stale-while-revalidate=300").json(data)});
 app.get("/api/prices",async(req,res)=>{const city=String(req.query.city||"").toLowerCase();if(!CITIES[city])return res.status(400).json({error:"invalid_city"});try{const d=await cityGold(city);if(!d)return res.status(404).json({city,verified:false,error:"source_not_configured"});res.set("Cache-Control","public,max-age=15").json(d)}catch{res.status(502).json({error:"source_unavailable"})}});
 
 let fxCache={time:0,data:null};const FX_TTL=5*60_000;
@@ -146,7 +150,7 @@ app.get("/api/fx",async(req,res)=>{try{res.set("Cache-Control","public,max-age=6
 function hav(a,b,c,d){const R=6371,p=Math.PI/180,x=(c-a)*p,y=(d-b)*p,u=Math.sin(x/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(u))}
 app.get("/api/reverse-geocode",(req,res)=>{const lat=Number(req.query.lat),lon=Number(req.query.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<35||lat>43||lon<25||lon>46)return res.status(400).json({error:"invalid_coordinates"});let best=null,dist=1e9;for(const [slug,[a,b]] of Object.entries(CENTERS)){const d=hav(lat,lon,a,b);if(d<dist){dist=d;best=slug}}res.json({citySlug:best,cityName:CITIES[best],approximate:true})});
 app.get("/api/source-status",(req,res)=>res.json(Object.fromEntries(Object.keys(CITIES).map(c=>{const cfg=siteConfig.cities?.[c];return[c,{configured:Boolean(verifiedSources[c])||cfg?.sourceMode==="manual",mode:cfg?.sourceMode||"none",name:cfg?.sourceName||verifiedSources[c]?.sourceName||null}]}))));
-app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString()}));
+app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),goldApiConfigured:Boolean(process.env.GOLD_API_KEY),goldCacheAgeSeconds:centralGoldCache.time?Math.round((Date.now()-centralGoldCache.time)/1000):null}));
 
 app.use((req,res,next)=>{if(!siteConfig.site.maintenance)return next();if(req.path.startsWith("/admin")||req.path.startsWith("/api/admin")||req.path==="/health")return next();res.status(503).send(simplePage("Bakımdayız","<p>Site kısa süreli bakım çalışmasındadır.</p>"))});
 app.get("/",(req,res)=>res.send(renderHome("istanbul")));
