@@ -206,9 +206,17 @@ async function fetchHaremGold(force=false){
       const key=haremMapKey(item);
       if(!key||seen.has(key))continue;
 
-      const buy=haremPriceValue(item,"buy");
-      const sell=haremPriceValue(item,"sell");
+      let buy=haremPriceValue(item,"buy");
+      let sell=haremPriceValue(item,"sell");
       if(buy===null&&sell===null)continue;
+
+      // Harem bazı sarrafiye ürünlerini 11.71 / 23.41 / 46.65 gibi
+      // bin TL ölçeğinde döndürebiliyor. Gram ve bilezik fiyatlarına dokunma;
+      // yalnız Çeyrek/Yarım/Tam/Cumhuriyet için küçük değerleri TL'ye çevir.
+      if(["ceyrek","yarim","tam","cumhuriyet"].includes(key)){
+        if(buy!==null && buy>0 && buy<1000) buy*=1000;
+        if(sell!==null && sell>0 && sell<1000) sell*=1000;
+      }
 
       prices.push({
         key,

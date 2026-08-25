@@ -71,3 +71,9 @@ Panelden kaynak adı/URL ve mod yönetilir. Doğrulanmamış veri resmi oda veri
 - Test endpoint: `/api/harem-status`
 
 
+
+
+## Harem sarrafiye fiyat ölçeği düzeltmesi
+Harem kaynağında Çeyrek/Yarım/Tam/Cumhuriyet fiyatları bazı yanıtlarda 11.71, 23.41, 46.65 gibi bin TL ölçeğinde gelebilir.
+Bu ürünlerde değer 1000 TL'den küçükse backend otomatik olarak 1000 ile çarpar.
+Gram Altın ve 22 Ayar Bilezik bu dönüşümden etkilenmez.
