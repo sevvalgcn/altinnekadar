@@ -69,3 +69,11 @@ Panelden kaynak adı/URL ve mod yönetilir. Doğrulanmamış veri resmi oda veri
 - İstanbul için Harem öncelikli.
 - Harem erişilemezse merkezi apinoktam verisine fallback.
 - Test endpoint: `/api/harem-status`
+
+
+## Geçici Harem debug endpoint
+`/api/harem-debug`
+
+Bu endpoint Hasfiyat REST yanıtındaki alan adlarını ve örnek title/symbol değerlerini gösterir.
+API anahtarını, Authorization header'ını veya fiyat değerlerini döndürmez.
+Sorun çözüldükten sonra kaldırılmalıdır.

@@ -309,6 +309,56 @@ async function cityGold(city){
   sourceName:"Türkiye Geneli Canlı Altın Verisi • apinoktam"
  };
 }
+
+app.get("/api/harem-debug",async(req,res)=>{
+  const token=process.env.HAREM_API_KEY;
+  if(!token)return res.status(503).json({configured:false,error:"HAREM_API_KEY_missing"});
+
+  try{
+    const response=await fetch(HAREM_GOLD_URL,{
+      headers:{
+        "Authorization":`Bearer ${token}`,
+        "Accept":"application/json",
+        "User-Agent":"AltinNeKadar.com.tr/1.0"
+      },
+      signal:AbortSignal.timeout(10000)
+    });
+
+    const status=response.status;
+    let json=null;
+    try{
+      json=await response.json();
+    }catch{
+      return res.status(502).json({configured:true,httpStatus:status,error:"non_json_response"});
+    }
+
+    const list=haremList(json);
+    const samples=list.slice(0,12).map(item=>({
+      keys:Object.keys(item||{}).slice(0,20),
+      symbol:item?.symbol??item?.sembol??null,
+      code:item?.code??item?.kod??null,
+      title:item?.title??null,
+      name:item?.name??item?.isim??null,
+      type:item?.type??item?.tur??null,
+      buyPresent:["buy","alis","alış","buying","bid","purchase"].some(k=>item?.[k]!==undefined),
+      sellPresent:["sell","satis","satış","selling","ask","sale"].some(k=>item?.[k]!==undefined)
+    }));
+
+    res.json({
+      configured:true,
+      httpStatus:status,
+      topLevelKeys:json&&typeof json==="object"?Object.keys(json).slice(0,30):[],
+      itemCount:list.length,
+      sample:samples
+    });
+  }catch(error){
+    res.status(502).json({
+      configured:true,
+      error:String(error?.message||error)
+    });
+  }
+});
+
 app.get("/api/harem-status",async(req,res)=>{
  const data=await fetchHaremGold();
  res.json({
