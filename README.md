@@ -77,3 +77,19 @@ Panelden kaynak adı/URL ve mod yönetilir. Doğrulanmamış veri resmi oda veri
 Harem kaynağında Çeyrek/Yarım/Tam/Cumhuriyet fiyatları bazı yanıtlarda 11.71, 23.41, 46.65 gibi bin TL ölçeğinde gelebilir.
 Bu ürünlerde değer 1000 TL'den küçükse backend otomatik olarak 1000 ile çarpar.
 Gram Altın ve 22 Ayar Bilezik bu dönüşümden etkilenmez.
+
+
+## 81 Şehir — Tek Kaynak Registry
+
+Tüm şehir kaynakları `data/city-source-registry.json` içinde tek yerde tutulur.
+
+Hazır eşlemeler:
+- İstanbul → Harem Altın / Hasfiyat
+- Ankara → Harem Altın / Hasfiyat
+- İzmir → İzmir Kuyumcular Odası resmî güncel kur sayfası
+- Sakarya → ceyrekaltinfiyatlari.com/sakarya
+- Diğer şehirler → doğrulanmış resmî/yerel canlı kaynak bulunana kadar merkezi apinoktam fallback
+
+Doğruluk ilkesi:
+Açık ve makine tarafından okunabilir resmî oda fiyatı doğrulanmamış şehirler resmî oda verisi diye gösterilmez.
+Yerel kaynak çalışmazsa sayfa boş kalmaz; merkezi canlı veri otomatik devreye girer.

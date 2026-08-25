@@ -1,0 +1,731 @@
+{
+  "adana": {
+    "city": "Adana",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "adiyaman": {
+    "city": "Adıyaman",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "afyonkarahisar": {
+    "city": "Afyonkarahisar",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "agri": {
+    "city": "Ağrı",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "amasya": {
+    "city": "Amasya",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "ankara": {
+    "city": "Ankara",
+    "mode": "harem",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Ankara İstanbul ile eşdeğer Harem fiyatı kullanır."
+  },
+  "antalya": {
+    "city": "Antalya",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "artvin": {
+    "city": "Artvin",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "aydin": {
+    "city": "Aydın",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "balikesir": {
+    "city": "Balıkesir",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bilecik": {
+    "city": "Bilecik",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bingol": {
+    "city": "Bingöl",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bitlis": {
+    "city": "Bitlis",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bolu": {
+    "city": "Bolu",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "burdur": {
+    "city": "Burdur",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bursa": {
+    "city": "Bursa",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "canakkale": {
+    "city": "Çanakkale",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "cankiri": {
+    "city": "Çankırı",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "corum": {
+    "city": "Çorum",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "denizli": {
+    "city": "Denizli",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "diyarbakir": {
+    "city": "Diyarbakır",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "edirne": {
+    "city": "Edirne",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "elazig": {
+    "city": "Elazığ",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "erzincan": {
+    "city": "Erzincan",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "erzurum": {
+    "city": "Erzurum",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "eskisehir": {
+    "city": "Eskişehir",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "gaziantep": {
+    "city": "Gaziantep",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "giresun": {
+    "city": "Giresun",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "gumushane": {
+    "city": "Gümüşhane",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "hakkari": {
+    "city": "Hakkari",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "hatay": {
+    "city": "Hatay",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "isparta": {
+    "city": "Isparta",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "mersin": {
+    "city": "Mersin",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "istanbul": {
+    "city": "İstanbul",
+    "mode": "harem",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": true,
+    "note": "İstanbul için Harem; erişilemezse merkezi fallback."
+  },
+  "izmir": {
+    "city": "İzmir",
+    "mode": "izko",
+    "sourceName": "İzmir Kuyumcular Odası",
+    "sourceUrl": "https://www.izko.org.tr/guncel-kur",
+    "official": true,
+    "local": true,
+    "note": "Resmî İZKO sayfası. Dinamik fiyat okunamazsa merkezi fallback."
+  },
+  "kars": {
+    "city": "Kars",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kastamonu": {
+    "city": "Kastamonu",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kayseri": {
+    "city": "Kayseri",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kirklareli": {
+    "city": "Kırklareli",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kirsehir": {
+    "city": "Kırşehir",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kocaeli": {
+    "city": "Kocaeli",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "konya": {
+    "city": "Konya",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kutahya": {
+    "city": "Kütahya",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "malatya": {
+    "city": "Malatya",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "manisa": {
+    "city": "Manisa",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kahramanmaras": {
+    "city": "Kahramanmaraş",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "mardin": {
+    "city": "Mardin",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "mugla": {
+    "city": "Muğla",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "mus": {
+    "city": "Muş",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "nevsehir": {
+    "city": "Nevşehir",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "nigde": {
+    "city": "Niğde",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "ordu": {
+    "city": "Ordu",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "rize": {
+    "city": "Rize",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "sakarya": {
+    "city": "Sakarya",
+    "mode": "sakaryaPage",
+    "sourceName": "ÇeyrekAltınFiyatları • Sakarya Kuyumcu",
+    "sourceUrl": "https://ceyrekaltinfiyatlari.com/sakarya",
+    "official": false,
+    "local": true,
+    "note": "Şehir özel sayfa; sayfa kendisi verileri Kapalıçarşı önerilen fiyatları olarak tanımlar."
+  },
+  "samsun": {
+    "city": "Samsun",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "siirt": {
+    "city": "Siirt",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "sinop": {
+    "city": "Sinop",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "sivas": {
+    "city": "Sivas",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "tekirdag": {
+    "city": "Tekirdağ",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "tokat": {
+    "city": "Tokat",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "trabzon": {
+    "city": "Trabzon",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "tunceli": {
+    "city": "Tunceli",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "sanliurfa": {
+    "city": "Şanlıurfa",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "usak": {
+    "city": "Uşak",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "van": {
+    "city": "Van",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "yozgat": {
+    "city": "Yozgat",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "zonguldak": {
+    "city": "Zonguldak",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "aksaray": {
+    "city": "Aksaray",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bayburt": {
+    "city": "Bayburt",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "karaman": {
+    "city": "Karaman",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kirikkale": {
+    "city": "Kırıkkale",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "batman": {
+    "city": "Batman",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "sirnak": {
+    "city": "Şırnak",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "bartin": {
+    "city": "Bartın",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "ardahan": {
+    "city": "Ardahan",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "igdir": {
+    "city": "Iğdır",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "yalova": {
+    "city": "Yalova",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "karabuk": {
+    "city": "Karabük",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "kilis": {
+    "city": "Kilis",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "osmaniye": {
+    "city": "Osmaniye",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  },
+  "duzce": {
+    "city": "Düzce",
+    "mode": "central",
+    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+  }
+}

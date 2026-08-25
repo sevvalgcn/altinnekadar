@@ -11,6 +11,14 @@ const DATA_DIR=path.join(__dirname,"data");
 const CONFIG_FILE=path.join(DATA_DIR,"site-config.json");
 const UPLOADS=path.join(PUBLIC,"uploads");
 
+const CITY_SOURCE_FILE=path.join(DATA_DIR,"city-source-registry.json");
+function loadCitySourceRegistry(){
+  try{return JSON.parse(fs.readFileSync(CITY_SOURCE_FILE,"utf8"))}
+  catch{return {}}
+}
+let citySourceRegistry=loadCitySourceRegistry();
+
+
 const CITIES={adana:"Adana",adiyaman:"Adıyaman",afyonkarahisar:"Afyonkarahisar",agri:"Ağrı",amasya:"Amasya",ankara:"Ankara",antalya:"Antalya",artvin:"Artvin",aydin:"Aydın",balikesir:"Balıkesir",bilecik:"Bilecik",bingol:"Bingöl",bitlis:"Bitlis",bolu:"Bolu",burdur:"Burdur",bursa:"Bursa",canakkale:"Çanakkale",cankiri:"Çankırı",corum:"Çorum",denizli:"Denizli",diyarbakir:"Diyarbakır",edirne:"Edirne",elazig:"Elazığ",erzincan:"Erzincan",erzurum:"Erzurum",eskisehir:"Eskişehir",gaziantep:"Gaziantep",giresun:"Giresun",gumushane:"Gümüşhane",hakkari:"Hakkari",hatay:"Hatay",isparta:"Isparta",mersin:"Mersin",istanbul:"İstanbul",izmir:"İzmir",kars:"Kars",kastamonu:"Kastamonu",kayseri:"Kayseri",kirklareli:"Kırklareli",kirsehir:"Kırşehir",kocaeli:"Kocaeli",konya:"Konya",kutahya:"Kütahya",malatya:"Malatya",manisa:"Manisa",kahramanmaras:"Kahramanmaraş",mardin:"Mardin",mugla:"Muğla",mus:"Muş",nevsehir:"Nevşehir",nigde:"Niğde",ordu:"Ordu",rize:"Rize",sakarya:"Sakarya",samsun:"Samsun",siirt:"Siirt",sinop:"Sinop",sivas:"Sivas",tekirdag:"Tekirdağ",tokat:"Tokat",trabzon:"Trabzon",tunceli:"Tunceli",sanliurfa:"Şanlıurfa",usak:"Uşak",van:"Van",yozgat:"Yozgat",zonguldak:"Zonguldak",aksaray:"Aksaray",bayburt:"Bayburt",karaman:"Karaman",kirikkale:"Kırıkkale",batman:"Batman",sirnak:"Şırnak",bartin:"Bartın",ardahan:"Ardahan",igdir:"Iğdır",yalova:"Yalova",karabuk:"Karabük",kilis:"Kilis",osmaniye:"Osmaniye",duzce:"Düzce"};
 const CENTERS={adana:[37,35.3213],adiyaman:[37.7648,38.2786],afyonkarahisar:[38.7507,30.5567],agri:[39.7191,43.0503],amasya:[40.6499,35.8353],ankara:[39.9334,32.8597],antalya:[36.8969,30.7133],artvin:[41.1828,41.8183],aydin:[37.856,27.8416],balikesir:[39.6484,27.8826],bilecik:[40.1426,29.9793],bingol:[38.8854,40.498],bitlis:[38.4006,42.1095],bolu:[40.735,31.6061],burdur:[37.7203,30.2908],bursa:[40.195,29.06],canakkale:[40.1553,26.4142],cankiri:[40.6013,33.6134],corum:[40.5506,34.9556],denizli:[37.7765,29.0864],diyarbakir:[37.9144,40.2306],edirne:[41.6818,26.5623],elazig:[38.681,39.2264],erzincan:[39.75,39.5],erzurum:[39.9043,41.2679],eskisehir:[39.7767,30.5206],gaziantep:[37.0662,37.3833],giresun:[40.9128,38.3895],gumushane:[40.4603,39.4814],hakkari:[37.5744,43.7408],hatay:[36.2023,36.1606],isparta:[37.7648,30.5566],mersin:[36.8121,34.6415],istanbul:[41.0082,28.9784],izmir:[38.4237,27.1428],kars:[40.6013,43.0975],kastamonu:[41.3887,33.7827],kayseri:[38.7312,35.4787],kirklareli:[41.7351,27.2252],kirsehir:[39.1425,34.1709],kocaeli:[40.8533,29.8815],konya:[37.8746,32.4932],kutahya:[39.4192,29.9857],malatya:[38.3552,38.3095],manisa:[38.6191,27.4289],kahramanmaras:[37.5753,36.9228],mardin:[37.3212,40.7245],mugla:[37.2153,28.3636],mus:[38.7433,41.5065],nevsehir:[38.6244,34.7142],nigde:[37.9698,34.6766],ordu:[40.9839,37.8764],rize:[41.0201,40.5234],sakarya:[40.7569,30.3781],samsun:[41.2867,36.33],siirt:[37.9333,41.95],sinop:[42.0264,35.1551],sivas:[39.7477,37.0179],tekirdag:[40.978,27.511],tokat:[40.3167,36.55],trabzon:[41.0015,39.7178],tunceli:[39.1079,39.5401],sanliurfa:[37.1674,38.7955],usak:[38.6823,29.4082],van:[38.4891,43.4089],yozgat:[39.8181,34.8147],zonguldak:[41.4564,31.7987],aksaray:[38.3687,34.037],bayburt:[40.2552,40.2249],karaman:[37.181,33.215],kirikkale:[39.8468,33.5153],batman:[37.8812,41.1351],sirnak:[37.5164,42.4611],bartin:[41.6344,32.3375],ardahan:[41.1105,42.7022],igdir:[39.9201,44.0436],yalova:[40.65,29.2667],karabuk:[41.2061,32.6204],kilis:[36.7184,37.1212],osmaniye:[37.0742,36.2478],duzce:[40.8438,31.1565]};
 
@@ -252,71 +260,154 @@ async function fetchHaremGold(force=false){
   }
 }
 
+
+const CITY_SOURCE_TTL=60_000;
+const citySourceCache=new Map();
+
+function htmlText(html){
+  return String(html||"")
+    .replace(/<script[\s\S]*?<\/script>/gi," ")
+    .replace(/<style[\s\S]*?<\/style>/gi," ")
+    .replace(/<[^>]+>/g," ")
+    .replace(/&nbsp;/gi," ")
+    .replace(/&amp;/gi,"&")
+    .replace(/\s+/g," ")
+    .trim();
+}
+function sourceNumber(v){
+  let s=String(v??"").trim().replace(/[₺\s]/g,"");
+  if(!s)return null;
+  if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",",".");
+  else if(s.includes(","))s=s.replace(",",".");
+  const n=Number(s);
+  return Number.isFinite(n)?n:null;
+}
+function sourcePair(text,labelPattern){
+  const rx=new RegExp(labelPattern+"[\\s\\S]{0,180}?([0-9]{1,6}(?:[\\.,][0-9]{1,3})?(?:[\\.,][0-9]{1,2})?)[\\s\\S]{0,70}?([0-9]{1,6}(?:[\\.,][0-9]{1,3})?(?:[\\.,][0-9]{1,2})?)","i");
+  const m=text.match(rx);
+  if(!m)return null;
+  const buy=sourceNumber(m[1]),sell=sourceNumber(m[2]);
+  return buy!==null&&sell!==null?{buy,sell}:null;
+}
+
+async function fetchSakaryaPage(){
+  const cacheKey="sakarya",now=Date.now(),hit=citySourceCache.get(cacheKey);
+  if(hit&&now-hit.time<CITY_SOURCE_TTL)return hit.data;
+  try{
+    const r=await fetch("https://ceyrekaltinfiyatlari.com/sakarya",{
+      headers:{"User-Agent":"Mozilla/5.0 AltinNeKadar.com.tr/1.0","Accept":"text/html"},
+      signal:AbortSignal.timeout(10000)
+    });
+    if(!r.ok)throw new Error(`sakarya_http_${r.status}`);
+    const text=htmlText(await r.text());
+    const products={
+      gram:"Gram Altın",
+      bilezik22:"22 Ayar Bilezik",
+      ceyrek:"Sakarya Çeyrek Altın(?: \\(2026\\))?",
+      yarim:"Yarım Ziynet Altın",
+      tam:"Tam Ziynet Altın",
+      cumhuriyet:"Ata Altın"
+    };
+    const prices=[];
+    for(const [key,pattern] of Object.entries(products)){
+      const p=sourcePair(text,pattern);
+      if(p)prices.push({key,name:centralGoldName(key),buy:p.buy,sell:p.sell,change:0});
+    }
+    if(!prices.some(p=>p.key==="gram")||!prices.some(p=>p.key==="ceyrek"))throw new Error("sakarya_parse_failed");
+    const data={city:"sakarya",verified:true,local:true,central:false,official:false,sourceName:"ÇeyrekAltınFiyatları • Sakarya Kuyumcu",sourceUrl:"https://ceyrekaltinfiyatlari.com/sakarya",updatedAt:new Date().toISOString(),prices};
+    citySourceCache.set(cacheKey,{time:now,data});
+    return data;
+  }catch(error){
+    console.error("Sakarya source:",String(error?.message||error));
+    return null;
+  }
+}
+
+async function fetchIzkoOfficial(){
+  const cacheKey="izmir",now=Date.now(),hit=citySourceCache.get(cacheKey);
+  if(hit&&now-hit.time<CITY_SOURCE_TTL)return hit.data;
+  try{
+    const r=await fetch("https://www.izko.org.tr/guncel-kur",{
+      headers:{"User-Agent":"Mozilla/5.0 AltinNeKadar.com.tr/1.0","Accept":"text/html"},
+      signal:AbortSignal.timeout(10000)
+    });
+    if(!r.ok)throw new Error(`izko_http_${r.status}`);
+    const text=htmlText(await r.text());
+    const products={gram:"Gram Altın",bilezik22:"22 Ayar",ceyrek:"Yeni Çeyrek",yarim:"Yeni Yarım",tam:"Yeni Ziynet",cumhuriyet:"Ata Altın"};
+    const prices=[];
+    for(const [key,pattern] of Object.entries(products)){
+      const p=sourcePair(text,pattern);
+      if(p&&p.buy>100&&p.sell>100)prices.push({key,name:centralGoldName(key),buy:p.buy,sell:p.sell,change:0});
+    }
+    if(!prices.some(p=>p.key==="gram"))return null;
+    const data={city:"izmir",verified:true,local:true,central:false,official:true,sourceName:"İzmir Kuyumcular Odası",sourceUrl:"https://www.izko.org.tr/guncel-kur",updatedAt:new Date().toISOString(),prices};
+    citySourceCache.set(cacheKey,{time:now,data});
+    return data;
+  }catch(error){
+    console.error("IZKO source:",String(error?.message||error));
+    return null;
+  }
+}
+
+async function registryCityGold(city){
+  const entry=citySourceRegistry?.[city]||{};
+  if(entry.mode==="harem"){
+    const h=await fetchHaremGold();
+    if(h)return {...h,city,sourceName:entry.sourceName||h.sourceName,local:Boolean(entry.local)};
+  }
+  if(entry.mode==="sakaryaPage"){
+    const s=await fetchSakaryaPage();
+    if(s)return s;
+  }
+  if(entry.mode==="izko"){
+    const z=await fetchIzkoOfficial();
+    if(z)return z;
+  }
+  return null;
+}
+
 const goldCache=new Map(),GOLD_TTL=30_000;
 async function cityGold(city){
  const cfg=siteConfig.cities?.[city];
 
  if(cfg?.sourceMode==="manual"){
   const names={gram:"Gram Altın",ceyrek:"Çeyrek Altın",yarim:"Yarım Altın",tam:"Tam Altın",cumhuriyet:"Cumhuriyet Altını",bilezik22:"22 Ayar Bilezik"};
-  const prices=Object.entries(cfg.prices||{})
-    .filter(([,p])=>Number(p.sell)>0)
-    .map(([key,p])=>({key,name:names[key]||key,buy:Number(p.buy)||0,sell:Number(p.sell)||0,change:0}));
-
-  if(prices.length){
-    return {
-      city,
-      verified:false,
-      manual:true,
-      central:false,
-      sourceName:cfg.sourceName||"Panelden girilen yerel fiyat",
-      sourceUrl:cfg.sourceUrl||"",
-      updatedAt:cfg.updatedAt||new Date().toISOString(),
-      prices
-    };
-  }
+  const prices=Object.entries(cfg.prices||{}).filter(([,p])=>Number(p.sell)>0).map(([key,p])=>({key,name:names[key]||key,buy:Number(p.buy)||0,sell:Number(p.sell)||0,change:0}));
+  if(prices.length)return{city,verified:false,manual:true,central:false,sourceName:cfg.sourceName||"Panelden girilen yerel fiyat",sourceUrl:cfg.sourceUrl||"",updatedAt:cfg.updatedAt||new Date().toISOString(),prices};
  }
 
- // İstanbul'da Harem verisi öncelikli.
- if(city==="istanbul"&&process.env.HAREM_API_KEY){
-  const harem=await fetchHaremGold();
-  if(harem)return harem;
- }
+ const registryData=await registryCityGold(city);
+ if(registryData)return registryData;
 
- // Şehre özel doğrulanmış adapter varsa onu kullan.
  const src=verifiedSources[city];
  if(src&&cfg?.sourceMode!=="none"){
   const hit=goldCache.get(city);
   if(hit&&Date.now()-hit.time<GOLD_TTL)return hit.data;
-
   const raw=await src.fetchPrices();
-  if(!raw||!Array.isArray(raw.prices)||!raw.prices.length)throw new Error("invalid source");
-
-  const data={
-    city,
-    verified:true,
-    manual:false,
-    central:false,
-    sourceName:cfg?.sourceName||src.sourceName,
-    sourceUrl:cfg?.sourceUrl||src.sourceUrl,
-    updatedAt:raw.updatedAt||new Date().toISOString(),
-    prices:raw.prices
-  };
-
-  goldCache.set(city,{time:Date.now(),data});
-  return data;
+  if(raw&&Array.isArray(raw.prices)&&raw.prices.length){
+    const data={city,verified:true,manual:false,central:false,sourceName:cfg?.sourceName||src.sourceName,sourceUrl:cfg?.sourceUrl||src.sourceUrl,updatedAt:raw.updatedAt||new Date().toISOString(),prices:raw.prices};
+    goldCache.set(city,{time:Date.now(),data});
+    return data;
+  }
  }
 
- // Son fallback: merkezi canlı altın.
  const central=await fetchCentralGold();
  if(!central)return null;
-
- return {
-  ...central,
-  city,
-  local:false,
-  sourceName:"Türkiye Geneli Canlı Altın Verisi • apinoktam"
- };
+ const entry=citySourceRegistry?.[city]||{};
+ let sourceName="Türkiye Geneli Canlı Altın Verisi • apinoktam";
+ if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Merkezi canlı yedek";
+ if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Merkezi canlı yedek";
+ return {...central,city,local:false,official:false,sourceName};
 }
+
+app.get("/api/city-source",(req,res)=>{
+ const city=String(req.query.city||"").toLowerCase();
+ if(!CITIES[city])return res.status(400).json({error:"invalid_city"});
+ res.json({city,cityName:CITIES[city],...(citySourceRegistry?.[city]||{})});
+});
+app.get("/api/city-sources",(req,res)=>{
+ res.set("Cache-Control","public,max-age=300").json(citySourceRegistry);
+});
 
 app.get("/api/harem-status",async(req,res)=>{
  const data=await fetchHaremGold();
