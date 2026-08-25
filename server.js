@@ -138,13 +138,13 @@ function haremNormalize(value){
     .replace(/[^A-Z0-9]/g,"");
 }
 function haremMapKey(item){
-  const raw=haremNormalize(item?.symbol||item?.sembol||item?.code||item?.kod||item?.type||item?.tur||item?.name||item?.isim);
+  const raw=haremNormalize(item?.symbol||item?.sembol||item?.code||item?.kod||item?.title||item?.type||item?.tur||item?.name||item?.isim);
   if(raw.includes("CEYREK"))return "ceyrek";
   if(raw.includes("YARIM"))return "yarim";
   if(raw.includes("CUMHURIYET")||raw==="ATA"||raw.includes("ATALIRA"))return "cumhuriyet";
   if(raw.includes("TAM")||raw.includes("TEKLIRA"))return "tam";
   if(raw.includes("22AYAR")||raw.includes("22BILEZIK")||raw.includes("BILEZIK22"))return "bilezik22";
-  if(raw==="GRAM"||raw==="GA"||raw.includes("GRAMALTIN"))return "gram";
+  if(raw==="GRAM"||raw==="GA"||raw.includes("GRAMALTIN")||raw==="GRAMALTINI")return "gram";
   return null;
 }
 function haremList(json){
