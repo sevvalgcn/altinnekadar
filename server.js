@@ -277,17 +277,46 @@ function htmlText(html){
 function sourceNumber(v){
   let s=String(v??"").trim().replace(/[₺\s]/g,"");
   if(!s)return null;
-  if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",",".");
-  else if(s.includes(","))s=s.replace(",",".");
+
+  // Hem TR: 7.193,03 hem EN: 7,193.03 biçimini destekle.
+  if(s.includes(",")&&s.includes(".")){
+    const lastComma=s.lastIndexOf(",");
+    const lastDot=s.lastIndexOf(".");
+    if(lastComma>lastDot){
+      s=s.replace(/\./g,"").replace(",",".");
+    }else{
+      s=s.replace(/,/g,"");
+    }
+  }else if(s.includes(",")){
+    const parts=s.split(",");
+    if(parts.length===2 && parts[1].length<=2)s=parts[0].replace(/\./g,"")+"."+parts[1];
+    else s=s.replace(/,/g,"");
+  }else if((s.match(/\./g)||[]).length>1){
+    const parts=s.split(".");
+    const dec=parts.pop();
+    s=parts.join("")+"."+dec;
+  }
+
   const n=Number(s);
   return Number.isFinite(n)?n:null;
 }
 function sourcePair(text,labelPattern){
-  const rx=new RegExp(labelPattern+"[\\s\\S]{0,180}?([0-9]{1,6}(?:[\\.,][0-9]{1,3})?(?:[\\.,][0-9]{1,2})?)[\\s\\S]{0,70}?([0-9]{1,6}(?:[\\.,][0-9]{1,3})?(?:[\\.,][0-9]{1,2})?)","i");
+  // Ürün adından sonraki kısa bölümü al; "1 gram", "22 ayar" gibi
+  // teknik değerleri değil, gerçek para değerlerini seç.
+  const rx=new RegExp(labelPattern+"([\\s\\S]{0,260})","i");
   const m=text.match(rx);
   if(!m)return null;
-  const buy=sourceNumber(m[1]),sell=sourceNumber(m[2]);
-  return buy!==null&&sell!==null?{buy,sell}:null;
+
+  const candidates=(m[1].match(/[0-9]{1,3}(?:[\.,][0-9]{3})+(?:[\.,][0-9]{1,2})?|[0-9]{3,6}(?:[\.,][0-9]{1,2})?|[0-9]{1,2}(?:[\.,][0-9]{1,3})?/g)||[])
+    .map(raw=>({raw,value:sourceNumber(raw)}))
+    .filter(x=>Number.isFinite(x.value));
+
+  // Gerçek altın fiyatları yüzlerce/binlerce TL seviyesinde.
+  // Gram/adet/ayar bilgilerini elemek için >100 olan ilk iki makul fiyatı seç.
+  const money=candidates.filter(x=>x.value>100 && x.value<1000000);
+
+  if(money.length<2)return null;
+  return {buy:money[0].value,sell:money[1].value};
 }
 
 async function fetchSakaryaPage(){
@@ -313,7 +342,9 @@ async function fetchSakaryaPage(){
       const p=sourcePair(text,pattern);
       if(p)prices.push({key,name:centralGoldName(key),buy:p.buy,sell:p.sell,change:0});
     }
-    if(!prices.some(p=>p.key==="gram")||!prices.some(p=>p.key==="ceyrek"))throw new Error("sakarya_parse_failed");
+    const gram=prices.find(p=>p.key==="gram"),ceyrek=prices.find(p=>p.key==="ceyrek");
+    if(!gram||!ceyrek)throw new Error("sakarya_parse_failed");
+    if(gram.buy<1000||gram.sell<1000||ceyrek.buy<5000||ceyrek.sell<5000)throw new Error("sakarya_price_sanity_failed");
     const data={city:"sakarya",verified:true,local:true,central:false,official:false,sourceName:"ÇeyrekAltınFiyatları • Sakarya Kuyumcu",sourceUrl:"https://ceyrekaltinfiyatlari.com/sakarya",updatedAt:new Date().toISOString(),prices};
     citySourceCache.set(cacheKey,{time:now,data});
     return data;

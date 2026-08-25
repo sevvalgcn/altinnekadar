@@ -93,3 +93,12 @@ Hazır eşlemeler:
 Doğruluk ilkesi:
 Açık ve makine tarafından okunabilir resmî oda fiyatı doğrulanmamış şehirler resmî oda verisi diye gösterilmez.
 Yerel kaynak çalışmazsa sayfa boş kalmaz; merkezi canlı veri otomatik devreye girer.
+
+
+## Sakarya parser düzeltmesi
+Sakarya kaynak sayfasında ürün satırlarında gram/adet/ayar değerleri fiyatlardan önce geçtiği için eski parser bu değerleri fiyat sanabiliyordu.
+Yeni parser:
+- gram/ayar gibi küçük teknik sayıları atlar,
+- 100 TL üzerindeki ilk iki gerçek para değerini alış/satış olarak kullanır,
+- `7.193,03` ve `7,193.03` biçimlerini destekler,
+- Gram ve Çeyrek için mantık kontrolü yapar; şüpheli veri varsa merkezi fallback'e geçer.
