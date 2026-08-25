@@ -51,3 +51,21 @@ Not: Gelecekte haber sitesi gibi binlerce büyük medya dosyası yüklenirse Git
 ## Canlı şehir altın kaynakları
 Her şehrin doğrulanmış canlı kaynağı varsa `sources/<şehir>.js` adaptörü eklenir.
 Panelden kaynak adı/URL ve mod yönetilir. Doğrulanmamış veri resmi oda verisi gibi gösterilmez.
+
+
+## Merkezi canlı altın bağlantısı
+- Render: `GOLD_API_KEY`
+- Opsiyonel: `GOLD_CACHE_MINUTES` (varsayılan 60)
+- Sağlayıcı: `https://api.apinoktam.erenozdemir.com.tr/v1/altin`
+- API anahtarı yalnız backend'de `x-api-key` başlığıyla kullanılır.
+- Öncelik: şehir manuel fiyatı → doğrulanmış şehir adaptörü → merkezi canlı altın.
+- API her ziyaretçide çağrılmaz; sunucu cache'i tüm ziyaretçilerce paylaşılır.
+
+
+## İstanbul Harem Altın
+- Render variable: `HAREM_API_KEY`
+- Endpoint: `https://api.hasfiyat.com/api/prices?source=harem`
+- Auth header: `Authorization: Bearer HAREM_API_KEY`
+- İstanbul için Harem öncelikli.
+- Harem erişilemezse merkezi apinoktam verisine fallback.
+- Test endpoint: `/api/harem-status`

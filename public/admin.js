@@ -28,6 +28,9 @@ async function load(){
  const status=await api("/api/admin/status");
  $("persistStatus").textContent=status.githubPersistence?"GitHub kalıcı kayıt aktif":"GitHub kalıcı kayıt kapalı";$("persistStatus").className="status "+(status.githubPersistence?"ok":"bad");
  $("statSources").textContent=status.configuredSources;$("statUptime").textContent=Math.round(status.uptime/60);
+ const cg=$("centralGoldStatus"),ci=$("centralGoldInfo");
+ if(cg){cg.textContent=status.centralGoldLive?"CANLI • AKTİF":(status.centralGoldConfigured?"BAĞLANTI HATASI":"API ANAHTARI YOK");cg.className="status "+(status.centralGoldLive?"ok":"bad")}
+ if(ci){ci.innerHTML=status.centralGoldLive?`<b>Ana kaynak aktif.</b> Cache: ${status.centralGoldCacheMinutes} dk.${status.centralGoldUpdatedAt?` Son API çekimi: ${new Date(status.centralGoldUpdatedAt).toLocaleString("tr-TR")}`:""}`:`Canlı altın verisi alınamadı.${status.centralGoldLastError?` Hata: ${status.centralGoldLastError}`:""}`;}
  $("systemInfo").innerHTML=`<div class="system-line"><b>Servis:</b> ${status.service}</div><div class="system-line"><b>Node:</b> ${status.node}</div><div class="system-line"><b>Çalışma süresi:</b> ${Math.round(status.uptime/60)} dakika</div><div class="system-line"><b>Canlı adaptör:</b> ${status.adapters}</div><div class="system-line"><b>Panel kaynağı:</b> ${status.configuredSources}</div>`;
  $("githubInfo").innerHTML=status.githubPersistence?'<span class="status ok">GitHub otomatik kayıt aktif</span>':'<span class="status bad">GITHUB_TOKEN / OWNER / REPO ayarları eksik</span>';
 }
