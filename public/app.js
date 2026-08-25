@@ -55,5 +55,3 @@ async function loadPublicConfig(){
   }catch{}
 }
 loadPublicConfig();
-
-function markGoldSourceMode(data){const badge=document.getElementById("sourceBadge"),text=document.getElementById("sourceText");if(!data)return;if(data.central){if(badge)badge.textContent="Türkiye geneli canlı veri";if(text)text.textContent="Bu şehir için doğrulanmış özel yerel kaynak henüz bağlı değil; gösterilen fiyatlar merkezi canlı altın kaynağından alınır."}else if(data.manual){if(badge)badge.textContent="Yerel manuel fiyat"}else if(data.verified){if(badge)badge.textContent="Doğrulanmış yerel kaynak"}}
