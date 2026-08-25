@@ -1,49 +1,53 @@
-# AltınNeKadar.com.tr — Production Paket
+# AltınNeKadar.com.tr — Nova Tarzı Yönetim Paneli
 
-## Hazır özellikler
-- Mobil, tablet ve masaüstü responsive arayüz
-- 81 il seçimi ve şehir bazlı SEO URL'leri
-- Kullanıcı izniyle cihaz konumundan en yakın il merkezi önerisi (koordinat dış servise gönderilmez)
-- Şehir başına ayrı, doğrulanmış yerel kuyumcu kaynağı adaptörü
-- TCMB `today.xml` ile USD, EUR, GBP, CHF alış/satış kurları
-- Döviz çevirici
-- Altın, kredi taksit, yüzde, KDV ve zam hesaplama araçları
-- 30 sn yerel altın cache, 5 dk TCMB cache
-- PWA manifest + service worker
-- Dinamik SEO title/description/canonical
-- sitemap.xml, robots.txt, favicon
-- Güvenlik başlıkları, health endpoint, 404 sayfası
-- Hakkımızda, Gizlilik, Kullanım Şartları
-- Reklam alanı placeholder'ı
+Bu sürüm, mevcut finans sitesini kod değiştirmeden yönetmek için hazırlanmıştır.
 
-## Yerel altın verisinin çalışması
-`server.js` içindeki `verifiedSources` nesnesine doğrulanmış şehir adaptörlerini ekleyin:
+## Panel
+`https://altinnekadar.com.tr/admin`
 
-```js
-const verifiedSources={
-  sakarya: require('./sources/sakarya'),
-  ankara: require('./sources/ankara')
-};
-```
+### Panelden yönetilenler
+- Logo, favicon, hero görseli
+- Site adı ve marka renkleri
+- Ana sayfa başlık / açıklamalar
+- Menü yazıları
+- Ana sayfa bölüm aç/kapat
+- 81 il altın kaynakları
+- Manuel altın alış/satış fiyatları
+- Doğrulanmış canlı API adaptörleri
+- TCMB döviz bölümü
+- Altın / kredi / yüzde / KDV / zam araçları
+- Reklam alanları
+- SEO başlığı ve meta açıklaması
+- Google Search Console verification
+- Hakkımızda / Gizlilik / Kullanım Şartları
+- Footer / iletişim
+- Duyuru bandı ve bakım modu
+- Sistem / kalıcı kayıt durumu
 
-`sources/_template.js` adaptör şablonudur. Kaynak bağlanana kadar site o şehir için fiyat UYDURMAZ; açıkça kaynak beklediğini gösterir.
+## Render Environment Variables
+Zorunlu:
+- `ADMIN_PASSWORD` = yönetici şifresi
+- `ADMIN_SECRET` = en az 32 karakter rastgele gizli anahtar
 
-## Çalıştırma
-```bash
-npm install
-npm start
-```
-Yerel adres: `http://localhost:3000`
+Kalıcı ücretsiz GitHub depolaması:
+- `GITHUB_OWNER` = `sevvalgcn`
+- `GITHUB_REPO` = `altinnekadar`
+- `GITHUB_BRANCH` = `main`
+- `GITHUB_TOKEN` = yalnızca `altinnekadar` reposuna Contents Read and write izni olan fine-grained token
 
-## Render deploy
-- Build command: `npm install`
-- Start command: `npm start`
-- Node 18+
-- Custom domain: `altinnekadar.com.tr`
+## Ücretsiz depolama / performans
+Panel ayarları `data/site-config.json` içinde, logo/favicon/hero gibi düşük hacimli medya ise `public/uploads/` altında tutulur.
+Panel kaydettiğinde backend bunları GitHub reposuna işler. GitHub değişikliğinden sonra Render otomatik deploy yapar.
+Ziyaretçiler medya dosyalarını GitHub'dan değil Render'daki sitenin kendi statik dosya alanından alır.
 
-## Canlıya çıkmadan önce
-1. İlk şehirlerin kuyumcu odası/dernek kaynaklarını doğrula ve adaptörleri bağla.
-2. Render'a deploy et.
-3. Atak Domain DNS kayıtlarını Render'ın verdiği değerlere yönlendir.
-4. Google Search Console'a `https://altinnekadar.com.tr/sitemap.xml` gönder.
-5. Analytics/AdSense eklenecekse Gizlilik sayfasını kullanılan servislerle güncelle.
+Bu yaklaşım:
+- Başlangıçta ayrı veritabanı gerektirmez.
+- Her ziyaretçide GitHub API çağrısı yapmaz.
+- Döviz ve altın API sonuçları cache edilir.
+- Statik dosyalar tarayıcı cache'i ile sunulur.
+
+Not: Gelecekte haber sitesi gibi binlerce büyük medya dosyası yüklenirse GitHub medya deposu yerine Cloudflare R2 gibi obje depolama kullanılmalıdır.
+
+## Canlı şehir altın kaynakları
+Her şehrin doğrulanmış canlı kaynağı varsa `sources/<şehir>.js` adaptörü eklenir.
+Panelden kaynak adı/URL ve mod yönetilir. Doğrulanmamış veri resmi oda verisi gibi gösterilmez.
