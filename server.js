@@ -892,13 +892,44 @@ async function tcmb(){
 
 let marketFxCache={time:0,data:null};const MARKET_FX_TTL=60_000;
 function marketFxSymbol(item){
-  const raw=String(item?.symbol??item?.sembol??item?.code??item?.kod??item?.currency??item?.title??item?.name??item?.isim??"")
-    .toUpperCase().replace(/\s/g,"").replace(/[\/_-]/g,"");
-  if(raw==="USD"||raw==="USDTRY"||raw.includes("DOLAR"))return "USD";
-  if(raw==="EUR"||raw==="EURTRY"||raw.includes("EURO"))return "EUR";
-  if(raw==="GBP"||raw==="GBPTRY"||raw.includes("STERLIN")||raw.includes("POUND"))return "GBP";
-  if(raw==="CHF"||raw==="CHFTRY"||raw.includes("ISVICRE"))return "CHF";
+  const raw=String(
+    item?.symbol ??
+    item?.sembol ??
+    item?.code ??
+    item?.kod ??
+    item?.currency ??
+    item?.title ??
+    item?.name ??
+    item?.isim ??
+    ""
+  )
+  .toUpperCase()
+  .trim()
+  .replace(/\s/g,"")
+  .replace(/[\\/_-]/g,"");
+
+  if(!raw) return null;
+
+  const pair=raw.match(/^([A-Z]{3})TRY$/);
+  if(pair) return pair[1];
+
+  if(/^[A-Z]{3}$/.test(raw)) return raw;
+
+  const names={
+    DOLAR:"USD",
+    EURO:"EUR",
+    STERLIN:"GBP",
+    POUND:"GBP",
+    ISVICREFRANGI:"CHF",
+    YEN:"JPY"
+  };
+
+  for(const [name,code] of Object.entries(names)){
+    if(raw.includes(name)) return code;
+  }
+
   return null;
+}
 }
 async function marketFx(){
   if(marketFxCache.data&&Date.now()-marketFxCache.time<MARKET_FX_TTL)return marketFxCache.data;
