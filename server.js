@@ -905,7 +905,7 @@ async function marketFx(){
   const token=String(process.env.HAREM_API_KEY||"").trim();
   if(!token)throw new Error("HAREM_API_KEY_missing");
 
-  const url="https://api.hasfiyat.com/api/prices?source=doviz&symbols=USD,EUR,GBP,CHF";
+ const url="https://api.hasfiyat.com/api/prices?source=doviz";
   const r=await fetch(url,{
     headers:{
       "Authorization":`Bearer ${token}`,
