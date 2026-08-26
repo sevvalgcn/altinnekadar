@@ -189,6 +189,14 @@ function simplePage(title,body){return `<!doctype html><html lang="tr"><head><me
 
 app.disable("x-powered-by");app.set("trust proxy",1);
 app.use((req,res,next)=>{res.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Permissions-Policy":"geolocation=(self)","Cross-Origin-Opener-Policy":"same-origin","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"});next()});
+app.use((req,res,next)=>{
+ if(req.path.endsWith(".html")||req.path.endsWith(".js")||req.path.endsWith(".css")||req.path==="/"){
+  res.set("Cache-Control","no-cache, no-store, must-revalidate");
+  res.set("Pragma","no-cache");
+  res.set("Expires","0");
+ }
+ next();
+});
 app.use(express.static(PUBLIC,{maxAge:"1d",etag:true,index:false,immutable:false}));
 app.use(express.json({limit:"3mb"}));
 

@@ -15,7 +15,7 @@
   <meta property="og:url" content="__CANONICAL__">
   <link rel="manifest" href="/manifest.webmanifest">
   <link id="siteFavicon" rel="icon" href="__FAVICON__">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=20260826-3">
   __GOOGLE_VERIFY__
   <script type="application/ld+json">__SCHEMA__</script>
 </head>
@@ -169,6 +169,26 @@
   </div>
   <div class="container disclaimer">Fiyatlar bilgilendirme amaçlıdır. Kuyumcu fiyatları işçilik, ürün, ödeme yöntemi ve mağazaya göre değişebilir. Finansal hesaplamalar yatırım veya kredi tavsiyesi değildir.</div>
 </footer>
-<script src="/app.js" defer></script>
+<script src="/app.js?v=20260826-3" defer></script>
+
+<script>
+(function(){
+  const KEY="bugunaltin-cache-reset-v3";
+  if(localStorage.getItem(KEY)!=="1"){
+    Promise.all([
+      ("caches" in window ? caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))) : Promise.resolve()),
+      ("serviceWorker" in navigator ? navigator.serviceWorker.getRegistrations().then(regs=>Promise.all(regs.map(r=>r.unregister()))) : Promise.resolve())
+    ]).finally(()=>{
+      localStorage.setItem(KEY,"1");
+      if(!location.search.includes("cache_reset=1")){
+        const u=new URL(location.href);
+        u.searchParams.set("cache_reset","1");
+        location.replace(u.toString());
+      }
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
