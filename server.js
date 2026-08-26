@@ -1005,7 +1005,13 @@ app.get("/api/fx",async(req,res)=>{
       tcmb:official,
       market
     });
-  }catch{res.status(502).json({error:"tcmb_unavailable"})}
+  }catch(error){
+  console.error("TCMB ERROR:", error);
+  res.status(502).json({
+    error:"tcmb_unavailable",
+    detail:String(error?.message||error)
+  });
+}
 });
 
 
