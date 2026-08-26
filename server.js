@@ -1114,10 +1114,62 @@ function hav(a,b,c,d){const R=6371,p=Math.PI/180,x=(c-a)*p,y=(d-b)*p,u=Math.sin(
 app.get("/api/reverse-geocode",(req,res)=>{const lat=Number(req.query.lat),lon=Number(req.query.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<35||lat>43||lon<25||lon>46)return res.status(400).json({error:"invalid_coordinates"});let best=null,dist=1e9;for(const [slug,[a,b]] of Object.entries(CENTERS)){const d=hav(lat,lon,a,b);if(d<dist){dist=d;best=slug}}res.json({citySlug:best,cityName:CITIES[best],approximate:true})});
 app.get("/api/source-status",(req,res)=>res.json(Object.fromEntries(Object.keys(CITIES).map(c=>{const cfg=siteConfig.cities?.[c];return[c,{configured:Boolean(verifiedSources[c])||cfg?.sourceMode==="manual",mode:cfg?.sourceMode||"none",name:cfg?.sourceName||verifiedSources[c]?.sourceName||null}]}))));
 app.get("/sitemap-dynamic.xml",(req,res)=>{
- const posts=loadSeoPosts().sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
- const body=posts.map(p=>`  <url><loc>${BASE}/altin-gundemi/${p.slug}</loc><lastmod>${p.updatedAt||p.publishedAt}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`).join("\n");
- res.type("application/xml").send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>`);
-});
+  const posts=loadSeoPosts()
+    .sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
+
+  // Otomatik üretilen Altın Gündemi içerikleri
+  const postUrls=posts.map(p=>`
+  <url>
+    <loc>${BASE}/altin-gundemi/${p.slug}</loc>
+    <lastmod>${p.updatedAt||p.publishedAt}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>`);
+
+  // Şehir altın fiyatları
+  const cityUrls=Object.keys(CITIES).map(citySlug=>`
+  <url>
+    <loc>${BASE}/${citySlug}-altin-fiyatlari</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>`);
+
+  // Altın türü ana sayfaları
+  const productUrls=Object.keys(GOLD_SEO_PRODUCTS).map(productSlug=>`
+  <url>
+    <loc>${BASE}/${productSlug}</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>`);
+
+  // Şehir + altın türü SEO sayfaları
+  const cityProductUrls=[];
+
+  for(const citySlug of Object.keys(CITIES)){
+    for(const productSlug of Object.keys(GOLD_SEO_PRODUCTS)){
+      cityProductUrls.push(`
+  <url>
+    <loc>${BASE}/${citySlug}-${productSlug}</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>`);
+    }
+  }
+
+  const body=[
+    ...postUrls,
+    ...cityUrls,
+    ...productUrls,
+    ...cityProductUrls
+  ].join("\n");
+
+  res.type("application/xml").send(
+    `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${body}
+</urlset>`
+  );
+
 
 app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),goldApiConfigured:Boolean(process.env.GOLD_API_KEY),goldCacheAgeSeconds:centralGoldCache.time?Math.round((Date.now()-centralGoldCache.time)/1000):null}));
 
