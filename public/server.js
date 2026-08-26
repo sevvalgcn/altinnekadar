@@ -1124,19 +1124,22 @@ app.get("/sitemap-dynamic.xml",(req,res)=>{
   const urls=[];
 
   const addUrl=(loc,lastmod=null,priority="0.7")=>{
-    let xml=`<url><loc>${escXml(loc)}</loc>`;
-    if(lastmod) xml+=`<lastmod>${escXml(lastmod)}</lastmod>`;
-    xml+=`<changefreq>daily</changefreq><priority>${priority}</priority></url>`;
-    urls.push(xml);
+    let item=`<url><loc>${escXml(loc)}</loc>`;
+    if(lastmod)item+=`<lastmod>${escXml(lastmod)}</lastmod>`;
+    item+=`<changefreq>daily</changefreq>`;
+    item+=`<priority>${priority}</priority>`;
+    item+=`</url>`;
+    urls.push(item);
   };
 
   const posts=loadSeoPosts()
     .sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
 
   for(const p of posts){
+    if(!p?.slug)continue;
     addUrl(
       `${BASE}/altin-gundemi/${p.slug}`,
-      p.updatedAt||p.publishedAt,
+      p.updatedAt||p.publishedAt||null,
       "0.7"
     );
   }
@@ -1155,17 +1158,17 @@ app.get("/sitemap-dynamic.xml",(req,res)=>{
     }
   }
 
-  const xml=
-    `<?xml version="1.0" encoding="UTF-8"?>\n`+
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`+
-    urls.join("\n")+
-    `\n</urlset>`;
+  const xml=[
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+    ...urls,
+    `</urlset>`
+  ].join("\n");
 
+  res.status(200);
   res.set("Content-Type","application/xml; charset=utf-8");
   res.send(xml);
 });
-
-
 app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),goldApiConfigured:Boolean(process.env.GOLD_API_KEY),goldCacheAgeSeconds:centralGoldCache.time?Math.round((Date.now()-centralGoldCache.time)/1000):null}));
 
 app.use((req,res,next)=>{if(!siteConfig.site.maintenance)return next();if(req.path.startsWith("/admin")||req.path.startsWith("/api/admin")||req.path==="/health")return next();res.status(503).send(simplePage("Bakımdayız","<p>Site kısa süreli bakım çalışmasındadır.</p>"))});
@@ -1259,6 +1262,3 @@ app.get("/gizlilik",(req,res)=>res.send(simplePage(siteConfig.pages.privacyTitle
 app.get("/kullanim-sartlari",(req,res)=>res.send(simplePage(siteConfig.pages.termsTitle,`<p>${plainTextHtml(siteConfig.pages.termsBody)}</p>`)));
 app.use((req,res)=>res.status(404).send(simplePage("Sayfa bulunamadı","<p>Aradığınız sayfa mevcut değil.</p>")));
 runSeoScheduler();
-setInterval(runSeoScheduler,15*60*1000);
-
-app.listen(PORT,()=>console.log(`AltınNeKadar.com.tr http://localhost:${PORT}`));
