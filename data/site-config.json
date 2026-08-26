@@ -70,5 +70,9 @@
     "termsTitle": "Kullanım Şartları",
     "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."
   },
-  "cities": {}
+  "cities": {},
+  "seoAutomation": {
+    "enabled": true,
+    "mode": "auto"
+  }
 }

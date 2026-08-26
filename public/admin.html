@@ -261,6 +261,28 @@ button{cursor:pointer}
     <div class="field"><label>Google Search Console doğrulama kodu</label><input id="googleVerification" placeholder="content değerini gir"></div>
   </div></div>
 
+  <div class="panel"><div class="panel-head"><h2>Yapay Zekâ SEO Otomasyonu</h2></div><div class="panel-body">
+    <label class="switch-row"><input id="seoAutoEnabled" type="checkbox"> Ben yokken otomatik SEO üret</label>
+    <div class="field"><label>Çalışma modu</label><select id="seoAutoMode"><option value="auto">Tam otomatik</option><option value="manual">Sadece manuel</option></select></div>
+    <p class="help">Tam otomatik modda sistem günün zaman dilimine göre SEO içeriğini oluşturur. Oluşan içerikler aşağıdaki editörden sonradan değiştirilebilir.</p>
+    <button id="saveSeoAutomation" type="button" class="btn btn-dark">Otomasyon Ayarını Kaydet</button>
+    <span id="seoAutomationMsg" class="help"></span>
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>AI SEO Manuel Kontrol</h2></div><div class="panel-body">
+    <div class="field"><label>İçerik seç</label><select id="seoPostSelect"></select></div>
+    <div id="seoEditorEmpty" class="help">Henüz oluşturulmuş SEO içeriği yok.</div>
+    <div id="seoEditor" class="hidden">
+      <div class="field"><label>SEO Başlığı <span id="seoTitleCount" class="help"></span></label><input id="seoPostTitle" maxlength="150"></div>
+      <div class="field"><label>Meta Açıklaması <span id="seoDescCount" class="help"></span></label><textarea id="seoPostDescription" maxlength="300"></textarea></div>
+      <div class="field"><label>İçerik paragrafları</label><textarea id="seoPostBody" style="min-height:260px"></textarea><div class="help">Paragrafları boş satır ile ayır.</div></div>
+      <div id="seoQuality" class="help" style="margin:10px 0"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button id="saveSeoPost" type="button" class="btn btn-primary">Düzenlemeyi Kaydet</button><button id="reloadSeoPost" type="button" class="btn btn-dark">Değişiklikleri Geri Al</button></div>
+      <div id="seoPostMsg" class="help" style="margin-top:10px"></div>
+      <div style="margin-top:22px"><b>Eski Sürümler</b><div id="seoHistory" class="help" style="margin-top:8px"></div></div>
+    </div>
+  </div></div>
+
   <div class="panel"><div class="panel-head"><h2>Kurumsal Sayfalar</h2></div><div class="panel-body">
     <div class="field"><label>Hakkımızda başlığı</label><input id="aboutTitle"></div><div class="field"><label>Hakkımızda metni</label><textarea id="aboutBody"></textarea></div>
     <div class="field"><label>Gizlilik başlığı</label><input id="privacyTitle"></div><div class="field"><label>Gizlilik metni</label><textarea id="privacyBody"></textarea></div>
@@ -286,6 +308,15 @@ button{cursor:pointer}
 </section>
 
 <div class="savebar"><span id="saveMsg" class="help"></span><button id="saveBtn" class="btn btn-primary">Değişiklikleri Kaydet</button></div>
+
+<section style="margin:22px 0;padding:22px;border:1px solid #e5e7eb;border-radius:16px;background:#fff">
+  <div style="font-size:12px;font-weight:800;color:#d49b00;letter-spacing:.08em">AI SEO</div>
+  <h2 style="margin:6px 0 8px">Altın Gündemi İçeriği</h2>
+  <p style="margin:0 0 16px;color:#6b7280">Mevcut zaman diliminin yazısını canlı fiyatlarla AI kullanarak yeniden üretir.</p>
+  <button id="aiSeoRegenerate" type="button" style="border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;background:#e9ad00;color:#111">🤖 AI SEO İçeriğini Şimdi Yenile</button>
+  <div id="aiSeoResult" style="margin-top:10px;font-size:13px;font-weight:600"></div>
+</section>
+
 </main>
 </section>
 </div>

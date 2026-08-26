@@ -13,8 +13,9 @@ const UPLOADS=path.join(PUBLIC,"uploads");
 
 
 const SEO_POSTS_FILE=path.join(DATA_DIR,"seo-posts.json");
+const SEO_HISTORY_FILE=path.join(DATA_DIR,"seo-history.json");
 const SEO_CONTENT_MAX_POSTS=Math.max(60,Number(process.env.SEO_MAX_POSTS)||500);
-const SEO_AUTO_ENABLED=String(process.env.SEO_AUTO_CONTENT||"true").toLowerCase()!=="false";
+const SEO_AUTO_DEFAULT=String(process.env.SEO_AUTO_CONTENT||"true").toLowerCase()!=="false";
 const AI_SEO_ENABLED=String(process.env.AI_SEO_ENABLED||"true").toLowerCase()!=="false";
 const AI_SEO_MODEL=String(process.env.OPENAI_SEO_MODEL||"gpt-5.4-mini").trim();
 const OPENAI_RESPONSES_URL="https://api.openai.com/v1/responses";
@@ -29,6 +30,15 @@ function saveSeoPosts(rows){
   try{
     fs.writeFileSync(SEO_POSTS_FILE,JSON.stringify(rows.slice(-SEO_CONTENT_MAX_POSTS),null,2),"utf8");
   }catch(error){console.error("SEO posts save:",String(error?.message||error))}
+}
+function loadSeoHistory(){
+  try{const rows=JSON.parse(fs.readFileSync(SEO_HISTORY_FILE,"utf8"));return Array.isArray(rows)?rows:[]}catch{return []}
+}
+function saveSeoHistory(rows){
+  try{fs.writeFileSync(SEO_HISTORY_FILE,JSON.stringify(rows.slice(-300),null,2),"utf8")}catch(error){console.error("SEO history save:",String(error?.message||error))}
+}
+function snapshotSeoPost(post,reason="update"){
+  if(!post)return;const rows=loadSeoHistory();rows.push({historyId:crypto.randomUUID(),postId:post.id,reason,savedAt:new Date().toISOString(),post:clone(post)});saveSeoHistory(rows);
 }
 function trDateParts(date=new Date()){
   const parts=new Intl.DateTimeFormat("tr-TR",{
@@ -172,12 +182,18 @@ async function persistSeoPostsToGithub(rows){
   try{return await githubPut("data/seo-posts.json",Buffer.from(JSON.stringify(rows.slice(-SEO_CONTENT_MAX_POSTS),null,2)),"Otomatik SEO içeriğini güncelle")}
   catch(error){console.error("SEO GitHub persist:",String(error?.message||error));return false}
 }
+async function persistSeoHistoryToGithub(){
+  if(String(process.env.SEO_GITHUB_PERSIST||"true").toLowerCase()==="false")return false;
+  try{return await githubPut("data/seo-history.json",Buffer.from(JSON.stringify(loadSeoHistory().slice(-300),null,2)),"SEO düzenleme geçmişini güncelle")}
+  catch(error){console.error("SEO history GitHub persist:",String(error?.message||error));return false}
+}
 
 async function ensureSeoPost(slot,force=false){
-  if(!SEO_AUTO_ENABLED&&!force)return null;
+  if(!force&&!seoAutomationEnabled())return null;
   const now=new Date(),dayKey=trDayKey(now),id=`${dayKey}-${slot}`;
   const posts=loadSeoPosts(),existing=posts.find(p=>p.id===id);
   if(existing&&!force)return existing;
+  if(existing&&force)snapshotSeoPost(existing,"ai-regenerate");
   const live=await fetchHaremGold(force);
   const base=buildSeoPostFromGold(live,slot,now);
   if(!base)return null;
@@ -188,7 +204,7 @@ async function ensureSeoPost(slot,force=false){
   return post;
 }
 async function runSeoScheduler(){
-  if(!SEO_AUTO_ENABLED)return;
+  if(!seoAutomationEnabled())return;
   const slot=slotForHour(trHour(new Date()));
   try{await ensureSeoPost(slot,false)}catch(error){console.error("SEO scheduler:",String(error?.message||error))}
 }
@@ -241,16 +257,17 @@ let citySourceRegistry=loadCitySourceRegistry();
 const CITIES={adana:"Adana",adiyaman:"Adıyaman",afyonkarahisar:"Afyonkarahisar",agri:"Ağrı",amasya:"Amasya",ankara:"Ankara",antalya:"Antalya",artvin:"Artvin",aydin:"Aydın",balikesir:"Balıkesir",bilecik:"Bilecik",bingol:"Bingöl",bitlis:"Bitlis",bolu:"Bolu",burdur:"Burdur",bursa:"Bursa",canakkale:"Çanakkale",cankiri:"Çankırı",corum:"Çorum",denizli:"Denizli",diyarbakir:"Diyarbakır",edirne:"Edirne",elazig:"Elazığ",erzincan:"Erzincan",erzurum:"Erzurum",eskisehir:"Eskişehir",gaziantep:"Gaziantep",giresun:"Giresun",gumushane:"Gümüşhane",hakkari:"Hakkari",hatay:"Hatay",isparta:"Isparta",mersin:"Mersin",istanbul:"İstanbul",izmir:"İzmir",kars:"Kars",kastamonu:"Kastamonu",kayseri:"Kayseri",kirklareli:"Kırklareli",kirsehir:"Kırşehir",kocaeli:"Kocaeli",konya:"Konya",kutahya:"Kütahya",malatya:"Malatya",manisa:"Manisa",kahramanmaras:"Kahramanmaraş",mardin:"Mardin",mugla:"Muğla",mus:"Muş",nevsehir:"Nevşehir",nigde:"Niğde",ordu:"Ordu",rize:"Rize",sakarya:"Sakarya",samsun:"Samsun",siirt:"Siirt",sinop:"Sinop",sivas:"Sivas",tekirdag:"Tekirdağ",tokat:"Tokat",trabzon:"Trabzon",tunceli:"Tunceli",sanliurfa:"Şanlıurfa",usak:"Uşak",van:"Van",yozgat:"Yozgat",zonguldak:"Zonguldak",aksaray:"Aksaray",bayburt:"Bayburt",karaman:"Karaman",kirikkale:"Kırıkkale",batman:"Batman",sirnak:"Şırnak",bartin:"Bartın",ardahan:"Ardahan",igdir:"Iğdır",yalova:"Yalova",karabuk:"Karabük",kilis:"Kilis",osmaniye:"Osmaniye",duzce:"Düzce"};
 const CENTERS={adana:[37,35.3213],adiyaman:[37.7648,38.2786],afyonkarahisar:[38.7507,30.5567],agri:[39.7191,43.0503],amasya:[40.6499,35.8353],ankara:[39.9334,32.8597],antalya:[36.8969,30.7133],artvin:[41.1828,41.8183],aydin:[37.856,27.8416],balikesir:[39.6484,27.8826],bilecik:[40.1426,29.9793],bingol:[38.8854,40.498],bitlis:[38.4006,42.1095],bolu:[40.735,31.6061],burdur:[37.7203,30.2908],bursa:[40.195,29.06],canakkale:[40.1553,26.4142],cankiri:[40.6013,33.6134],corum:[40.5506,34.9556],denizli:[37.7765,29.0864],diyarbakir:[37.9144,40.2306],edirne:[41.6818,26.5623],elazig:[38.681,39.2264],erzincan:[39.75,39.5],erzurum:[39.9043,41.2679],eskisehir:[39.7767,30.5206],gaziantep:[37.0662,37.3833],giresun:[40.9128,38.3895],gumushane:[40.4603,39.4814],hakkari:[37.5744,43.7408],hatay:[36.2023,36.1606],isparta:[37.7648,30.5566],mersin:[36.8121,34.6415],istanbul:[41.0082,28.9784],izmir:[38.4237,27.1428],kars:[40.6013,43.0975],kastamonu:[41.3887,33.7827],kayseri:[38.7312,35.4787],kirklareli:[41.7351,27.2252],kirsehir:[39.1425,34.1709],kocaeli:[40.8533,29.8815],konya:[37.8746,32.4932],kutahya:[39.4192,29.9857],malatya:[38.3552,38.3095],manisa:[38.6191,27.4289],kahramanmaras:[37.5753,36.9228],mardin:[37.3212,40.7245],mugla:[37.2153,28.3636],mus:[38.7433,41.5065],nevsehir:[38.6244,34.7142],nigde:[37.9698,34.6766],ordu:[40.9839,37.8764],rize:[41.0201,40.5234],sakarya:[40.7569,30.3781],samsun:[41.2867,36.33],siirt:[37.9333,41.95],sinop:[42.0264,35.1551],sivas:[39.7477,37.0179],tekirdag:[40.978,27.511],tokat:[40.3167,36.55],trabzon:[41.0015,39.7178],tunceli:[39.1079,39.5401],sanliurfa:[37.1674,38.7955],usak:[38.6823,29.4082],van:[38.4891,43.4089],yozgat:[39.8181,34.8147],zonguldak:[41.4564,31.7987],aksaray:[38.3687,34.037],bayburt:[40.2552,40.2249],karaman:[37.181,33.215],kirikkale:[39.8468,33.5153],batman:[37.8812,41.1351],sirnak:[37.5164,42.4611],bartin:[41.6344,32.3375],ardahan:[41.1105,42.7022],igdir:[39.9201,44.0436],yalova:[40.65,29.2667],karabuk:[41.2061,32.6204],kilis:[36.7184,37.1212],osmaniye:[37.0742,36.2478],duzce:[40.8438,31.1565]};
 
-const DEFAULT_CONFIG={"site": {"announcement": "", "maintenance": false, "defaultCity": "istanbul", "siteName": "AltınNeKadar", "domainLabel": "altinnekadar.com.tr", "logoPath": "", "faviconPath": "/favicon.svg", "heroImagePath": "", "primaryColor": "#e1a900", "accentColor": "#f4c430"}, "home": {"eyebrow": "ALTIN • DÖVİZ • HESAPLAMA", "heroTitleBefore": "Bugün", "heroHighlight": "altın", "heroTitleAfter": "ne kadar?", "heroDescription": "Şehrine göre yerel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını tek ekranda takip et.", "goldSectionTitle": "altın fiyatları", "fxSectionTitle": "Güncel döviz kurları", "toolsSectionTitle": "Hesaplama araçları", "citiesSectionTitle": "Şehrine göre altın fiyatları", "showMarket": true, "showGold": true, "showFx": true, "showCalculators": true, "showCities": true, "showBenefits": true}, "navigation": {"gold": "Altın Fiyatları", "fx": "Döviz Kurları", "tools": "Hesaplamalar", "cities": "Şehirler"}, "footer": {"description": "Altın, döviz ve günlük finans hesaplamaları.", "contactEmail": "", "copyright": "AltınNeKadar.com.tr", "showLegalLinks": true}, "seo": {"defaultTitle": "Bugün Altın Ne Kadar? Güncel Altın ve Döviz Fiyatları", "defaultDescription": "Güncel altın ve TCMB döviz kurlarını takip et; kredi, KDV, yüzde ve zam hesaplama araçlarını kullan.", "googleSiteVerification": ""}, "fx": {"enabled": true, "refreshMinutes": 5}, "tools": {"gold": true, "loan": true, "percent": true, "vat": true, "raise": true}, "ads": {"enabled": false, "adsenseClient": "", "topSlot": "", "middleSlot": ""}, "pages": {"aboutTitle": "Hakkımızda", "aboutBody": "AltınNeKadar.com.tr; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.", "privacyTitle": "Gizlilik", "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.", "termsTitle": "Kullanım Şartları", "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."}, "cities": {}};
+const DEFAULT_CONFIG={"site": {"announcement": "", "maintenance": false, "defaultCity": "istanbul", "siteName": "AltınNeKadar", "domainLabel": "altinnekadar.com.tr", "logoPath": "", "faviconPath": "/favicon.svg", "heroImagePath": "", "primaryColor": "#e1a900", "accentColor": "#f4c430"}, "home": {"eyebrow": "ALTIN • DÖVİZ • HESAPLAMA", "heroTitleBefore": "Bugün", "heroHighlight": "altın", "heroTitleAfter": "ne kadar?", "heroDescription": "Şehrine göre yerel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını tek ekranda takip et.", "goldSectionTitle": "altın fiyatları", "fxSectionTitle": "Güncel döviz kurları", "toolsSectionTitle": "Hesaplama araçları", "citiesSectionTitle": "Şehrine göre altın fiyatları", "showMarket": true, "showGold": true, "showFx": true, "showCalculators": true, "showCities": true, "showBenefits": true}, "navigation": {"gold": "Altın Fiyatları", "fx": "Döviz Kurları", "tools": "Hesaplamalar", "cities": "Şehirler"}, "footer": {"description": "Altın, döviz ve günlük finans hesaplamaları.", "contactEmail": "", "copyright": "AltınNeKadar.com.tr", "showLegalLinks": true}, "seo": {"defaultTitle": "Bugün Altın Ne Kadar? Güncel Altın ve Döviz Fiyatları", "defaultDescription": "Güncel altın ve TCMB döviz kurlarını takip et; kredi, KDV, yüzde ve zam hesaplama araçlarını kullan.", "googleSiteVerification": ""}, "fx": {"enabled": true, "refreshMinutes": 5}, "tools": {"gold": true, "loan": true, "percent": true, "vat": true, "raise": true}, "ads": {"enabled": false, "adsenseClient": "", "topSlot": "", "middleSlot": ""}, "pages": {"aboutTitle": "Hakkımızda", "aboutBody": "AltınNeKadar.com.tr; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.", "privacyTitle": "Gizlilik", "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.", "termsTitle": "Kullanım Şartları", "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."}, "seoAutomation":{"enabled":true,"mode":"auto"}, "cities": {}};
 function clone(v){return JSON.parse(JSON.stringify(v))}
 function mergeConfig(base,extra){
   const out=clone(base); if(!extra||typeof extra!=="object")return out;
-  for(const k of ["site","home","navigation","footer","seo","fx","tools","ads","pages"]) if(extra[k]&&typeof extra[k]==="object") out[k]={...out[k],...extra[k]};
+  for(const k of ["site","home","navigation","footer","seo","fx","tools","ads","pages","seoAutomation"]) if(extra[k]&&typeof extra[k]==="object") out[k]={...out[k],...extra[k]};
   if(extra.cities&&typeof extra.cities==="object")out.cities=extra.cities;
   return out;
 }
 function loadConfig(){try{return mergeConfig(DEFAULT_CONFIG,JSON.parse(fs.readFileSync(CONFIG_FILE,"utf8")))}catch{return clone(DEFAULT_CONFIG)}}
 let siteConfig=loadConfig();
+function seoAutomationEnabled(){return SEO_AUTO_DEFAULT&&siteConfig?.seoAutomation?.enabled!==false&&siteConfig?.seoAutomation?.mode!=="manual"}
 
 function text(v,max=1000){return String(v??"").slice(0,max)}
 function bool(v){return Boolean(v)}
@@ -263,6 +280,7 @@ function safeConfig(input){
   for(const k of ["gold","fx","tools","cities"])c.navigation[k]=text(c.navigation[k],60);
   c.footer.description=text(c.footer.description,500);c.footer.contactEmail=text(c.footer.contactEmail,160);c.footer.copyright=text(c.footer.copyright,120);c.footer.showLegalLinks=bool(c.footer.showLegalLinks);
   c.seo.defaultTitle=text(c.seo.defaultTitle,180);c.seo.defaultDescription=text(c.seo.defaultDescription,320);c.seo.googleSiteVerification=text(c.seo.googleSiteVerification,180);
+  c.seoAutomation={enabled:bool(c.seoAutomation?.enabled),mode:["manual","auto"].includes(c.seoAutomation?.mode)?c.seoAutomation.mode:"auto"};
   c.fx.enabled=bool(c.fx.enabled);c.fx.refreshMinutes=Math.max(1,Math.min(60,Number(c.fx.refreshMinutes)||5));
   for(const k of Object.keys(c.tools))c.tools[k]=bool(c.tools[k]);
   c.ads.enabled=bool(c.ads.enabled);for(const k of ["adsenseClient","topSlot","middleSlot"])c.ads[k]=text(c.ads[k],120);
@@ -889,12 +907,39 @@ app.get("/altin-gundemi/:slug",(req,res)=>{
 });
 app.get("/api/ai-seo-status",(req,res)=>{
  const k=String(process.env.OPENAI_API_KEY||"").trim(),gh=ghEnv();
- res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,autoContent:SEO_AUTO_ENABLED,githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
+ res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,autoContent:seoAutomationEnabled(),githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
+});
+app.get("/api/admin/seo-posts",requireAdmin,(req,res)=>{
+ const posts=loadSeoPosts().sort((a,b)=>new Date(b.updatedAt||b.publishedAt)-new Date(a.updatedAt||a.publishedAt));
+ res.json({posts,automation:{enabled:Boolean(siteConfig.seoAutomation?.enabled),mode:siteConfig.seoAutomation?.mode||"auto"}});
+});
+app.put("/api/admin/seo-automation",requireAdmin,async(req,res)=>{
+ siteConfig.seoAutomation={enabled:Boolean(req.body?.enabled),mode:req.body?.mode==="manual"?"manual":"auto"};
+ saveLocal(safeConfig(siteConfig));let githubCommitted=false;try{githubCommitted=await persistConfig(siteConfig)}catch(e){console.error("SEO automation config:",e.message)}
+ res.json({ok:true,automation:siteConfig.seoAutomation,githubCommitted});
+});
+app.put("/api/admin/seo-posts/:id",requireAdmin,async(req,res)=>{
+ const posts=loadSeoPosts(),i=posts.findIndex(p=>p.id===req.params.id);if(i<0)return res.status(404).json({error:"seo_post_not_found"});
+ const old=posts[i];snapshotSeoPost(old,"manual-edit");
+ const title=text(req.body?.title,150).trim(),description=text(req.body?.description,300).trim();
+ const body=Array.isArray(req.body?.body)?req.body.body.map(v=>text(v,4000).trim()).filter(Boolean).slice(0,12):[];
+ if(title.length<10||description.length<30||body.length<2)return res.status(400).json({error:"invalid_seo_content"});
+ posts[i]={...old,title,description,body,updatedAt:new Date().toISOString(),manualEdited:true};saveSeoPosts(posts);await Promise.all([persistSeoPostsToGithub(posts),persistSeoHistoryToGithub()]);
+ res.json({ok:true,post:posts[i]});
+});
+app.get("/api/admin/seo-posts/:id/history",requireAdmin,(req,res)=>{
+ const history=loadSeoHistory().filter(x=>x.postId===req.params.id).sort((a,b)=>new Date(b.savedAt)-new Date(a.savedAt));res.json({history});
+});
+app.post("/api/admin/seo-history/:historyId/restore",requireAdmin,async(req,res)=>{
+ const item=loadSeoHistory().find(x=>x.historyId===req.params.historyId);if(!item)return res.status(404).json({error:"history_not_found"});
+ const posts=loadSeoPosts(),i=posts.findIndex(p=>p.id===item.postId);if(i>=0)snapshotSeoPost(posts[i],"before-restore");
+ const restored={...clone(item.post),updatedAt:new Date().toISOString(),restoredFrom:item.historyId};if(i>=0)posts[i]=restored;else posts.push(restored);saveSeoPosts(posts);await Promise.all([persistSeoPostsToGithub(posts),persistSeoHistoryToGithub()]);res.json({ok:true,post:restored});
 });
 app.post("/api/admin/seo-regenerate-current",requireAdmin,async(req,res)=>{
  try{
-   const slot=trSlot(new Date());
+   const slot=slotForHour(trHour(new Date()));
    const post=await ensureSeoPost(slot,true);
+   await persistSeoHistoryToGithub();
    res.json({ok:true,regenerated:true,slot,aiGenerated:Boolean(post?.aiGenerated),post});
  }catch(error){
    res.status(500).json({ok:false,error:String(error?.message||error)});
@@ -902,13 +947,14 @@ app.post("/api/admin/seo-regenerate-current",requireAdmin,async(req,res)=>{
 });
 app.post("/api/admin/seo-regenerate-today",requireAdmin,async(req,res)=>{
  try{
-   const now=new Date(),current=trSlot(now),slots=["sabah","ogle","aksam","gece"];
+   const now=new Date(),current=slotForHour(trHour(now)),slots=["sabah","oglen","aksam","gece"];
    const currentIndex=slots.indexOf(current),targets=currentIndex>=0?slots.slice(0,currentIndex+1):[current];
    const results=[];
    for(const slot of targets){
      const post=await ensureSeoPost(slot,true);
      results.push({slot,aiGenerated:Boolean(post?.aiGenerated),id:post?.id,title:post?.title});
    }
+   await persistSeoHistoryToGithub();
    res.json({ok:true,dayKey:trDayKey(now),results});
  }catch(error){
    res.status(500).json({ok:false,error:String(error?.message||error)});

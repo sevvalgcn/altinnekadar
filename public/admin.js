@@ -33,6 +33,7 @@ async function load(){
  if(ci){ci.innerHTML=status.centralGoldLive?`<b>Ana kaynak aktif.</b> Cache: ${status.centralGoldCacheMinutes} dk.${status.centralGoldUpdatedAt?` Son API çekimi: ${new Date(status.centralGoldUpdatedAt).toLocaleString("tr-TR")}`:""}`:`Canlı altın verisi alınamadı.${status.centralGoldLastError?` Hata: ${status.centralGoldLastError}`:""}`;}
  $("systemInfo").innerHTML=`<div class="system-line"><b>Servis:</b> ${status.service}</div><div class="system-line"><b>Node:</b> ${status.node}</div><div class="system-line"><b>Çalışma süresi:</b> ${Math.round(status.uptime/60)} dakika</div><div class="system-line"><b>Canlı adaptör:</b> ${status.adapters}</div><div class="system-line"><b>Panel kaynağı:</b> ${status.configuredSources}</div>`;
  $("githubInfo").innerHTML=status.githubPersistence?'<span class="status ok">GitHub otomatik kayıt aktif</span>':'<span class="status bad">GITHUB_TOKEN / OWNER / REPO ayarları eksik</span>';
+ await loadSeoManager();
 }
 function renderCities(q){const n=(q||"").toLocaleLowerCase("tr-TR");$("cityList").innerHTML=Object.entries(cities).filter(([,name])=>name.toLocaleLowerCase("tr-TR").includes(n)).map(([s,name])=>`<button class="city-btn ${s===selectedCity?"active":""}" data-city="${s}">${name}</button>`).join("");document.querySelectorAll(".city-btn").forEach(b=>b.addEventListener("click",()=>selectCity(b.dataset.city)))}
 $("citySearch").addEventListener("input",e=>renderCities(e.target.value));
@@ -61,3 +62,50 @@ function refreshMediaPreview(){[["logoPreview",state.site.logoPath],["faviconPre
 document.querySelectorAll(".uploadBtn").forEach(btn=>btn.addEventListener("click",async()=>{const input=$(btn.dataset.input),file=input.files?.[0];if(!file)return alert("Önce bir dosya seç.");if(file.size>2*1024*1024)return alert("Dosya 2 MB'dan küçük olmalı.");btn.disabled=true;btn.textContent="Yükleniyor...";try{const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]);r.onerror=no;r.readAsDataURL(file)});const resp=await api("/api/admin/media",{method:"POST",body:JSON.stringify({kind:btn.dataset.kind,filename:file.name,mime:file.type,dataBase64:data})});if(btn.dataset.kind==="logo")state.site.logoPath=resp.path;if(btn.dataset.kind==="favicon")state.site.faviconPath=resp.path;if(btn.dataset.kind==="hero")state.site.heroImagePath=resp.path;refreshMediaPreview();alert(resp.githubCommitted?"Dosya yüklendi ve GitHub'a işlendi.":"Dosya yüklendi. GitHub kalıcı kayıt kapalı.")}catch(e){alert("Yükleme başarısız: "+e.message)}finally{btn.disabled=false;btn.textContent="Yükle"}}));
 
 session();
+
+document.addEventListener("DOMContentLoaded",()=>{
+ const b=document.getElementById("aiSeoRegenerate"),o=document.getElementById("aiSeoResult"); if(!b)return;
+ b.addEventListener("click",async()=>{
+  if(!confirm("Mevcut Altın Gündemi yazısı AI ile yeniden üretilecek. Devam edilsin mi?"))return;
+  const old=b.textContent;b.disabled=true;b.textContent="AI içerik hazırlanıyor…";o.textContent="10–45 saniye sürebilir.";
+  try{
+   const r=await fetch("/api/admin/seo-regenerate-current",{method:"POST",credentials:"include"});
+   const d=await r.json().catch(()=>({})); if(!r.ok)throw new Error(d.error||("HTTP "+r.status));
+   o.textContent=d.aiGenerated?"✓ AI içerik başarıyla yenilendi.":"⚠ Yazı yenilendi fakat AI devreye girmedi.";
+  }catch(e){o.textContent="✕ Hata: "+(e.message||e)}
+  finally{b.disabled=false;b.textContent=old}
+ });
+});
+
+
+let seoPosts=[],selectedSeoPostId=null;
+function seoBodyFromText(v){return String(v||"").split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean)}
+function updateSeoQuality(){
+ const t=$("seoPostTitle")?.value||"",d=$("seoPostDescription")?.value||"",body=seoBodyFromText($("seoPostBody")?.value||"");
+ if($("seoTitleCount"))$("seoTitleCount").textContent=`${t.length} karakter`;
+ if($("seoDescCount"))$("seoDescCount").textContent=`${d.length} karakter`;
+ const words=body.join(" ").trim().split(/\s+/).filter(Boolean).length;
+ const checks=[`${t.length>=45&&t.length<=75?"✓":"⚠"} Başlık ${t.length}/45–75`,` ${d.length>=120&&d.length<=160?"✓":"⚠"} Meta ${d.length}/120–160`,` ${words>=300?"✓":"⚠"} İçerik ${words} kelime`];
+ if($("seoQuality"))$("seoQuality").textContent=checks.join(" • ");
+}
+function fillSeoEditor(post){
+ selectedSeoPostId=post?.id||null;$("seoEditor")?.classList.toggle("hidden",!post);$("seoEditorEmpty")?.classList.toggle("hidden",!!post);if(!post)return;
+ setv("seoPostTitle",post.title);setv("seoPostDescription",post.description);setv("seoPostBody",(post.body||[]).join("\n\n"));updateSeoQuality();loadSeoHistory(post.id);
+}
+async function loadSeoManager(){
+ if(!$("seoPostSelect"))return;const d=await api("/api/admin/seo-posts");seoPosts=d.posts||[];setc("seoAutoEnabled",d.automation?.enabled);setv("seoAutoMode",d.automation?.mode||"auto");
+ $("seoPostSelect").innerHTML=seoPosts.length?seoPosts.map(p=>`<option value="${p.id}">${p.dayKey||""} • ${p.slot||""} • ${p.title}</option>`).join(""):'<option value="">İçerik yok</option>';
+ fillSeoEditor(seoPosts[0]||null);
+}
+async function loadSeoHistory(id){
+ const box=$("seoHistory");if(!box)return;const d=await api(`/api/admin/seo-posts/${encodeURIComponent(id)}/history`);const rows=d.history||[];
+ box.innerHTML=rows.length?rows.slice(0,12).map(h=>`<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee"><span>${new Date(h.savedAt).toLocaleString("tr-TR")} • ${h.reason}</span><button type="button" class="btn btn-dark seoRestore" data-history="${h.historyId}">Eski Haline Dön</button></div>`).join(""):"Henüz eski sürüm yok.";
+ box.querySelectorAll(".seoRestore").forEach(b=>b.addEventListener("click",async()=>{if(!confirm("Bu eski sürüm geri yüklensin mi?"))return;await api(`/api/admin/seo-history/${encodeURIComponent(b.dataset.history)}/restore`,{method:"POST"});await loadSeoManager();$("seoPostMsg").textContent="Eski sürüm geri yüklendi.";}));
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ $("seoPostSelect")?.addEventListener("change",e=>fillSeoEditor(seoPosts.find(p=>p.id===e.target.value)));
+ ["seoPostTitle","seoPostDescription","seoPostBody"].forEach(id=>$(id)?.addEventListener("input",updateSeoQuality));
+ $("saveSeoAutomation")?.addEventListener("click",async()=>{const r=await api("/api/admin/seo-automation",{method:"PUT",body:JSON.stringify({enabled:$("seoAutoEnabled").checked,mode:$("seoAutoMode").value})});$("seoAutomationMsg").textContent=r.automation.enabled&&r.automation.mode==="auto"?"Otomatik SEO aktif.":"Otomatik SEO kapalı; sadece manuel çalışır.";});
+ $("saveSeoPost")?.addEventListener("click",async()=>{if(!selectedSeoPostId)return;const body=seoBodyFromText($("seoPostBody").value);const r=await api(`/api/admin/seo-posts/${encodeURIComponent(selectedSeoPostId)}`,{method:"PUT",body:JSON.stringify({title:$("seoPostTitle").value,description:$("seoPostDescription").value,body})});$("seoPostMsg").textContent="SEO düzenlemesi kaydedildi.";await loadSeoManager();fillSeoEditor(r.post);});
+ $("reloadSeoPost")?.addEventListener("click",()=>fillSeoEditor(seoPosts.find(p=>p.id===selectedSeoPostId)));
+});
