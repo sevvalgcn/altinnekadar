@@ -36,37 +36,41 @@ function calcPercent(){const b=Number($("percentBase").value)||0,r=Number($("per
 function calcVat(){const b=Math.max(0,Number($("vatBase").value)||0),r=Number($("vatRate").value)||0,mode=$("vatMode").value;if(mode==="add"){const v=b*r/100;$("vatResult").innerHTML=`KDV: ${money(v)}<br><small>Toplam: ${money(b+v)}</small>`}else{const net=b/(1+r/100),v=b-net;$("vatResult").innerHTML=`KDV: ${money(v)}<br><small>KDV hariç: ${money(net)}</small>`}}
 function calcRaise(){const b=Math.max(0,Number($("raiseBase").value)||0),r=Math.max(0,Number($("raiseRate").value)||0),v=b*r/100;$("raiseResult").innerHTML=`Yeni tutar: ${money(b+v)}<br><small>Artış: ${money(v)}</small>`}
 async function locate(){const btn=$("locateBtn");if(!navigator.geolocation){btn.textContent="Konum desteklenmiyor";return}btn.textContent="Konum bulunuyor…";navigator.geolocation.getCurrentPosition(async p=>{try{const r=await fetch(`/api/reverse-geocode?lat=${encodeURIComponent(p.coords.latitude)}&lon=${encodeURIComponent(p.coords.longitude)}`);if(!r.ok)throw 0;const d=await r.json();if(d.citySlug&&CITIES[d.citySlug]){currentCity=d.citySlug;$("citySelect").value=currentCity;history.pushState(null,"",`/${currentCity}-altin-fiyatlari`);$("cityHeading").textContent=CITIES[currentCity];btn.textContent=`📍 ${CITIES[currentCity]}`;loadGold()}else btn.textContent="Şehri seç"}catch{btn.textContent="Şehri seç"}},()=>btn.textContent="Konum izni gerekli",{timeout:8000,maximumAge:300000})}
-$("#fxAmount")?.addEventListener("input",calcFx);
-$("#fxCurrency")?.addEventListener("change",calcFx);
+function updateFxCalculation(){
+  const amount=Number($("#fxAmount")?.value);
+  const code=$("#fxCurrency")?.value;
+
+  if(!amount || !code){
+    if($("#fxConvertResult")) $("#fxConvertResult").textContent="";
+    return;
+  }
+
+  calcFx();
+}
+
+$("#fxAmount")?.addEventListener("input",updateFxCalculation);
+$("#fxCurrency")?.addEventListener("change",updateFxCalculation);
 
 $("#fxSearch")?.addEventListener("input",function(){
-  const q=this.value.trim().toLocaleUpperCase("tr-TR");
+  const search=this.value.trim().toLocaleUpperCase("tr-TR");
   const select=$("#fxCurrency");
 
   if(!select)return;
 
+  let firstMatch=null;
+
   for(const option of select.options){
-    const text=option.textContent.toLocaleUpperCase("tr-TR");
-    const value=option.value.toLocaleUpperCase("tr-TR");
+    const text=`${option.value} ${option.textContent}`.toLocaleUpperCase("tr-TR");
+    const match=!search || text.includes(search);
 
-    option.hidden=
-      q!=="" &&
-      !text.includes(q) &&
-      !value.includes(q);
+    option.hidden=!match;
+
+    if(match && !firstMatch) firstMatch=option;
   }
 
-  const visible=[...select.options].find(option=>!option.hidden);
-
-  if(visible){
-    select.value=visible.value;
-    calcFx();
-  }
-});
-  const visible=[...select.options].find(option=>!option.hidden);
-
-  if(visible){
-    select.value=visible.value;
-    calcFx();
+  if(firstMatch){
+    select.value=firstMatch.value;
+    updateFxCalculation();
   }
 });
     const r=await fetch("/api/site-config",{cache:"no-store"});if(!r.ok)return;
