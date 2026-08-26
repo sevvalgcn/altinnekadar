@@ -427,7 +427,6 @@ function renderHome(citySlug="istanbul"){
 function renderProductPage(slug){
   const p=GOLD_SEO_PRODUCTS[slug]; 
   if(!p)return null;
-
   const title=`${p.name} Altın Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
 
   const desc=`${p.name} altın ne kadar? Güncel ${p.short} alış ve satış fiyatını, şehir bazlı altın fiyatlarını ve hızlı altın hesaplama aracını Bugün Altın'da takip edin.`;
@@ -440,8 +439,27 @@ function renderProductPage(slug){
     [`${p.name} alış satış farkı nedir?`,`Alış ve satış arasında piyasa ve kuyumcu makası bulunabilir.`],
     [`${p.name} şehirden şehre değişir mi?`,`Yerel kuyumcu koşulları nedeniyle şehirler arasında farklılık görülebilir.`]
   ];
-  const breadcrumbs=[{name:"Ana Sayfa",url:`${BASE}/`},{name:p.name,url:canonical}];
-  return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:productSeoContent(slug)});
+
+  const breadcrumbs=[
+    {name:"Ana Sayfa",url:`${BASE}/`},
+    {name:p.name,url:canonical}
+  ];
+
+  return renderTemplate({
+    title,
+    desc,
+    canonical,
+    schema:schemaBundle({
+      title,
+      desc,
+      canonical,
+      faqs,
+      breadcrumbs
+    }),
+    seoContent:productSeoContent(slug)
+  });
+}
+
 function renderCityProductPage(citySlug,productSlug){
   const cityName=CITIES[citySlug];
   const p=GOLD_SEO_PRODUCTS[productSlug];
@@ -455,30 +473,47 @@ function renderCityProductPage(citySlug,productSlug){
   const canonical=`${BASE}/${citySlug}-${productSlug}`;
 
   const faqs=[
-    [`${cityName} ${p.name} altın ne kadar?`,
-      `${cityName} ${p.name} güncel alış ve satış fiyatlarını Bugün Altın üzerinden takip edebilirsiniz.`],
-
-    [`${cityName} ${p.name} fiyatı neden değişir?`,
-      `Ons altın, döviz kuru, serbest piyasa hareketleri ve yerel kuyumcu koşulları fiyatları etkileyebilir.`],
-
-    [`${cityName} ${p.name} alış satış farkı nedir?`,
-      `Kuyumcuların alış ve satış fiyatları arasında piyasa koşullarına göre makas bulunabilir.`],
-
-    [`${cityName} altın fiyatları diğer şehirlerden farklı olabilir mi?`,
-      `Yerel piyasa koşulları ve kuyumcu fiyatlamaları nedeniyle şehirler arasında küçük farklılıklar görülebilir.`]
+    [
+      `${cityName} ${p.name} altın ne kadar?`,
+      `${cityName} ${p.name} güncel alış ve satış fiyatlarını Bugün Altın üzerinden takip edebilirsiniz.`
+    ],
+    [
+      `${cityName} ${p.name} fiyatı neden değişir?`,
+      `Ons altın, döviz kuru, serbest piyasa hareketleri ve yerel kuyumcu koşulları fiyatları etkileyebilir.`
+    ],
+    [
+      `${cityName} ${p.name} alış satış farkı nedir?`,
+      `Kuyumcuların alış ve satış fiyatları arasında piyasa koşullarına göre makas bulunabilir.`
+    ],
+    [
+      `${cityName} altın fiyatları diğer şehirlerden farklı olabilir mi?`,
+      `Yerel piyasa koşulları ve kuyumcu fiyatlamaları nedeniyle şehirler arasında küçük farklılıklar görülebilir.`
+    ]
   ];
 
   const breadcrumbs=[
     {name:"Ana Sayfa",url:`${BASE}/`},
-    {name:`${cityName} Altın Fiyatları`,url:`${BASE}/${citySlug}-altin-fiyatlari`},
-    {name:`${cityName} ${p.name}`,url:canonical}
+    {
+      name:`${cityName} Altın Fiyatları`,
+      url:`${BASE}/${citySlug}-altin-fiyatlari`
+    },
+    {
+      name:`${cityName} ${p.name}`,
+      url:canonical
+    }
   ];
 
   return renderTemplate({
     title,
     desc,
     canonical,
-    schema:schemasBundle(title,desc,canonical,faqs,breadcrumbs),
+    schema:schemaBundle({
+      title,
+      desc,
+      canonical,
+      faqs,
+      breadcrumbs
+    }),
     seoContent:`
       <section class="seo-content">
         <h1>${cityName} ${p.name} Altın Ne Kadar?</h1>
@@ -500,9 +535,6 @@ function renderCityProductPage(citySlug,productSlug){
     `
   });
 }
-function simplePage(title,body){return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>body{font-family:system-ui;max-width:850px;margin:60px auto;padding:20px;line-height:1.7}a{color:#9a7300}</style></head><body><a href="/">← Ana sayfa</a><h1>${esc(title)}</h1>${body}</body></html>`}
-
-app.disable("x-powered-by");app.set("trust proxy",1);
 app.use((req,res,next)=>{res.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Permissions-Policy":"geolocation=(self)","Cross-Origin-Opener-Policy":"same-origin","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"});next()});
 app.use(express.static(PUBLIC,{maxAge:"1d",etag:true,index:false,immutable:false}));
 app.use(express.json({limit:"3mb"}));
