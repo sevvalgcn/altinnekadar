@@ -1169,9 +1169,10 @@ app.get("/:city-:goldType",(req,res,next)=>{
 
   next();
 });
- const page=renderProductPage(req.params.goldType);
- if(page)return res.send(page);
- next();
+app.get("/:goldType",(req,res,next)=>{
+  const page=renderProductPage(req.params.goldType);
+  if(page)return res.send(page);
+  next();
 });
 app.get("/:city-altin-fiyatlari",(req,res,next)=>CITIES[req.params.city]?res.send(renderHome(req.params.city)):next());
 app.get("/hakkimizda",(req,res)=>res.send(simplePage(siteConfig.pages.aboutTitle,`<p>${plainTextHtml(siteConfig.pages.aboutBody)}</p>`)));
