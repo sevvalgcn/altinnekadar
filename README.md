@@ -3,7 +3,7 @@
 Bu sürüm, mevcut finans sitesini kod değiştirmeden yönetmek için hazırlanmıştır.
 
 ## Panel
-`https://bugunaltin.com/admin`
+`https://altinnekadar.com.tr/admin`
 
 ### Panelden yönetilenler
 - Logo, favicon, hero görseli

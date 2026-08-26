@@ -5,7 +5,7 @@ const crypto=require("crypto");
 
 const app=express();
 const PORT=process.env.PORT||3000;
-const BASE="https://bugunaltin.com";
+const BASE="https://altinnekadar.com.tr";
 const PUBLIC=path.join(__dirname,"public");
 const DATA_DIR=path.join(__dirname,"data");
 const CONFIG_FILE=path.join(DATA_DIR,"site-config.json");
@@ -22,7 +22,7 @@ let citySourceRegistry=loadCitySourceRegistry();
 const CITIES={adana:"Adana",adiyaman:"Adıyaman",afyonkarahisar:"Afyonkarahisar",agri:"Ağrı",amasya:"Amasya",ankara:"Ankara",antalya:"Antalya",artvin:"Artvin",aydin:"Aydın",balikesir:"Balıkesir",bilecik:"Bilecik",bingol:"Bingöl",bitlis:"Bitlis",bolu:"Bolu",burdur:"Burdur",bursa:"Bursa",canakkale:"Çanakkale",cankiri:"Çankırı",corum:"Çorum",denizli:"Denizli",diyarbakir:"Diyarbakır",edirne:"Edirne",elazig:"Elazığ",erzincan:"Erzincan",erzurum:"Erzurum",eskisehir:"Eskişehir",gaziantep:"Gaziantep",giresun:"Giresun",gumushane:"Gümüşhane",hakkari:"Hakkari",hatay:"Hatay",isparta:"Isparta",mersin:"Mersin",istanbul:"İstanbul",izmir:"İzmir",kars:"Kars",kastamonu:"Kastamonu",kayseri:"Kayseri",kirklareli:"Kırklareli",kirsehir:"Kırşehir",kocaeli:"Kocaeli",konya:"Konya",kutahya:"Kütahya",malatya:"Malatya",manisa:"Manisa",kahramanmaras:"Kahramanmaraş",mardin:"Mardin",mugla:"Muğla",mus:"Muş",nevsehir:"Nevşehir",nigde:"Niğde",ordu:"Ordu",rize:"Rize",sakarya:"Sakarya",samsun:"Samsun",siirt:"Siirt",sinop:"Sinop",sivas:"Sivas",tekirdag:"Tekirdağ",tokat:"Tokat",trabzon:"Trabzon",tunceli:"Tunceli",sanliurfa:"Şanlıurfa",usak:"Uşak",van:"Van",yozgat:"Yozgat",zonguldak:"Zonguldak",aksaray:"Aksaray",bayburt:"Bayburt",karaman:"Karaman",kirikkale:"Kırıkkale",batman:"Batman",sirnak:"Şırnak",bartin:"Bartın",ardahan:"Ardahan",igdir:"Iğdır",yalova:"Yalova",karabuk:"Karabük",kilis:"Kilis",osmaniye:"Osmaniye",duzce:"Düzce"};
 const CENTERS={adana:[37,35.3213],adiyaman:[37.7648,38.2786],afyonkarahisar:[38.7507,30.5567],agri:[39.7191,43.0503],amasya:[40.6499,35.8353],ankara:[39.9334,32.8597],antalya:[36.8969,30.7133],artvin:[41.1828,41.8183],aydin:[37.856,27.8416],balikesir:[39.6484,27.8826],bilecik:[40.1426,29.9793],bingol:[38.8854,40.498],bitlis:[38.4006,42.1095],bolu:[40.735,31.6061],burdur:[37.7203,30.2908],bursa:[40.195,29.06],canakkale:[40.1553,26.4142],cankiri:[40.6013,33.6134],corum:[40.5506,34.9556],denizli:[37.7765,29.0864],diyarbakir:[37.9144,40.2306],edirne:[41.6818,26.5623],elazig:[38.681,39.2264],erzincan:[39.75,39.5],erzurum:[39.9043,41.2679],eskisehir:[39.7767,30.5206],gaziantep:[37.0662,37.3833],giresun:[40.9128,38.3895],gumushane:[40.4603,39.4814],hakkari:[37.5744,43.7408],hatay:[36.2023,36.1606],isparta:[37.7648,30.5566],mersin:[36.8121,34.6415],istanbul:[41.0082,28.9784],izmir:[38.4237,27.1428],kars:[40.6013,43.0975],kastamonu:[41.3887,33.7827],kayseri:[38.7312,35.4787],kirklareli:[41.7351,27.2252],kirsehir:[39.1425,34.1709],kocaeli:[40.8533,29.8815],konya:[37.8746,32.4932],kutahya:[39.4192,29.9857],malatya:[38.3552,38.3095],manisa:[38.6191,27.4289],kahramanmaras:[37.5753,36.9228],mardin:[37.3212,40.7245],mugla:[37.2153,28.3636],mus:[38.7433,41.5065],nevsehir:[38.6244,34.7142],nigde:[37.9698,34.6766],ordu:[40.9839,37.8764],rize:[41.0201,40.5234],sakarya:[40.7569,30.3781],samsun:[41.2867,36.33],siirt:[37.9333,41.95],sinop:[42.0264,35.1551],sivas:[39.7477,37.0179],tekirdag:[40.978,27.511],tokat:[40.3167,36.55],trabzon:[41.0015,39.7178],tunceli:[39.1079,39.5401],sanliurfa:[37.1674,38.7955],usak:[38.6823,29.4082],van:[38.4891,43.4089],yozgat:[39.8181,34.8147],zonguldak:[41.4564,31.7987],aksaray:[38.3687,34.037],bayburt:[40.2552,40.2249],karaman:[37.181,33.215],kirikkale:[39.8468,33.5153],batman:[37.8812,41.1351],sirnak:[37.5164,42.4611],bartin:[41.6344,32.3375],ardahan:[41.1105,42.7022],igdir:[39.9201,44.0436],yalova:[40.65,29.2667],karabuk:[41.2061,32.6204],kilis:[36.7184,37.1212],osmaniye:[37.0742,36.2478],duzce:[40.8438,31.1565]};
 
-const DEFAULT_CONFIG={"site": {"announcement": "", "maintenance": false, "defaultCity": "istanbul", "siteName": "Bugün Altın", "domainLabel": "bugunaltin.com", "logoPath": "", "faviconPath": "/favicon.svg", "heroImagePath": "", "primaryColor": "#e1a900", "accentColor": "#f4c430"}, "home": {"eyebrow": "ALTIN • DÖVİZ • HESAPLAMA", "heroTitleBefore": "Bugün", "heroHighlight": "altın", "heroTitleAfter": "ne kadar?", "heroDescription": "Şehrine göre yerel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını tek ekranda takip et.", "goldSectionTitle": "altın fiyatları", "fxSectionTitle": "Güncel döviz kurları", "toolsSectionTitle": "Hesaplama araçları", "citiesSectionTitle": "Şehrine göre altın fiyatları", "showMarket": true, "showGold": true, "showFx": true, "showCalculators": true, "showCities": true, "showBenefits": true}, "navigation": {"gold": "Altın Fiyatları", "fx": "Döviz Kurları", "tools": "Hesaplamalar", "cities": "Şehirler"}, "footer": {"description": "Altın, döviz ve günlük finans hesaplamaları.", "contactEmail": "", "copyright": "BugunAltin.com", "showLegalLinks": true}, "seo": {"defaultTitle": "Bugün Altın Ne Kadar? Güncel Altın ve Döviz Fiyatları", "defaultDescription": "Güncel altın ve TCMB döviz kurlarını takip et; kredi, KDV, yüzde ve zam hesaplama araçlarını kullan.", "googleSiteVerification": ""}, "fx": {"enabled": true, "refreshMinutes": 5}, "tools": {"gold": true, "loan": true, "percent": true, "vat": true, "raise": true}, "ads": {"enabled": false, "adsenseClient": "", "topSlot": "", "middleSlot": ""}, "pages": {"aboutTitle": "Hakkımızda", "aboutBody": "BugunAltin.com; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.", "privacyTitle": "Gizlilik", "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.", "termsTitle": "Kullanım Şartları", "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."}, "cities": {}};
+const DEFAULT_CONFIG={"site": {"announcement": "", "maintenance": false, "defaultCity": "istanbul", "siteName": "AltınNeKadar", "domainLabel": "altinnekadar.com.tr", "logoPath": "", "faviconPath": "/favicon.svg", "heroImagePath": "", "primaryColor": "#e1a900", "accentColor": "#f4c430"}, "home": {"eyebrow": "ALTIN • DÖVİZ • HESAPLAMA", "heroTitleBefore": "Bugün", "heroHighlight": "altın", "heroTitleAfter": "ne kadar?", "heroDescription": "Şehrine göre yerel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını tek ekranda takip et.", "goldSectionTitle": "altın fiyatları", "fxSectionTitle": "Güncel döviz kurları", "toolsSectionTitle": "Hesaplama araçları", "citiesSectionTitle": "Şehrine göre altın fiyatları", "showMarket": true, "showGold": true, "showFx": true, "showCalculators": true, "showCities": true, "showBenefits": true}, "navigation": {"gold": "Altın Fiyatları", "fx": "Döviz Kurları", "tools": "Hesaplamalar", "cities": "Şehirler"}, "footer": {"description": "Altın, döviz ve günlük finans hesaplamaları.", "contactEmail": "", "copyright": "AltınNeKadar.com.tr", "showLegalLinks": true}, "seo": {"defaultTitle": "Bugün Altın Ne Kadar? Güncel Altın ve Döviz Fiyatları", "defaultDescription": "Güncel altın ve TCMB döviz kurlarını takip et; kredi, KDV, yüzde ve zam hesaplama araçlarını kullan.", "googleSiteVerification": ""}, "fx": {"enabled": true, "refreshMinutes": 5}, "tools": {"gold": true, "loan": true, "percent": true, "vat": true, "raise": true}, "ads": {"enabled": false, "adsenseClient": "", "topSlot": "", "middleSlot": ""}, "pages": {"aboutTitle": "Hakkımızda", "aboutBody": "AltınNeKadar.com.tr; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.", "privacyTitle": "Gizlilik", "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.", "termsTitle": "Kullanım Şartları", "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."}, "cities": {}};
 function clone(v){return JSON.parse(JSON.stringify(v))}
 function mergeConfig(base,extra){
   const out=clone(base); if(!extra||typeof extra!=="object")return out;
@@ -66,7 +66,7 @@ function ghEnv(){return {token:process.env.GITHUB_TOKEN,owner:process.env.GITHUB
 async function githubPut(repoPath,buffer,message){
   const {token,owner,repo,branch}=ghEnv();if(!token||!owner||!repo)return false;
   const api=`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${repoPath.split("/").map(encodeURIComponent).join("/")}`;
-  const headers={Authorization:`Bearer ${token}`,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","User-Agent":"Bugün Altın-Admin"};
+  const headers={Authorization:`Bearer ${token}`,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","User-Agent":"BugunAltin.com/1.0"};
   let sha;const cur=await fetch(`${api}?ref=${encodeURIComponent(branch)}`,{headers});
   if(cur.ok)sha=(await cur.json()).sha;else if(cur.status!==404)throw new Error("github_read_failed");
   const body={message,content:buffer.toString("base64"),branch,...(sha?{sha}:{})};
@@ -79,10 +79,10 @@ function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&l
 function plainTextHtml(s){return esc(s).replace(/\n/g,"<br>")}
 function renderHome(citySlug="istanbul"){
   const city=CITIES[citySlug]||"Türkiye";
-  const title=citySlug==="istanbul"?(siteConfig.seo.defaultTitle||DEFAULT_CONFIG.seo.defaultTitle):`${city} Altın Fiyatları — ${siteConfig.site.siteName||"Bugün Altın"}`;
+  const title=citySlug==="istanbul"?(siteConfig.seo.defaultTitle||DEFAULT_CONFIG.seo.defaultTitle):`${city} Altın Fiyatları — ${siteConfig.site.siteName||"AltınNeKadar"}`;
   const desc=citySlug==="istanbul"?(siteConfig.seo.defaultDescription||DEFAULT_CONFIG.seo.defaultDescription):`${city} güncel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını takip et.`;
   const canonical=citySlug==="istanbul"?`${BASE}/`:`${BASE}/${citySlug}-altin-fiyatlari`;
-  const schema=JSON.stringify({"@context":"https://schema.org","@type":"WebSite",name:siteConfig.site.siteName||"Bugün Altın",url:BASE});
+  const schema=JSON.stringify({"@context":"https://schema.org","@type":"WebSite",name:siteConfig.site.siteName||"AltınNeKadar",url:BASE});
   const verification=siteConfig.seo.googleSiteVerification?`<meta name="google-site-verification" content="${esc(siteConfig.seo.googleSiteVerification)}">`:"";
   return fs.readFileSync(path.join(PUBLIC,"index.html"),"utf8")
    .replaceAll("__TITLE__",esc(title)).replaceAll("__DESCRIPTION__",esc(desc)).replaceAll("__CANONICAL__",canonical)
@@ -108,7 +108,7 @@ app.post("/api/admin/logout",(req,res)=>{res.setHeader("Set-Cookie","ank_admin=;
 
 const verifiedSources={}; // Doğrulanmış şehir adaptörleri buraya eklenir.
 app.get("/api/admin/config",requireAdmin,(req,res)=>res.json({config:siteConfig,cities:CITIES}));
-app.get("/api/admin/status",requireAdmin,async(req,res)=>{const configuredSources=Object.values(siteConfig.cities||{}).filter(x=>x.sourceMode==="manual"||x.sourceMode==="adapter").length;const central=await fetchCentralGold();res.json({service:"bugunaltin.com",node:process.version,uptime:process.uptime(),adapters:Object.keys(verifiedSources).length,configuredSources,centralGoldConfigured:Boolean(process.env.GOLD_API_KEY),centralGoldLive:Boolean(central?.prices?.length),centralGoldUpdatedAt:central?.fetchedAt||null,centralGoldCacheMinutes:CENTRAL_GOLD_TTL/60000,centralGoldLastError:centralGoldCache.lastError,githubPersistence:Boolean(ghEnv().token&&ghEnv().owner&&ghEnv().repo)})});
+app.get("/api/admin/status",requireAdmin,async(req,res)=>{const configuredSources=Object.values(siteConfig.cities||{}).filter(x=>x.sourceMode==="manual"||x.sourceMode==="adapter").length;const central=await fetchCentralGold();res.json({service:"altinnekadar.com.tr",node:process.version,uptime:process.uptime(),adapters:Object.keys(verifiedSources).length,configuredSources,centralGoldConfigured:Boolean(process.env.GOLD_API_KEY),centralGoldLive:Boolean(central?.prices?.length),centralGoldUpdatedAt:central?.fetchedAt||null,centralGoldCacheMinutes:CENTRAL_GOLD_TTL/60000,centralGoldLastError:centralGoldCache.lastError,githubPersistence:Boolean(ghEnv().token&&ghEnv().owner&&ghEnv().repo)})});
 app.put("/api/admin/config",requireAdmin,async(req,res)=>{try{const c=safeConfig(req.body?.config);saveLocal(c);let githubCommitted=false;try{githubCommitted=await persistConfig(c)}catch(e){console.error("GitHub config:",e.message)}goldCache.clear();res.json({ok:true,githubCommitted})}catch{res.status(400).json({error:"invalid_config"})}});
 
 const ALLOWED_MIME={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","image/x-icon":"ico"};
@@ -131,7 +131,7 @@ let centralGoldCache={time:0,data:null,lastError:null};
 function parseGoldNumber(v){if(typeof v==="number")return Number.isFinite(v)?v:null;let s=String(v??"").trim();if(!s)return null;if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",", ".");else if(s.includes(","))s=s.replace(",", ".");const n=Number(s);return Number.isFinite(n)?n:null}
 function centralGoldKey(item){const symbol=String(item?.sembol||"").toUpperCase(),tur=String(item?.tur||"").toLocaleLowerCase("tr-TR"),isim=String(item?.isim||"").toLocaleLowerCase("tr-TR");if(symbol==="GRA"||tur==="gram"||isim.includes("gram alt"))return "gram";if(tur==="ceyrek"||tur==="çeyrek"||isim.includes("çeyrek"))return "ceyrek";if(tur==="yarim"||tur==="yarım"||isim.includes("yarım"))return "yarim";if(tur==="tam"||isim.includes("tam alt"))return "tam";if(tur==="cumhuriyet"||isim.includes("cumhuriyet"))return "cumhuriyet";if(tur.includes("22")||isim.includes("22 ayar"))return "bilezik22";return null}
 function centralGoldName(key){return {gram:"Gram Altın",ceyrek:"Çeyrek Altın",yarim:"Yarım Altın",tam:"Tam Altın",cumhuriyet:"Cumhuriyet Altını",bilezik22:"22 Ayar Bilezik"}[key]||key}
-async function fetchCentralGold(force=false){const now=Date.now();if(!force&&centralGoldCache.data&&now-centralGoldCache.time<CENTRAL_GOLD_TTL)return centralGoldCache.data;const apiKey=process.env.GOLD_API_KEY;if(!apiKey){centralGoldCache.lastError="GOLD_API_KEY_missing";return centralGoldCache.data||null}try{const r=await fetch(CENTRAL_GOLD_BASE,{headers:{"x-api-key":apiKey,"Accept":"application/json","User-Agent":"Bugün Altın.com.tr/1.0"},signal:AbortSignal.timeout(10000)});if(!r.ok)throw new Error(`gold_api_http_${r.status}`);const json=await r.json(),items=json?.data?.kalemler;if(!Array.isArray(items)||!items.length)throw new Error("gold_api_invalid_format");const prices=[],seen=new Set();for(const item of items){const key=centralGoldKey(item);if(!key||seen.has(key))continue;const buy=parseGoldNumber(item.alis),sell=parseGoldNumber(item.satis),change=parseGoldNumber(item.degisim);if(buy==null&&sell==null)continue;prices.push({key,name:centralGoldName(key),buy:buy??sell??0,sell:sell??buy??0,change:change??0});seen.add(key)}if(!prices.some(p=>p.key==="gram"))throw new Error("gold_api_missing_gram");const data={verified:true,central:true,sourceName:"apinoktam Altın API",sourceUrl:"https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",providerSource:json?.meta?.kaynak||"truncgil.com",updatedAt:json?.data?.tarih||json?.meta?.updatedAt||new Date().toISOString(),fetchedAt:new Date().toISOString(),prices};centralGoldCache={time:now,data,lastError:null};return data}catch(err){centralGoldCache.lastError=String(err?.message||err);console.error("Central gold:",centralGoldCache.lastError);return centralGoldCache.data||null}}
+async function fetchCentralGold(force=false){const now=Date.now();if(!force&&centralGoldCache.data&&now-centralGoldCache.time<CENTRAL_GOLD_TTL)return centralGoldCache.data;const apiKey=String(process.env.GOLD_API_KEY||"").trim();if(apiKey&&[...apiKey].some(ch=>ch.charCodeAt(0)>255)){centralGoldCache.lastError="GOLD_API_KEY_non_ascii";return centralGoldCache.data||null;}if(!apiKey){centralGoldCache.lastError="GOLD_API_KEY_missing";return centralGoldCache.data||null}try{const r=await fetch(CENTRAL_GOLD_BASE,{headers:{"x-api-key":apiKey,"Accept":"application/json","User-Agent":"BugunAltin.com/1.0"},signal:AbortSignal.timeout(10000)});if(!r.ok)throw new Error(`gold_api_http_${r.status}`);const json=await r.json(),items=json?.data?.kalemler;if(!Array.isArray(items)||!items.length)throw new Error("gold_api_invalid_format");const prices=[],seen=new Set();for(const item of items){const key=centralGoldKey(item);if(!key||seen.has(key))continue;const buy=parseGoldNumber(item.alis),sell=parseGoldNumber(item.satis),change=parseGoldNumber(item.degisim);if(buy==null&&sell==null)continue;prices.push({key,name:centralGoldName(key),buy:buy??sell??0,sell:sell??buy??0,change:change??0});seen.add(key)}if(!prices.some(p=>p.key==="gram"))throw new Error("gold_api_missing_gram");const data={verified:true,central:true,sourceName:"apinoktam Altın API",sourceUrl:"https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",providerSource:json?.meta?.kaynak||"truncgil.com",updatedAt:json?.data?.tarih||json?.meta?.updatedAt||new Date().toISOString(),fetchedAt:new Date().toISOString(),prices};centralGoldCache={time:now,data,lastError:null};return data}catch(err){centralGoldCache.lastError=String(err?.message||err);console.error("Central gold:",centralGoldCache.lastError);return centralGoldCache.data||null}}
 
 
 const HAREM_GOLD_URL="https://api.hasfiyat.com/api/prices?source=harem";
@@ -185,7 +185,11 @@ async function fetchHaremGold(force=false){
   const now=Date.now();
   if(!force&&haremCache.data&&now-haremCache.time<HAREM_TTL)return haremCache.data;
 
-  const token=process.env.HAREM_API_KEY;
+  const token=String(process.env.HAREM_API_KEY||"").trim();
+  if(token && [...token].some(ch=>ch.charCodeAt(0)>255)){
+    haremCache.lastError="HAREM_API_KEY_non_ascii";
+    return haremCache.data||null;
+  }
   if(!token){
     haremCache.lastError="HAREM_API_KEY_missing";
     return haremCache.data||null;
@@ -196,7 +200,7 @@ async function fetchHaremGold(force=false){
       headers:{
         "Authorization":`Bearer ${token}`,
         "Accept":"application/json",
-        "User-Agent":"Bugün Altın.com.tr/1.0"
+        "User-Agent":"BugunAltin.com/1.0"
       },
       signal:AbortSignal.timeout(10000)
     });
@@ -324,7 +328,7 @@ async function fetchSakaryaPage(){
   if(hit&&now-hit.time<CITY_SOURCE_TTL)return hit.data;
   try{
     const r=await fetch("https://ceyrekaltinfiyatlari.com/sakarya",{
-      headers:{"User-Agent":"Mozilla/5.0 Bugün Altın.com.tr/1.0","Accept":"text/html"},
+      headers:{"User-Agent":"BugunAltin.com/1.0","Accept":"text/html"},
       signal:AbortSignal.timeout(10000)
     });
     if(!r.ok)throw new Error(`sakarya_http_${r.status}`);
@@ -359,7 +363,7 @@ async function fetchIzkoOfficial(){
   if(hit&&now-hit.time<CITY_SOURCE_TTL)return hit.data;
   try{
     const r=await fetch("https://www.izko.org.tr/guncel-kur",{
-      headers:{"User-Agent":"Mozilla/5.0 Bugün Altın.com.tr/1.0","Accept":"text/html"},
+      headers:{"User-Agent":"BugunAltin.com/1.0","Accept":"text/html"},
       signal:AbortSignal.timeout(10000)
     });
     if(!r.ok)throw new Error(`izko_http_${r.status}`);
@@ -440,6 +444,23 @@ app.get("/api/city-sources",(req,res)=>{
  res.set("Cache-Control","public,max-age=300").json(citySourceRegistry);
 });
 
+app.get("/api/build-info",(req,res)=>{
+ res.json({build:"BUGUNALTIN_DIAG_20260826_01"});
+});
+app.get("/api/key-check",(req,res)=>{
+ const h=String(process.env.HAREM_API_KEY||"").trim();
+ const g=String(process.env.GOLD_API_KEY||"").trim();
+ res.json({
+  build:"BUGUNALTIN_DIAG_20260826_01",
+  haremConfigured:Boolean(h),
+  haremAscii:[...h].every(ch=>ch.charCodeAt(0)<=255),
+  haremLength:h.length,
+  goldConfigured:Boolean(g),
+  goldAscii:[...g].every(ch=>ch.charCodeAt(0)<=255),
+  goldLength:g.length
+ });
+});
+
 app.get("/api/harem-status",async(req,res)=>{
  const data=await fetchHaremGold();
  res.json({
@@ -459,7 +480,7 @@ let fxCache={time:0,data:null};const FX_TTL=5*60_000;
 function tag(block,name){const m=block.match(new RegExp(`<${name}>([^<]*)</${name}>`,"i"));return m?m[1].trim():""}
 async function tcmb(){
  if(fxCache.data&&Date.now()-fxCache.time<FX_TTL)return fxCache.data;
- const r=await fetch("https://www.tcmb.gov.tr/kurlar/today.xml",{headers:{"User-Agent":"Bugün Altın.com.tr/1.0"}});if(!r.ok)throw new Error("tcmb");
+ const r=await fetch("https://www.tcmb.gov.tr/kurlar/today.xml",{headers:{"User-Agent":"BugunAltin.com/1.0"}});if(!r.ok)throw new Error("tcmb");
  const xml=await r.text(),wanted=new Set(["USD","EUR","GBP","CHF"]),rates=[];let m;const re=/<Currency\b[^>]*CurrencyCode="([A-Z]{3})"[^>]*>([\s\S]*?)<\/Currency>/gi;
  while((m=re.exec(xml))){if(!wanted.has(m[1]))continue;const buy=Number(tag(m[2],"ForexBuying")),sell=Number(tag(m[2],"ForexSelling"));if(Number.isFinite(buy)&&Number.isFinite(sell))rates.push({code:m[1],name:tag(m[2],"Isim")||m[1],buy,sell})}
  const dm=xml.match(/Tarih_Date[^>]*Tarih="([^"]+)"/i),data={sourceName:"TCMB",updatedAt:new Date().toISOString(),displayDate:dm?.[1]||"",rates};fxCache={time:Date.now(),data};return data;
@@ -478,4 +499,4 @@ app.get("/hakkimizda",(req,res)=>res.send(simplePage(siteConfig.pages.aboutTitle
 app.get("/gizlilik",(req,res)=>res.send(simplePage(siteConfig.pages.privacyTitle,`<p>${plainTextHtml(siteConfig.pages.privacyBody)}</p>`)));
 app.get("/kullanim-sartlari",(req,res)=>res.send(simplePage(siteConfig.pages.termsTitle,`<p>${plainTextHtml(siteConfig.pages.termsBody)}</p>`)));
 app.use((req,res)=>res.status(404).send(simplePage("Sayfa bulunamadı","<p>Aradığınız sayfa mevcut değil.</p>")));
-app.listen(PORT,()=>console.log(`BugunAltin.com http://localhost:${PORT}`));
+app.listen(PORT,()=>console.log(`AltınNeKadar.com.tr http://localhost:${PORT}`));

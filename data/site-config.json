@@ -37,12 +37,12 @@
   "footer": {
     "description": "Altın, döviz ve günlük finans hesaplamaları.",
     "contactEmail": "",
-    "copyright": "BugunAltin.com",
+    "copyright": "Bugün Altın",
     "showLegalLinks": true
   },
   "seo": {
-    "defaultTitle": "Bugün Altın Ne Kadar? Güncel Altın ve Döviz Fiyatları",
-    "defaultDescription": "Güncel altın ve TCMB döviz kurlarını takip et; kredi, KDV, yüzde ve zam hesaplama araçlarını kullan.",
+    "defaultTitle": "Bugün Altın - Güncel Altın ve Döviz Fiyatları",
+    "defaultDescription": "Bugün Altın ile gram, çeyrek, yarım ve tam altın fiyatlarını; şehir bazlı yerel altın fiyatlarını ve döviz kurlarını takip edin.",
     "googleSiteVerification": ""
   },
   "fx": {
@@ -64,7 +64,7 @@
   },
   "pages": {
     "aboutTitle": "Hakkımızda",
-    "aboutBody": "BugunAltin.com; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.",
+    "aboutBody": "Bugün Altın; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.",
     "privacyTitle": "Gizlilik",
     "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.",
     "termsTitle": "Kullanım Şartları",
