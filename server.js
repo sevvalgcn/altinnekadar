@@ -425,18 +425,80 @@ function renderHome(citySlug="istanbul"){
   return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:citySeoContent(citySlug)});
 }
 function renderProductPage(slug){
-  const p=GOLD_SEO_PRODUCTS[slug]; if(!p)return null;
-  const title=`${p.name} Bugün Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
-  const desc=`${p.name} bugün ne kadar? Güncel ${p.short} alış ve satış fiyatını, şehir bazlı altın fiyatlarını ve hızlı altın hesaplama aracını takip edin.`;
+  const p=GOLD_SEO_PRODUCTS[slug]; 
+  if(!p)return null;
+
+  const title=`${p.name} Altın Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
+
+  const desc=`${p.name} altın ne kadar? Güncel ${p.short} alış ve satış fiyatını, şehir bazlı altın fiyatlarını ve hızlı altın hesaplama aracını Bugün Altın'da takip edin.`;
+
   const canonical=`${BASE}/${slug}`;
+
   const faqs=[
-    [p.question,`${p.name} güncel alış ve satış fiyatı canlı fiyat bölümünde gösterilir.`],
+    [`${p.name} altın ne kadar?`,`${p.name} güncel alış ve satış fiyatı canlı fiyat bölümünde gösterilir.`],
     [`${p.name} fiyatı neden değişir?`,`Ons altın, döviz kuru ve piyasa hareketleri fiyat üzerinde etkili olabilir.`],
     [`${p.name} alış satış farkı nedir?`,`Alış ve satış arasında piyasa ve kuyumcu makası bulunabilir.`],
     [`${p.name} şehirden şehre değişir mi?`,`Yerel kuyumcu koşulları nedeniyle şehirler arasında farklılık görülebilir.`]
   ];
   const breadcrumbs=[{name:"Ana Sayfa",url:`${BASE}/`},{name:p.name,url:canonical}];
   return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:productSeoContent(slug)});
+function renderCityProductPage(citySlug,productSlug){
+  const cityName=CITIES[citySlug];
+  const p=GOLD_SEO_PRODUCTS[productSlug];
+
+  if(!cityName||!p)return null;
+
+  const title=`${cityName} ${p.name} Altın Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
+
+  const desc=`${cityName} ${p.name} altın ne kadar? Güncel ${p.short} alış ve satış fiyatlarını, şehir bazlı altın fiyatlarını ve hızlı altın hesaplama aracını Bugün Altın'da takip edin.`;
+
+  const canonical=`${BASE}/${citySlug}-${productSlug}`;
+
+  const faqs=[
+    [`${cityName} ${p.name} altın ne kadar?`,
+      `${cityName} ${p.name} güncel alış ve satış fiyatlarını Bugün Altın üzerinden takip edebilirsiniz.`],
+
+    [`${cityName} ${p.name} fiyatı neden değişir?`,
+      `Ons altın, döviz kuru, serbest piyasa hareketleri ve yerel kuyumcu koşulları fiyatları etkileyebilir.`],
+
+    [`${cityName} ${p.name} alış satış farkı nedir?`,
+      `Kuyumcuların alış ve satış fiyatları arasında piyasa koşullarına göre makas bulunabilir.`],
+
+    [`${cityName} altın fiyatları diğer şehirlerden farklı olabilir mi?`,
+      `Yerel piyasa koşulları ve kuyumcu fiyatlamaları nedeniyle şehirler arasında küçük farklılıklar görülebilir.`]
+  ];
+
+  const breadcrumbs=[
+    {name:"Ana Sayfa",url:`${BASE}/`},
+    {name:`${cityName} Altın Fiyatları`,url:`${BASE}/${citySlug}-altin-fiyatlari`},
+    {name:`${cityName} ${p.name}`,url:canonical}
+  ];
+
+  return renderTemplate({
+    title,
+    desc,
+    canonical,
+    schema:schemasBundle(title,desc,canonical,faqs,breadcrumbs),
+    seoContent:`
+      <section class="seo-content">
+        <h1>${cityName} ${p.name} Altın Ne Kadar?</h1>
+
+        <p>
+          ${cityName} ${p.name} altın ne kadar sorusunun güncel yanıtını
+          Bugün Altın üzerinden takip edebilirsiniz. Alış ve satış fiyatları
+          piyasa hareketlerine göre gün içerisinde değişebilir.
+        </p>
+
+        <h2>${cityName} ${p.name} Güncel Alış Satış Fiyatı</h2>
+
+        <p>
+          ${cityName} için güncel ${p.name.toLowerCase()} fiyatlarını,
+          diğer altın türlerini ve şehir bazlı piyasa verilerini aynı sayfa
+          üzerinden karşılaştırabilirsiniz.
+        </p>
+      </section>
+    `
+  });
 }
 function simplePage(title,body){return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>body{font-family:system-ui;max-width:850px;margin:60px auto;padding:20px;line-height:1.7}a{color:#9a7300}</style></head><body><a href="/">← Ana sayfa</a><h1>${esc(title)}</h1>${body}</body></html>`}
 
