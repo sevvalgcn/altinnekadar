@@ -7,7 +7,27 @@ function initCities(){currentCity=cityFromPath();$("citySelect").innerHTML=Objec
 function renderCityLinks(q){const needle=(q||"").toLocaleLowerCase("tr-TR");$("cityLinks").innerHTML=Object.entries(CITIES).filter(([,n])=>n.toLocaleLowerCase("tr-TR").includes(needle)).map(([s,n])=>`<a href="/${s}-altin-fiyatlari">${n}</a>`).join("")||"<span>Şehir bulunamadı.</span>"}
 function renderGold(data){goldData=data;$("cityHeading").textContent=CITIES[currentCity];if((!data.verified&&!data.manual)||!Array.isArray(data.prices)||!data.prices.length){$("priceGrid").innerHTML=`<div class="empty-price"><b>${CITIES[currentCity]} için doğrulanmış yerel canlı kaynak henüz bağlı değil.</b><span>Kaynak doğrulandığında fiyatlar burada otomatik gösterilecek.</span></div>`;$("goldSourceChip").textContent="Kaynak bekleniyor";$("statusText").textContent=`${CITIES[currentCity]} • doğrulanmış kaynak bekleniyor`;$("sourceText").textContent="Bu şehir için doğrulanmış kuyumcu odası/dernek canlı veri kaynağı henüz sisteme eklenmedi.";$("sourceLink").hidden=true;$("heroGram").textContent="—";$("goldType").innerHTML="<option>Canlı kaynak bekleniyor</option>";return}$("priceGrid").innerHTML=data.prices.map(p=>`<article class="price-card"><div class="name">${p.name}</div><div class="sell">${money(p.sell)}</div><div class="buy">Alış: ${money(p.buy)}</div><span class="change ${Number(p.change)<0?"down":""}">${Number(p.change)>=0?"▲":"▼"} %${Math.abs(Number(p.change||0)).toFixed(2)}</span></article>`).join("");$("goldType").innerHTML=data.prices.map(p=>`<option value="${p.key}">${p.name}</option>`).join("");$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":"Doğrulanmış yerel kaynak";$("statusText").textContent=`${CITIES[currentCity]} • ${new Date(data.updatedAt).toLocaleString("tr-TR")}`;$("sourceText").textContent=`Kaynak: ${data.sourceName}`;if(data.sourceUrl){$("sourceLink").href=data.sourceUrl;$("sourceLink").hidden=false}else $("sourceLink").hidden=true;const gram=data.prices.find(p=>p.key==="gram");$("heroGram").textContent=gram?money(gram.sell):"—";calcGold()}
 async function loadGold(){try{const r=await fetch(`/api/prices?city=${encodeURIComponent(currentCity)}`,{cache:"no-store"});if(!r.ok)throw 0;renderGold(await r.json())}catch{renderGold({verified:false,prices:[]})}}
-function renderFx(data){fxData=data;const order=["USD","EUR","GBP","CHF"],labels={USD:"Dolar / TL",EUR:"Euro / TL",GBP:"Sterlin / TL",CHF:"İsviçre Frangı / TL"};$("fxGrid").innerHTML=order.map(c=>{const r=data.rates.find(x=>x.code===c);return `<article class="fx-card"><div class="name">${labels[c]}</div><div class="fx-value">${r?money(r.sell):"—"}</div><div class="buy">${r?`Alış: ${money(r.buy)}`:"Veri yok"}</div></article>`}).join("");$("fxCurrency").innerHTML=data.rates.map(r=>`<option value="${r.code}">${r.code} — ${r.name}</option>`).join("");$("fxStatus").textContent=`TCMB • ${data.displayDate||new Date(data.updatedAt).toLocaleString("tr-TR")}`;const usd=data.rates.find(x=>x.code==="USD"),eur=data.rates.find(x=>x.code==="EUR");$("heroUsd").textContent=usd?money(usd.sell):"—";$("heroEur").textContent=eur?money(eur.sell):"—";calcFx()}
+function renderFx(data){
+ fxData=data;
+ const official=data.tcmb||data,market=data.market;
+ const order=["USD","EUR","GBP","CHF"],labels={USD:"Dolar / TL",EUR:"Euro / TL",GBP:"Sterlin / TL",CHF:"İsviçre Frangı / TL"};
+ $("fxGrid").innerHTML=order.map(c=>{
+   const t=official.rates?.find(x=>x.code===c),m=market?.rates?.find(x=>x.code===c);
+   return `<article class="fx-card fx-compare-card">
+     <div class="name">${labels[c]}</div>
+     <div class="fx-columns">
+       <div class="fx-source"><b>TCMB</b><span class="fx-sell">${t?money(t.sell):"—"}</span><small>${t?`Alış ${money(t.buy)}`:"Veri yok"}</small></div>
+       <div class="fx-source market"><b>Kapalıçarşı</b><span class="fx-sell">${m?money(m.sell):"—"}</span><small>${m?`Alış ${money(m.buy)}`:"Veri bekleniyor"}</small></div>
+     </div>
+   </article>`;
+ }).join("");
+ $("fxCurrency").innerHTML=(official.rates||[]).map(r=>`<option value="${r.code}">${r.code} — ${r.name}</option>`).join("");
+ $("fxStatus").textContent=market?`TCMB + Kapalıçarşı • ${official.displayDate||new Date(data.updatedAt).toLocaleString("tr-TR")}`:`TCMB • Kapalıçarşı verisi bekleniyor`;
+ const usd=(market?.rates?.find(x=>x.code==="USD"))||(official.rates||[]).find(x=>x.code==="USD");
+ const eur=(market?.rates?.find(x=>x.code==="EUR"))||(official.rates||[]).find(x=>x.code==="EUR");
+ $("heroUsd").textContent=usd?money(usd.sell):"—";$("heroEur").textContent=eur?money(eur.sell):"—";
+ calcFx();
+}
 async function loadFx(){try{const r=await fetch("/api/fx",{cache:"no-store"});if(!r.ok)throw 0;renderFx(await r.json())}catch{$("fxStatus").textContent="TCMB verisine şu anda ulaşılamıyor";$("fxGrid").innerHTML=["Dolar / TL","Euro / TL","Sterlin / TL","İsviçre Frangı / TL"].map(n=>`<article class="fx-card"><div class="name">${n}</div><div class="fx-value">—</div></article>`).join("")}}
 function calcGold(){if(!goldData?.verified&&!goldData?.manual)return $("goldCalcResult").textContent="Yerel fiyat bağlandığında hesaplanır.";const p=goldData.prices.find(x=>x.key===$("goldType").value),a=Math.max(0,Number($("goldAmount").value)||0);$("goldCalcResult").textContent=p?`${a} × ${p.name} = ${money(a*p.sell)}`:"—"}
 function calcFx(){if(!fxData)return;const p=fxData.rates.find(x=>x.code===$("fxCurrency").value),a=Math.max(0,Number($("fxAmount").value)||0);$("fxConvertResult").textContent=p?`${number(a)} ${p.code} ≈ ${money(a*p.sell)}`:"—"}

@@ -133,3 +133,9 @@ Sayfalar:
 
 Not: Render ücretsiz servis uykuya girerse tam saat garantisi yoktur. Servis yeniden uyandığında o anki dilim için eksik içerik otomatik oluşturulur.
 İçerikler canlı Harem altın verilerinden üretilir; dış haber iddiaları otomatik uydurulmaz.
+
+## TCMB + Kapalıçarşı Döviz Karşılaştırması
+Döviz kartları TCMB ve Kapalıçarşı/serbest piyasa fiyatlarını yan yana gösterir.
+Kapalıçarşı tarafı mevcut Hasfiyat API anahtarını sunucu tarafında kullanır.
+Sırasıyla `source=doviz`, `source=doviz-api`, ardından Harem döviz verisini dener.
+API anahtarı frontend'e gönderilmez. Kapalıçarşı kaynağı erişilemezse TCMB çalışmaya devam eder.

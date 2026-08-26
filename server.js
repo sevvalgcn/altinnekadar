@@ -730,7 +730,64 @@ async function tcmb(){
  while((m=re.exec(xml))){if(!wanted.has(m[1]))continue;const buy=Number(tag(m[2],"ForexBuying")),sell=Number(tag(m[2],"ForexSelling"));if(Number.isFinite(buy)&&Number.isFinite(sell))rates.push({code:m[1],name:tag(m[2],"Isim")||m[1],buy,sell})}
  const dm=xml.match(/Tarih_Date[^>]*Tarih="([^"]+)"/i),data={sourceName:"TCMB",updatedAt:new Date().toISOString(),displayDate:dm?.[1]||"",rates};fxCache={time:Date.now(),data};return data;
 }
-app.get("/api/fx",async(req,res)=>{try{res.set("Cache-Control","public,max-age=60").json(await tcmb())}catch{res.status(502).json({error:"tcmb_unavailable"})}});
+
+let marketFxCache={time:0,data:null};const MARKET_FX_TTL=60_000;
+function normalizeMarketFxPayload(payload){
+  const raw=Array.isArray(payload)?payload:(Array.isArray(payload?.data)?payload.data:(Array.isArray(payload?.prices)?payload.prices:(Array.isArray(payload?.data?.prices)?payload.data.prices:[])));
+  const wanted=new Set(["USD","EUR","GBP","CHF"]);
+  const rates=[];
+  for(const x of raw){
+    const code=String(x.symbol||x.code||x.currency||x.key||"").toUpperCase().replace(/[^A-Z]/g,"");
+    let c=code;
+    if(c.endsWith("TRY")&&c.length>=6)c=c.slice(0,3);
+    if(!wanted.has(c))continue;
+    const buy=Number(x.buy??x.alis??x.buying??x.bid);
+    const sell=Number(x.sell??x.satis??x.selling??x.ask);
+    if(Number.isFinite(buy)&&Number.isFinite(sell))rates.push({code:c,name:c,buy,sell});
+  }
+  return rates;
+}
+async function marketFx(){
+  if(marketFxCache.data&&Date.now()-marketFxCache.time<MARKET_FX_TTL)return marketFxCache.data;
+  const key=String(process.env.HAREM_API_KEY||process.env.HASFİYAT_API_KEY||process.env.HASFIYAT_API_KEY||process.env.GOLD_API_KEY||"").trim();
+  if(!key)throw new Error("hasfiyat_key_missing");
+  const urls=[
+    "https://api.hasfiyat.com/api/prices?source=doviz&symbols=USD,EUR,GBP,CHF",
+    "https://api.hasfiyat.com/api/prices?source=doviz-api&symbols=USD,EUR,GBP,CHF",
+    "https://api.hasfiyat.com/api/prices?source=harem&symbols=USD,EUR,GBP,CHF"
+  ];
+  let lastError=null;
+  for(const url of urls){
+    try{
+      const r=await fetch(url,{headers:{Authorization:`Bearer ${key}`,Accept:"application/json","User-Agent":"BugunAltin.com/1.0"}});
+      if(!r.ok){lastError=new Error(`market_fx_http_${r.status}`);continue}
+      const payload=await r.json();
+      const rates=normalizeMarketFxPayload(payload);
+      if(rates.length){
+        const data={sourceName:"Kapalıçarşı / Serbest Piyasa",provider:"Hasfiyat",updatedAt:new Date().toISOString(),rates};
+        marketFxCache={time:Date.now(),data};return data;
+      }
+      lastError=new Error("market_fx_empty");
+    }catch(e){lastError=e}
+  }
+  throw lastError||new Error("market_fx_unavailable");
+}
+app.get("/api/fx",async(req,res)=>{
+  try{
+    const official=await tcmb();
+    let market=null;
+    try{market=await marketFx()}catch(error){console.error("Kapalıçarşı FX:",String(error?.message||error))}
+    res.set("Cache-Control","public,max-age=60").json({
+      sourceName:"TCMB + Kapalıçarşı",
+      updatedAt:new Date().toISOString(),
+      displayDate:official.displayDate,
+      rates:official.rates,
+      tcmb:official,
+      market
+    });
+  }catch{res.status(502).json({error:"tcmb_unavailable"})}
+});
+
 
 function hav(a,b,c,d){const R=6371,p=Math.PI/180,x=(c-a)*p,y=(d-b)*p,u=Math.sin(x/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(u))}
 app.get("/api/reverse-geocode",(req,res)=>{const lat=Number(req.query.lat),lon=Number(req.query.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<35||lat>43||lon<25||lon>46)return res.status(400).json({error:"invalid_coordinates"});let best=null,dist=1e9;for(const [slug,[a,b]] of Object.entries(CENTERS)){const d=hav(lat,lon,a,b);if(d<dist){dist=d;best=slug}}res.json({citySlug:best,cityName:CITIES[best],approximate:true})});

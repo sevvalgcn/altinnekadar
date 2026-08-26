@@ -57,3 +57,18 @@ h1 .plain{color:#fff}
 .article-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .article-links a{padding:9px 12px;border-radius:999px;background:#f6f0db;color:#6b5100;text-decoration:none;font-weight:700}
 @media(max-width:700px){.news-grid{grid-template-columns:1fr}.seo-article{padding:20px}.seo-article h1{font-size:27px}}
+
+/* TCMB + Kapalıçarşı döviz karşılaştırması */
+.fx-compare-card{padding:18px}
+.fx-columns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.fx-source{border:1px solid #ece7dc;border-radius:12px;padding:12px;background:#fff}
+.fx-source.market{background:#fffaf0;border-color:#ead59b}
+.fx-source b{display:block;font-size:12px;margin-bottom:7px;color:#6e6e6e}
+.fx-source.market b{color:#8a6500}
+.fx-sell{display:block;font-size:20px;font-weight:850;line-height:1.1}
+.fx-source small{display:block;margin-top:7px;color:#777}
+@media(max-width:700px){
+ .fx-columns{grid-template-columns:1fr}
+ .fx-source{padding:11px}
+ .fx-sell{font-size:19px}
+}
