@@ -38,14 +38,21 @@ function calcRaise(){const b=Math.max(0,Number($("raiseBase").value)||0),r=Math.
 async function locate(){const btn=$("locateBtn");if(!navigator.geolocation){btn.textContent="Konum desteklenmiyor";return}btn.textContent="Konum bulunuyor…";navigator.geolocation.getCurrentPosition(async p=>{try{const r=await fetch(`/api/reverse-geocode?lat=${encodeURIComponent(p.coords.latitude)}&lon=${encodeURIComponent(p.coords.longitude)}`);if(!r.ok)throw 0;const d=await r.json();if(d.citySlug&&CITIES[d.citySlug]){currentCity=d.citySlug;$("citySelect").value=currentCity;history.pushState(null,"",`/${currentCity}-altin-fiyatlari`);$("cityHeading").textContent=CITIES[currentCity];btn.textContent=`📍 ${CITIES[currentCity]}`;loadGold()}else btn.textContent="Şehri seç"}catch{btn.textContent="Şehri seç"}},()=>btn.textContent="Konum izni gerekli",{timeout:8000,maximumAge:300000})}
 $("#fxAmount")?.addEventListener("input",calcFx);
 $("#fxCurrency")?.addEventListener("change",calcFx);
+
 $("#fxSearch")?.addEventListener("input",function(){
   const q=this.value.trim().toLocaleUpperCase("tr-TR");
   const select=$("#fxCurrency");
 
+  if(!select)return;
+
   for(const option of select.options){
     const text=option.textContent.toLocaleUpperCase("tr-TR");
     const value=option.value.toLocaleUpperCase("tr-TR");
-    option.hidden=q!==""&&!text.includes(q)&&!value.includes(q);
+
+    option.hidden=
+      q!=="" &&
+      !text.includes(q) &&
+      !value.includes(q);
   }
 
   const visible=[...select.options].find(option=>!option.hidden);
@@ -55,17 +62,6 @@ $("#fxSearch")?.addEventListener("input",function(){
     calcFx();
   }
 });
-
-
-  const q=this.value.trim().toLocaleUpperCase("tr-TR");
-  const select=$("#fxCurrency");
-
-  for(const option of select.options){
-    const text=option.textContent.toLocaleUpperCase("tr-TR");
-    const value=option.value.toLocaleUpperCase("tr-TR");
-    option.hidden=q!==""&&!text.includes(q)&&!value.includes(q);
-  }
-
   const visible=[...select.options].find(option=>!option.hidden);
 
   if(visible){
