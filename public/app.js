@@ -36,11 +36,26 @@ function calcPercent(){const b=Number($("percentBase").value)||0,r=Number($("per
 function calcVat(){const b=Math.max(0,Number($("vatBase").value)||0),r=Number($("vatRate").value)||0,mode=$("vatMode").value;if(mode==="add"){const v=b*r/100;$("vatResult").innerHTML=`KDV: ${money(v)}<br><small>Toplam: ${money(b+v)}</small>`}else{const net=b/(1+r/100),v=b-net;$("vatResult").innerHTML=`KDV: ${money(v)}<br><small>KDV hariç: ${money(net)}</small>`}}
 function calcRaise(){const b=Math.max(0,Number($("raiseBase").value)||0),r=Math.max(0,Number($("raiseRate").value)||0),v=b*r/100;$("raiseResult").innerHTML=`Yeni tutar: ${money(b+v)}<br><small>Artış: ${money(v)}</small>`}
 async function locate(){const btn=$("locateBtn");if(!navigator.geolocation){btn.textContent="Konum desteklenmiyor";return}btn.textContent="Konum bulunuyor…";navigator.geolocation.getCurrentPosition(async p=>{try{const r=await fetch(`/api/reverse-geocode?lat=${encodeURIComponent(p.coords.latitude)}&lon=${encodeURIComponent(p.coords.longitude)}`);if(!r.ok)throw 0;const d=await r.json();if(d.citySlug&&CITIES[d.citySlug]){currentCity=d.citySlug;$("citySelect").value=currentCity;history.pushState(null,"",`/${currentCity}-altin-fiyatlari`);$("cityHeading").textContent=CITIES[currentCity];btn.textContent=`📍 ${CITIES[currentCity]}`;loadGold()}else btn.textContent="Şehri seç"}catch{btn.textContent="Şehri seç"}},()=>btn.textContent="Konum izni gerekli",{timeout:8000,maximumAge:300000})}
-$("menuToggle").addEventListener("click",()=>{const open=$("mainNav").classList.toggle("open");$("menuToggle").setAttribute("aria-expanded",String(open))});$("mainNav").addEventListener("click",()=>{$("mainNav").classList.remove("open");$("menuToggle").setAttribute("aria-expanded","false")});$("citySelect").addEventListener("change",e=>{currentCity=e.target.value;history.pushState(null,"",`/${currentCity}-altin-fiyatlari`);$("cityHeading").textContent=CITIES[currentCity];loadGold()});$("citySearch").addEventListener("input",e=>renderCityLinks(e.target.value));$("locateBtn").addEventListener("click",locate);$("heroLocateBtn").addEventListener("click",locate);$("goldCalcBtn").addEventListener("click",calcGold);$("goldAmount").addEventListener("input",calcGold);$("goldType").addEventListener("change",calcGold);$("fxConvertBtn").addEventListener("click",calcFx);$("fxAmount").addEventListener("input",calcFx);$("fxCurrency").addEventListener("change",calcFx);$("loanBtn").addEventListener("click",calcLoan);$("percentBtn").addEventListener("click",calcPercent);$("vatBtn").addEventListener("click",calcVat);$("raiseBtn").addEventListener("click",calcRaise);["loanAmount","loanRate","loanMonths"].forEach(x=>$(x).addEventListener("input",calcLoan));["percentBase","percentRate"].forEach(x=>$(x).addEventListener("input",calcPercent));["vatBase","vatRate","vatMode"].forEach(x=>$(x).addEventListener("input",calcVat));["raiseBase","raiseRate"].forEach(x=>$(x).addEventListener("input",calcRaise));initCities();calcLoan();calcPercent();calcVat();calcRaise();loadGold();loadFx();let fxTimer=setInterval(loadFx,300000);setInterval(loadGold,60000);if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
+$("#fxAmount")?.addEventListener("input",calcFx);
+$("#fxCurrency")?.addEventListener("change",calcFx);
 
+$("#fxSearch")?.addEventListener("input",function(){
+  const q=this.value.trim().toLocaleUpperCase("tr-TR");
+  const select=$("#fxCurrency");
 
-async function loadPublicConfig(){
-  try{
+  for(const option of select.options){
+    const text=option.textContent.toLocaleUpperCase("tr-TR");
+    const value=option.value.toLocaleUpperCase("tr-TR");
+    option.hidden=q!==""&&!text.includes(q)&&!value.includes(q);
+  }
+
+  const visible=[...select.options].find(option=>!option.hidden);
+
+  if(visible){
+    select.value=visible.value;
+    calcFx();
+  }
+});
     const r=await fetch("/api/site-config",{cache:"no-store"});if(!r.ok)return;
     const c=await r.json(),s=c.site||{},h=c.home||{},n=c.navigation||{},f=c.footer||{};
     if(s.primaryColor)document.documentElement.style.setProperty("--gold",s.primaryColor);
