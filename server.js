@@ -5,7 +5,7 @@ const crypto=require("crypto");
 
 const app=express();
 const PORT=process.env.PORT||3000;
-const BASE="https://altinnekadar.com.tr";
+const BASE="https://bugunaltin.com";
 const PUBLIC=path.join(__dirname,"public");
 const DATA_DIR=path.join(__dirname,"data");
 const CONFIG_FILE=path.join(DATA_DIR,"site-config.json");
@@ -77,16 +77,113 @@ async function persistConfig(c){return githubPut("data/site-config.json",Buffer.
 
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
 function plainTextHtml(s){return esc(s).replace(/\n/g,"<br>")}
-function renderHome(citySlug="istanbul"){
-  const city=CITIES[citySlug]||"Türkiye";
-  const title=citySlug==="istanbul"?(siteConfig.seo.defaultTitle||DEFAULT_CONFIG.seo.defaultTitle):`${city} Altın Fiyatları — ${siteConfig.site.siteName||"AltınNeKadar"}`;
-  const desc=citySlug==="istanbul"?(siteConfig.seo.defaultDescription||DEFAULT_CONFIG.seo.defaultDescription):`${city} güncel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını takip et.`;
-  const canonical=citySlug==="istanbul"?`${BASE}/`:`${BASE}/${citySlug}-altin-fiyatlari`;
-  const schema=JSON.stringify({"@context":"https://schema.org","@type":"WebSite",name:siteConfig.site.siteName||"AltınNeKadar",url:BASE});
+const GOLD_SEO_PRODUCTS={
+  "gram-altin":{key:"gram",name:"Gram Altın",short:"gram altın",question:"Gram altın bugün ne kadar?"},
+  "ceyrek-altin":{key:"ceyrek",name:"Çeyrek Altın",short:"çeyrek altın",question:"Çeyrek altın bugün ne kadar?"},
+  "yarim-altin":{key:"yarim",name:"Yarım Altın",short:"yarım altın",question:"Yarım altın bugün ne kadar?"},
+  "tam-altin":{key:"tam",name:"Tam Altın",short:"tam altın",question:"Tam altın bugün ne kadar?"},
+  "cumhuriyet-altini":{key:"cumhuriyet",name:"Cumhuriyet Altını",short:"Cumhuriyet altını",question:"Cumhuriyet altını bugün ne kadar?"},
+  "22-ayar-bilezik":{key:"bilezik22",name:"22 Ayar Bilezik",short:"22 ayar bilezik",question:"22 ayar bilezik bugün ne kadar?"}
+};
+function faqHtml(items){
+  return `<div class="seo-faq"><h2>Sık sorulan sorular</h2>${items.map(([q,a])=>`<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}</div>`;
+}
+function seoLinksHtml(activeCity){
+  const featured=["istanbul","ankara","izmir","sakarya","bursa","antalya","kocaeli","konya","adana","gaziantep"];
+  const cities=featured.filter(x=>x!==activeCity).map(x=>`<a href="/${x}-altin-fiyatlari">${esc(CITIES[x])} altın fiyatları</a>`).join("");
+  const products=Object.entries(GOLD_SEO_PRODUCTS).map(([slug,p])=>`<a href="/${slug}">${esc(p.name)}</a>`).join("");
+  return `<div class="seo-links"><div><h3>Popüler şehirler</h3>${cities}</div><div><h3>Altın türleri</h3>${products}</div></div>`;
+}
+function citySeoContent(citySlug){
+  const city=CITIES[citySlug];
+  const source=citySourceRegistry?.[citySlug];
+  const sourceText=source?.official?`${city} için mümkün olduğunda doğrulanmış resmî/yerel kaynak kullanılır.`:
+    source?.local?`${city} için tanımlı şehir özel canlı kaynak önceliklidir.`:
+    `${city} için doğrulanmış şehir özel kaynak yoksa Harem Altın canlı verisi yedek kaynak olarak kullanılır.`;
+  const faqs=[
+    [`${city} gram altın fiyatı ne kadar?`,`${city} gram altın alış ve satış fiyatları sayfanın üst bölümünde canlı olarak gösterilir ve kaynak güncellendikçe yenilenir.`],
+    [`${city} çeyrek altın ne kadar?`,`${city} çeyrek altın alış ve satış değerlerini canlı fiyat kartlarından takip edebilirsiniz.`],
+    [`${city} altın fiyatları neden kuyumcudan kuyumcuya değişir?`,`İşçilik, stok, ödeme yöntemi, mağaza politikası ve alış-satış makası nedeniyle kuyumcu fiyatları arasında fark oluşabilir.`],
+    [`${city} altın fiyatları ne zaman güncellenir?`,`Bugün Altın canlı kaynakları periyodik olarak kontrol eder. Sayfada görünen güncelleme zamanı verinin son alınma zamanını gösterir.`]
+  ];
+  return `<div class="seo-copy">
+    <span class="kicker">${esc(city.toLocaleUpperCase("tr-TR"))} ALTIN REHBERİ</span>
+    <h2>${esc(city)} altın fiyatları nasıl takip edilir?</h2>
+    <p>${esc(city)} altın fiyatları sayfasında gram altın, çeyrek altın, yarım altın, tam altın, Cumhuriyet altını ve 22 ayar bilezik alış-satış değerlerini tek ekranda takip edebilirsiniz. Fiyat kartları canlı veri kaynağına göre yenilenir.</p>
+    <p>${esc(sourceText)} Gösterilen değerler bilgilendirme amaçlıdır; fiziki kuyumcu satış fiyatı işçilik ve mağaza koşullarına göre farklı olabilir.</p>
+    <h2>${esc(city)}'da bugün gram ve çeyrek altın</h2>
+    <p>Gün içinde altın fiyatları döviz kuru, ons altın ve piyasa hareketlerine bağlı olarak değişebilir. Bu nedenle alış veya satış kararı öncesinde kartların üzerindeki güncel alış-satış değerlerini ve veri zamanını kontrol etmek faydalıdır.</p>
+    ${faqHtml(faqs)}
+    ${seoLinksHtml(citySlug)}
+  </div>`;
+}
+function productSeoContent(slug){
+  const p=GOLD_SEO_PRODUCTS[slug];
+  const faqs=[
+    [p.question,`${p.name} güncel alış ve satış fiyatı sayfanın canlı fiyat bölümünde görüntülenir.`],
+    [`${p.name} alış ve satış fiyatı neden farklı?`,`Kuyumcu ve piyasa işlemlerinde alış-satış makası bulunduğu için iki fiyat aynı değildir.`],
+    [`${p.name} fiyatı neye göre değişir?`,`Ons altın, döviz kuru, piyasa likiditesi ve ürünün fiziki işlem koşulları fiyat üzerinde etkili olabilir.`],
+    [`${p.name} fiyatları şehirden şehre değişir mi?`,`Yerel kuyumcu piyasası, işçilik ve mağaza koşulları nedeniyle şehirler arasında farklılık görülebilir.`]
+  ];
+  return `<div class="seo-copy">
+    <span class="kicker">ALTIN FİYATLARI</span>
+    <h2>${esc(p.name)} bugün ne kadar?</h2>
+    <p>${esc(p.name)} alış ve satış fiyatlarını Bugün Altın üzerinden canlı takip edebilirsiniz. Ana fiyat kartlarında güncel değerler gösterilir; şehir seçerek yerel veya tanımlı yedek kaynağa göre fiyat görünümünü değiştirebilirsiniz.</p>
+    <h2>${esc(p.name)} hesaplama</h2>
+    <p>Sayfadaki altın hesaplama aracına miktar girerek seçtiğiniz ${esc(p.short)} için yaklaşık TL karşılığını hesaplayabilirsiniz. Fiziki alım-satımda kuyumcu işçiliği ve alış-satış farkı nedeniyle gerçek işlem tutarı değişebilir.</p>
+    ${faqHtml(faqs)}
+    ${seoLinksHtml("istanbul")}
+  </div>`;
+}
+function schemaBundle(page){
+  const graph=[
+    {"@type":"WebSite","@id":`${BASE}/#website`,name:siteConfig.site.siteName||"Bugün Altın",url:BASE,inLanguage:"tr-TR"},
+    {"@type":"Organization","@id":`${BASE}/#organization`,name:siteConfig.site.siteName||"Bugün Altın",url:BASE}
+  ];
+  if(page.breadcrumbs){
+    graph.push({"@type":"BreadcrumbList","@id":`${page.canonical}#breadcrumb`,itemListElement:page.breadcrumbs.map((b,i)=>({"@type":"ListItem",position:i+1,name:b.name,item:b.url}))});
+  }
+  if(page.faqs){
+    graph.push({"@type":"FAQPage","@id":`${page.canonical}#faq`,mainEntity:page.faqs.map(([q,a])=>({"@type":"Question",name:q,acceptedAnswer:{"@type":"Answer",text:a}}))});
+  }
+  graph.push({"@type":"WebPage","@id":`${page.canonical}#webpage`,url:page.canonical,name:page.title,description:page.desc,isPartOf:{"@id":`${BASE}/#website`},inLanguage:"tr-TR"});
+  return JSON.stringify({"@context":"https://schema.org","@graph":graph});
+}
+function renderTemplate({title,desc,canonical,schema,seoContent}){
   const verification=siteConfig.seo.googleSiteVerification?`<meta name="google-site-verification" content="${esc(siteConfig.seo.googleSiteVerification)}">`:"";
   return fs.readFileSync(path.join(PUBLIC,"index.html"),"utf8")
    .replaceAll("__TITLE__",esc(title)).replaceAll("__DESCRIPTION__",esc(desc)).replaceAll("__CANONICAL__",canonical)
-   .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"));
+   .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"))
+   .replace("__SEO_CONTENT__",seoContent||"");
+}
+function renderHome(citySlug="istanbul"){
+  const city=CITIES[citySlug]||"Türkiye";
+  const isRoot=citySlug==="istanbul";
+  const title=isRoot?(siteConfig.seo.defaultTitle||"Bugün Altın - Güncel Altın ve Döviz Fiyatları"):`${city} Altın Fiyatları Bugün - Gram, Çeyrek, Bilezik | Bugün Altın`;
+  const desc=isRoot?(siteConfig.seo.defaultDescription||"Bugün Altın ile gram, çeyrek, yarım ve tam altın fiyatlarını takip edin."):`${city} altın fiyatları bugün ne kadar? Gram altın, çeyrek altın, yarım, tam, Cumhuriyet altını ve 22 ayar bilezik güncel alış-satış fiyatlarını takip edin.`;
+  const canonical=isRoot?`${BASE}/`:`${BASE}/${citySlug}-altin-fiyatlari`;
+  const faqs=[
+    [`${city} gram altın fiyatı ne kadar?`,`${city} gram altın alış ve satış fiyatları sayfanın canlı fiyat bölümünde gösterilir.`],
+    [`${city} çeyrek altın ne kadar?`,`${city} çeyrek altın alış ve satış değerlerini canlı kartlardan takip edebilirsiniz.`],
+    [`${city} altın fiyatları neden değişir?`,`Altın fiyatları ons altın, döviz kuru ve piyasa hareketlerinden etkilenebilir.`],
+    [`${city} fiyatları kuyumcuda farklı olabilir mi?`,`Evet. İşçilik, alış-satış makası ve mağaza koşulları nedeniyle farklılık oluşabilir.`]
+  ];
+  const breadcrumbs=isRoot?[{name:"Ana Sayfa",url:`${BASE}/`}]:[{name:"Ana Sayfa",url:`${BASE}/`},{name:`${city} Altın Fiyatları`,url:canonical}];
+  return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:citySeoContent(citySlug)});
+}
+function renderProductPage(slug){
+  const p=GOLD_SEO_PRODUCTS[slug]; if(!p)return null;
+  const title=`${p.name} Bugün Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
+  const desc=`${p.name} bugün ne kadar? Güncel ${p.short} alış ve satış fiyatını, şehir bazlı altın fiyatlarını ve hızlı altın hesaplama aracını takip edin.`;
+  const canonical=`${BASE}/${slug}`;
+  const faqs=[
+    [p.question,`${p.name} güncel alış ve satış fiyatı canlı fiyat bölümünde gösterilir.`],
+    [`${p.name} fiyatı neden değişir?`,`Ons altın, döviz kuru ve piyasa hareketleri fiyat üzerinde etkili olabilir.`],
+    [`${p.name} alış satış farkı nedir?`,`Alış ve satış arasında piyasa ve kuyumcu makası bulunabilir.`],
+    [`${p.name} şehirden şehre değişir mi?`,`Yerel kuyumcu koşulları nedeniyle şehirler arasında farklılık görülebilir.`]
+  ];
+  const breadcrumbs=[{name:"Ana Sayfa",url:`${BASE}/`},{name:p.name,url:canonical}];
+  return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:productSeoContent(slug)});
 }
 function simplePage(title,body){return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>body{font-family:system-ui;max-width:850px;margin:60px auto;padding:20px;line-height:1.7}a{color:#9a7300}</style></head><body><a href="/">← Ana sayfa</a><h1>${esc(title)}</h1>${body}</body></html>`}
 
@@ -483,6 +580,11 @@ app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),gol
 
 app.use((req,res,next)=>{if(!siteConfig.site.maintenance)return next();if(req.path.startsWith("/admin")||req.path.startsWith("/api/admin")||req.path==="/health")return next();res.status(503).send(simplePage("Bakımdayız","<p>Site kısa süreli bakım çalışmasındadır.</p>"))});
 app.get("/",(req,res)=>res.send(renderHome("istanbul")));
+app.get("/:goldType",(req,res,next)=>{
+ const page=renderProductPage(req.params.goldType);
+ if(page)return res.send(page);
+ next();
+});
 app.get("/:city-altin-fiyatlari",(req,res,next)=>CITIES[req.params.city]?res.send(renderHome(req.params.city)):next());
 app.get("/hakkimizda",(req,res)=>res.send(simplePage(siteConfig.pages.aboutTitle,`<p>${plainTextHtml(siteConfig.pages.aboutBody)}</p>`)));
 app.get("/gizlilik",(req,res)=>res.send(simplePage(siteConfig.pages.privacyTitle,`<p>${plainTextHtml(siteConfig.pages.privacyBody)}</p>`)));
