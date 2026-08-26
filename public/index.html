@@ -75,7 +75,7 @@
     </div>
     <div class="fx-grid" id="fxGrid" aria-live="polite"></div>
     <div class="converter panel-lite">
-      <div><label for="fxAmount">Tutar</label><input id="fxAmount" type="number" value="100" min="0" step="0.01"></div>
+      <div><label for="fxAmount">Tutar</label><input id="fxAmount" type="number" value="" min="0" step="0.01"></div>
       <div><label for="fxCurrency">Döviz</label><select id="fxCurrency"></select></div>
       <button id="fxConvertBtn" class="primary" type="button">TL karşılığını hesapla</button>
       <output id="fxConvertResult" class="result">—</output>
@@ -87,30 +87,30 @@
     <div class="tools-grid">
       <article class="panel" id="goldCalcPanel">
         <span class="tool-icon">₺</span><h3>Altın hesaplama</h3>
-        <label for="goldAmount">Miktar</label><input id="goldAmount" type="number" value="10" min="0" step="0.01">
+        <label for="goldAmount">Miktar</label><input id="goldAmount" type="number" value="" min="0" step="0.01">
         <label for="goldType">Altın türü</label><select id="goldType"></select>
         <button id="goldCalcBtn" class="primary" type="button">Hesapla</button>
         <output id="goldCalcResult" class="result">—</output>
       </article>
       <article class="panel" id="loanCalcPanel">
         <span class="tool-icon">▦</span><h3>Kredi vade hesaplama</h3>
-        <label for="loanAmount">Kredi tutarı</label><input id="loanAmount" type="number" value="500000" min="0">
-        <label for="loanRate">Aylık faiz (%)</label><input id="loanRate" type="number" value="3.29" min="0" step="0.01">
-        <label for="loanMonths">Vade (ay)</label><input id="loanMonths" type="number" value="36" min="1" max="360">
+        <label for="loanAmount">Kredi tutarı</label><input id="loanAmount" type="number" value="" min="0">
+        <label for="loanRate">Aylık faiz (%)</label><input id="loanRate" type="number" value="" min="0" step="0.01">
+        <label for="loanMonths">Vade (ay)</label><input id="loanMonths" type="number" value="" min="1" max="360">
         <button id="loanBtn" class="primary" type="button">Taksiti hesapla</button>
         <output id="loanResult" class="result">—</output>
         <small>Masraf, vergi ve sigorta dahil değildir.</small>
       </article>
       <article class="panel" id="percentCalcPanel">
         <span class="tool-icon">%</span><h3>Yüzde hesaplama</h3>
-        <label for="percentBase">İlk değer</label><input id="percentBase" type="number" value="1000">
-        <label for="percentRate">Yüzde</label><input id="percentRate" type="number" value="20" step="0.01">
+        <label for="percentBase">İlk değer</label><input id="percentBase" type="number" value="">
+        <label for="percentRate">Yüzde</label><input id="percentRate" type="number" value="" step="0.01">
         <button id="percentBtn" class="primary" type="button">Hesapla</button>
         <output id="percentResult" class="result">—</output>
       </article>
       <article class="panel" id="vatCalcPanel">
         <span class="tool-icon">KDV</span><h3>KDV hesaplama</h3>
-        <label for="vatBase">Tutar</label><input id="vatBase" type="number" value="1000" min="0">
+        <label for="vatBase">Tutar</label><input id="vatBase" type="number" value="" min="0">
         <label for="vatRate">KDV oranı</label><select id="vatRate"><option value="1">%1</option><option value="10">%10</option><option value="20" selected>%20</option></select>
         <label for="vatMode">İşlem</label><select id="vatMode"><option value="add">KDV ekle</option><option value="remove">KDV dahil tutardan çıkar</option></select>
         <button id="vatBtn" class="primary" type="button">Hesapla</button>
@@ -118,8 +118,8 @@
       </article>
       <article class="panel" id="raiseCalcPanel">
         <span class="tool-icon">↗</span><h3>Zam hesaplama</h3>
-        <label for="raiseBase">Mevcut tutar</label><input id="raiseBase" type="number" value="25000" min="0">
-        <label for="raiseRate">Zam oranı (%)</label><input id="raiseRate" type="number" value="15" min="0" step="0.01">
+        <label for="raiseBase">Mevcut tutar</label><input id="raiseBase" type="number" value="" min="0">
+        <label for="raiseRate">Zam oranı (%)</label><input id="raiseRate" type="number" value="" min="0" step="0.01">
         <button id="raiseBtn" class="primary" type="button">Yeni tutarı hesapla</button>
         <output id="raiseResult" class="result">—</output>
       </article>
