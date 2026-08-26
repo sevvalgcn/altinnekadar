@@ -891,6 +891,30 @@ app.get("/api/ai-seo-status",(req,res)=>{
  const k=String(process.env.OPENAI_API_KEY||"").trim(),gh=ghEnv();
  res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,autoContent:SEO_AUTO_ENABLED,githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
 });
+app.post("/api/admin/seo-regenerate-current",requireAdmin,async(req,res)=>{
+ try{
+   const slot=trSlot(new Date());
+   const post=await ensureSeoPost(slot,true);
+   res.json({ok:true,regenerated:true,slot,aiGenerated:Boolean(post?.aiGenerated),post});
+ }catch(error){
+   res.status(500).json({ok:false,error:String(error?.message||error)});
+ }
+});
+app.post("/api/admin/seo-regenerate-today",requireAdmin,async(req,res)=>{
+ try{
+   const now=new Date(),current=trSlot(now),slots=["sabah","ogle","aksam","gece"];
+   const currentIndex=slots.indexOf(current),targets=currentIndex>=0?slots.slice(0,currentIndex+1):[current];
+   const results=[];
+   for(const slot of targets){
+     const post=await ensureSeoPost(slot,true);
+     results.push({slot,aiGenerated:Boolean(post?.aiGenerated),id:post?.id,title:post?.title});
+   }
+   res.json({ok:true,dayKey:trDayKey(now),results});
+ }catch(error){
+   res.status(500).json({ok:false,error:String(error?.message||error)});
+ }
+});
+
 app.post("/api/admin/seo-generate",requireAdmin,async(req,res)=>{
  const slot=["sabah","oglen","aksam","gece"].includes(req.body?.slot)?req.body.slot:slotForHour(trHour(new Date()));
  const post=await ensureSeoPost(slot,true);

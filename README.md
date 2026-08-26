@@ -150,3 +150,9 @@ Render Environment:
 
 Kontrol: /api/ai-seo-status
 AI başarısızsa mevcut veri tabanlı SEO içeriği fallback olarak yayınlanır.
+
+## AI SEO Eski İçeriği Yenileme
+Admin oturumu ile:
+POST `/api/admin/seo-regenerate-current` -> mevcut zaman dilimini AI ile zorla yeniden üretir.
+POST `/api/admin/seo-regenerate-today` -> bugün geçmiş/mevcut zaman dilimlerini AI ile yeniden üretir.
+Yeni kayıt aynı ID'yi değiştirir, kopya SEO URL'si oluşturmaz.
