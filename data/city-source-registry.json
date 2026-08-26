@@ -1,48 +1,48 @@
 {
   "adana": {
     "city": "Adana",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "adiyaman": {
     "city": "Adıyaman",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "afyonkarahisar": {
     "city": "Afyonkarahisar",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "agri": {
     "city": "Ağrı",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "amasya": {
     "city": "Amasya",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "ankara": {
     "city": "Ankara",
@@ -55,246 +55,246 @@
   },
   "antalya": {
     "city": "Antalya",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "artvin": {
     "city": "Artvin",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "aydin": {
     "city": "Aydın",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "balikesir": {
     "city": "Balıkesir",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bilecik": {
     "city": "Bilecik",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bingol": {
     "city": "Bingöl",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bitlis": {
     "city": "Bitlis",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bolu": {
     "city": "Bolu",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "burdur": {
     "city": "Burdur",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bursa": {
     "city": "Bursa",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "canakkale": {
     "city": "Çanakkale",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "cankiri": {
     "city": "Çankırı",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "corum": {
     "city": "Çorum",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "denizli": {
     "city": "Denizli",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "diyarbakir": {
     "city": "Diyarbakır",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "edirne": {
     "city": "Edirne",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "elazig": {
     "city": "Elazığ",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "erzincan": {
     "city": "Erzincan",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "erzurum": {
     "city": "Erzurum",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "eskisehir": {
     "city": "Eskişehir",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "gaziantep": {
     "city": "Gaziantep",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "giresun": {
     "city": "Giresun",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "gumushane": {
     "city": "Gümüşhane",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "hakkari": {
     "city": "Hakkari",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "hatay": {
     "city": "Hatay",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "isparta": {
     "city": "Isparta",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "mersin": {
     "city": "Mersin",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "istanbul": {
     "city": "İstanbul",
@@ -316,165 +316,165 @@
   },
   "kars": {
     "city": "Kars",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kastamonu": {
     "city": "Kastamonu",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kayseri": {
     "city": "Kayseri",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kirklareli": {
     "city": "Kırklareli",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kirsehir": {
     "city": "Kırşehir",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kocaeli": {
     "city": "Kocaeli",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "konya": {
     "city": "Konya",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kutahya": {
     "city": "Kütahya",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "malatya": {
     "city": "Malatya",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "manisa": {
     "city": "Manisa",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kahramanmaras": {
     "city": "Kahramanmaraş",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "mardin": {
     "city": "Mardin",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "mugla": {
     "city": "Muğla",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "mus": {
     "city": "Muş",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "nevsehir": {
     "city": "Nevşehir",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "nigde": {
     "city": "Niğde",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "ordu": {
     "city": "Ordu",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "rize": {
     "city": "Rize",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "sakarya": {
     "city": "Sakarya",
@@ -487,245 +487,245 @@
   },
   "samsun": {
     "city": "Samsun",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "siirt": {
     "city": "Siirt",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "sinop": {
     "city": "Sinop",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "sivas": {
     "city": "Sivas",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "tekirdag": {
     "city": "Tekirdağ",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "tokat": {
     "city": "Tokat",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "trabzon": {
     "city": "Trabzon",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "tunceli": {
     "city": "Tunceli",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "sanliurfa": {
     "city": "Şanlıurfa",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "usak": {
     "city": "Uşak",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "van": {
     "city": "Van",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "yozgat": {
     "city": "Yozgat",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "zonguldak": {
     "city": "Zonguldak",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "aksaray": {
     "city": "Aksaray",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bayburt": {
     "city": "Bayburt",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "karaman": {
     "city": "Karaman",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kirikkale": {
     "city": "Kırıkkale",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "batman": {
     "city": "Batman",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "sirnak": {
     "city": "Şırnak",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "bartin": {
     "city": "Bartın",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "ardahan": {
     "city": "Ardahan",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "igdir": {
     "city": "Iğdır",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "yalova": {
     "city": "Yalova",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "karabuk": {
     "city": "Karabük",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "kilis": {
     "city": "Kilis",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "osmaniye": {
     "city": "Osmaniye",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   },
   "duzce": {
     "city": "Düzce",
-    "mode": "central",
-    "sourceName": "Türkiye Geneli Canlı Altın Verisi • apinoktam",
-    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
     "official": false,
     "local": false,
-    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar merkezi canlı veri kullanılır."
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
   }
 }

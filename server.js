@@ -426,13 +426,13 @@ async function cityGold(city){
   }
  }
 
- const central=await fetchCentralGold();
- if(!central)return null;
+ const haremFallback=await fetchHaremGold();
+ if(!haremFallback)return null;
  const entry=citySourceRegistry?.[city]||{};
- let sourceName="Türkiye Geneli Canlı Altın Verisi • apinoktam";
- if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Merkezi canlı yedek";
- if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Merkezi canlı yedek";
- return {...central,city,local:false,official:false,sourceName};
+ let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";
+ if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";
+ if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";
+ return {...haremFallback,city,local:false,official:false,sourceName};
 }
 
 app.get("/api/city-source",(req,res)=>{
@@ -444,85 +444,6 @@ app.get("/api/city-sources",(req,res)=>{
  res.set("Cache-Control","public,max-age=300").json(citySourceRegistry);
 });
 
-
-app.get("/api/gold-debug",async(req,res)=>{
-  const apiKey=String(process.env.GOLD_API_KEY||"").trim();
-  if(!apiKey)return res.status(503).json({configured:false,error:"GOLD_API_KEY_missing"});
-  try{
-    const response=await fetch(CENTRAL_GOLD_BASE,{
-      headers:{
-        "x-api-key":apiKey,
-        "Accept":"application/json",
-        "User-Agent":"BugunAltin.com/1.0"
-      },
-      signal:AbortSignal.timeout(10000)
-    });
-
-    const httpStatus=response.status;
-    let json=null;
-    let text=null;
-
-    try{
-      json=await response.json();
-    }catch{
-      try{text=await response.text()}catch{}
-    }
-
-    const out={
-      configured:true,
-      httpStatus,
-      ok:response.ok,
-      contentType:response.headers.get("content-type")||null
-    };
-
-    if(json&&typeof json==="object"){
-      out.topLevelKeys=Object.keys(json).slice(0,30);
-      out.dataType=Array.isArray(json.data)?"array":typeof json.data;
-      if(json.data&&typeof json.data==="object"){
-        out.dataKeys=Object.keys(json.data).slice(0,30);
-        if(Array.isArray(json.data.kalemler)){
-          out.kalemlerCount=json.data.kalemler.length;
-          out.sample=json.data.kalemler.slice(0,5).map(x=>({
-            keys:Object.keys(x||{}).slice(0,20),
-            tur:x?.tur??null,
-            isim:x?.isim??null,
-            sembol:x?.sembol??null,
-            alisPresent:x?.alis!==undefined,
-            satisPresent:x?.satis!==undefined
-          }));
-        }
-      }
-      if(json.error)out.providerError=String(json.error).slice(0,300);
-      if(json.message)out.providerMessage=String(json.message).slice(0,300);
-    }else if(text){
-      out.bodyPreview=String(text).slice(0,300);
-    }
-
-    res.status(response.ok?200:502).json(out);
-  }catch(error){
-    res.status(502).json({
-      configured:true,
-      error:String(error?.message||error)
-    });
-  }
-});
-
-app.get("/api/build-info",(req,res)=>{
- res.json({build:"BUGUNALTIN_DIAG_20260826_01"});
-});
-app.get("/api/key-check",(req,res)=>{
- const h=String(process.env.HAREM_API_KEY||"").trim();
- const g=String(process.env.GOLD_API_KEY||"").trim();
- res.json({
-  build:"BUGUNALTIN_DIAG_20260826_01",
-  haremConfigured:Boolean(h),
-  haremAscii:[...h].every(ch=>ch.charCodeAt(0)<=255),
-  haremLength:h.length,
-  goldConfigured:Boolean(g),
-  goldAscii:[...g].every(ch=>ch.charCodeAt(0)<=255),
-  goldLength:g.length
- });
-});
 
 app.get("/api/harem-status",async(req,res)=>{
  const data=await fetchHaremGold();
@@ -536,7 +457,12 @@ app.get("/api/harem-status",async(req,res)=>{
  });
 });
 
-app.get("/api/gold",async(req,res)=>{const force=req.query.refresh==="1"&&validSession(req);const data=await fetchCentralGold(force);if(!data)return res.status(503).json({error:"central_gold_unavailable",configured:Boolean(process.env.GOLD_API_KEY)});res.set("Cache-Control","public,max-age=30,stale-while-revalidate=300").json(data)});
+app.get("/api/gold",async(req,res)=>{
+ const force=req.query.refresh==="1"&&validSession(req);
+ const data=await fetchHaremGold(force);
+ if(!data)return res.status(503).json({error:"harem_gold_unavailable",configured:Boolean(process.env.HAREM_API_KEY)});
+ res.set("Cache-Control","public,max-age=30,stale-while-revalidate=300").json(data);
+});
 app.get("/api/prices",async(req,res)=>{const city=String(req.query.city||"").toLowerCase();if(!CITIES[city])return res.status(400).json({error:"invalid_city"});try{const d=await cityGold(city);if(!d)return res.status(404).json({city,verified:false,error:"source_not_configured"});res.set("Cache-Control","public,max-age=15").json(d)}catch{res.status(502).json({error:"source_unavailable"})}});
 
 let fxCache={time:0,data:null};const FX_TTL=5*60_000;

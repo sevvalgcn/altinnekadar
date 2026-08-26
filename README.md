@@ -102,3 +102,12 @@ Yeni parser:
 - 100 TL üzerindeki ilk iki gerçek para değerini alış/satış olarak kullanır,
 - `7.193,03` ve `7,193.03` biçimlerini destekler,
 - Gram ve Çeyrek için mantık kontrolü yapar; şüpheli veri varsa merkezi fallback'e geçer.
+
+
+## 81 Şehir Final Fallback
+Öncelik:
+1. Admin panelinden manuel fiyat
+2. Şehir özel kaynak
+3. Harem Altın / Hasfiyat canlı fallback
+
+Merkezi apinoktam artık şehir fallback'i değildir.
