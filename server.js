@@ -942,7 +942,7 @@ function marketFxSymbol(item){
 
   return null;
 }
-async function marketFx(){
+
 async function marketFx(){
   if(marketFxCache.data&&Date.now()-marketFxCache.time<MARKET_FX_TTL)return marketFxCache.data;
   const token=String(process.env.HAREM_API_KEY||"").trim();
