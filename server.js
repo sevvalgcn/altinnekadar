@@ -18,6 +18,7 @@ const SEO_CONTENT_MAX_POSTS=Math.max(60,Number(process.env.SEO_MAX_POSTS)||500);
 const SEO_AUTO_DEFAULT=String(process.env.SEO_AUTO_CONTENT||"true").toLowerCase()!=="false";
 const AI_SEO_ENABLED=String(process.env.AI_SEO_ENABLED||"true").toLowerCase()!=="false";
 const AI_SEO_MODEL=String(process.env.OPENAI_SEO_MODEL||"gpt-5.4-mini").trim();
+const AI_SEO_FALLBACK_MODEL=String(process.env.OPENAI_SEO_FALLBACK_MODEL||"gpt-5.4-nano").trim();
 const OPENAI_RESPONSES_URL="https://api.openai.com/v1/responses";
 
 function loadSeoPosts(){
@@ -150,32 +151,47 @@ function validAiPost(x,base){
   return {...base,title,description,body,aiGenerated:true,aiModel:AI_SEO_MODEL};
 }
 async function enhanceSeoPostWithAI(base,live){
-  const key=String(process.env.OPENAI_API_KEY||"").trim();
-  if(!AI_SEO_ENABLED||!key||!base)return base;
+  const key=String(process.env.OPENAI_API_KEY||process.env.OPENAI_KEY||"").trim();
+  if(!AI_SEO_ENABLED||!base)return {...base,aiGenerated:false,aiError:!AI_SEO_ENABLED?"ai_disabled":"ai_base_missing"};
+  if(!key)return {...base,aiGenerated:false,aiError:"OPENAI_API_KEY eksik"};
   const instructions=[
     "Bugün Altın adlı Türkçe finans sitesinin editörüsün.",
     "Yalnız verilen canlı fiyat verilerini kullan; haber, sebep, Fed kararı, siyasi gelişme veya piyasa nedeni uydurma.",
     "Finansal tavsiye verme.",
     "Çıktı yalnız geçerli JSON olsun.",
     'Biçim: {"title":"...","description":"...","body":["p1","p2","p3","p4","p5","p6"]}',
-    "Başlık 45-75 karakter, description 120-160 karakter, toplam metin 500-800 kelime olsun.",
+    "Başlık 45-75 karakter, description 120-160 karakter, toplam metin 400-700 kelime olsun.",
+    "Body mutlaka en az 6 ayrı paragraf içersin.",
     "Gram, çeyrek ve mevcut diğer altın fiyatlarını doğal biçimde geçir.",
     "Alış-satış farkı ve kuyumcu işçiliği konusunda açıklayıcı ol.",
     "Son bölümde verilerin bilgilendirme amaçlı olduğunu belirt."
   ].join("\n");
   const input=JSON.stringify({tarih:base.dayKey,zaman:slotTitle(base.slot),kaynak:live?.sourceName,fiyatlar:live?.prices||[]});
-  try{
+
+  async function callModel(model){
     const r=await fetch(OPENAI_RESPONSES_URL,{method:"POST",headers:{
       Authorization:`Bearer ${key}`,"Content-Type":"application/json","User-Agent":"BugunAltin.com/1.0"
-    },body:JSON.stringify({model:AI_SEO_MODEL,instructions,input,max_output_tokens:2200}),signal:AbortSignal.timeout(45000)});
-    if(!r.ok)throw new Error(`openai_http_${r.status}`);
-    const data=await r.json();
-    const parsed=JSON.parse(cleanJsonText(openAiText(data)));
-    return validAiPost(parsed,base)||base;
-  }catch(error){
-    console.error("AI SEO:",String(error?.message||error));
-    return {...base,aiGenerated:false,aiError:String(error?.message||error).slice(0,180)};
+    },body:JSON.stringify({model,instructions,input,max_output_tokens:2600}),signal:AbortSignal.timeout(60000)});
+    const raw=await r.text();
+    let data={};try{data=raw?JSON.parse(raw):{}}catch{}
+    if(!r.ok){
+      const detail=String(data?.error?.message||data?.message||raw||`HTTP ${r.status}`).replace(/\s+/g," ").slice(0,260);
+      const err=new Error(`OpenAI ${r.status}: ${detail}`);err.status=r.status;throw err;
+    }
+    const txt=openAiText(data);
+    if(!txt)throw new Error("OpenAI boş yanıt döndürdü");
+    let parsed;try{parsed=JSON.parse(cleanJsonText(txt))}catch{throw new Error("OpenAI JSON çıktısı okunamadı")}
+    const valid=validAiPost(parsed,base);
+    if(!valid)throw new Error("OpenAI içeriği SEO doğrulamasından geçmedi");
+    return {...valid,aiModel:model,aiError:null};
   }
+
+  const models=[...new Set([AI_SEO_MODEL,AI_SEO_FALLBACK_MODEL].filter(Boolean))];
+  let lastError=null;
+  for(const model of models){
+    try{return await callModel(model)}catch(error){lastError=error;console.error(`AI SEO (${model}):`,String(error?.message||error))}
+  }
+  return {...base,aiGenerated:false,aiModel:models[0]||AI_SEO_MODEL,aiError:String(lastError?.message||"AI çağrısı başarısız").slice(0,260)};
 }
 async function persistSeoPostsToGithub(rows){
   if(String(process.env.SEO_GITHUB_PERSIST||"true").toLowerCase()==="false")return false;
@@ -970,8 +986,8 @@ app.get("/altin-gundemi/:slug",(req,res)=>{
  res.send(renderSeoPost(post));
 });
 app.get("/api/ai-seo-status",(req,res)=>{
- const k=String(process.env.OPENAI_API_KEY||"").trim(),gh=ghEnv();
- res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,autoContent:seoAutomationEnabled(),githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
+ const k=String(process.env.OPENAI_API_KEY||process.env.OPENAI_KEY||"").trim(),gh=ghEnv();
+ res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,fallbackModel:AI_SEO_FALLBACK_MODEL,autoContent:seoAutomationEnabled(),githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
 });
 app.get("/api/admin/seo-posts",requireAdmin,(req,res)=>{
  const posts=loadSeoPosts().sort((a,b)=>new Date(b.updatedAt||b.publishedAt)-new Date(a.updatedAt||a.publishedAt));

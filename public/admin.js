@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   try{
    const r=await fetch("/api/admin/seo-regenerate-current",{method:"POST",credentials:"include"});
    const d=await r.json().catch(()=>({})); if(!r.ok)throw new Error(d.error||("HTTP "+r.status));
-   o.textContent=d.aiGenerated?"✓ AI içerik başarıyla yenilendi.":"⚠ Yazı yenilendi fakat AI devreye girmedi.";
+   o.textContent=d.aiGenerated?`✓ AI içerik başarıyla yenilendi (${d.post?.aiModel||"AI"}).`:`⚠ AI devreye girmedi: ${d.post?.aiError||"Bilinmeyen hata"}`;
   }catch(e){o.textContent="✕ Hata: "+(e.message||e)}
   finally{b.disabled=false;b.textContent=old}
  });
