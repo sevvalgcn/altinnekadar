@@ -1,1 +1,58 @@
-[]
+[
+  {
+    "id": "2026-08-26-oglen",
+    "slug": "2026-08-26-oglen-altin-piyasasi",
+    "slot": "oglen",
+    "dayKey": "2026-08-26",
+    "title": "Gram ve Çeyrek Altında Öğle Saatlerinde Son Durum",
+    "description": "Öğle saatlerinde gram altın 7.123,47 TL, çeyrek altın 11.645,00 TL. Gün içi altın fiyatları tek sayfada.",
+    "body": [
+      "Günün ilk yarısı geride kalırken gram ve çeyrek altında alış-satış seviyeleri yeniden yakından izleniyor.",
+      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 7.123,47 TL, çeyrek altının satış fiyatı 11.645,00 TL olarak görüntüleniyor.",
+      "Gram Altın: alış 7.101,84 TL, satış 7.123,47 TL • Çeyrek Altın: alış 11.540,00 TL, satış 11.645,00 TL • Yarım Altın: alış 23.116,00 TL, satış 23.282,00 TL • Tam Altın: alış 45.913,00 TL, satış 46.394,00 TL • 22 Ayar Bilezik: alış 6.460,68 TL, satış 6.676,06 TL",
+      "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
+      "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
+    ],
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "publishedAt": "2026-08-26T10:48:45.813Z",
+    "updatedAt": "2026-08-26T10:48:46.529Z",
+    "prices": {
+      "gram": {
+        "key": "gram",
+        "name": "Gram Altın",
+        "buy": 7101.84,
+        "sell": 7123.47,
+        "change": 0
+      },
+      "ceyrek": {
+        "key": "ceyrek",
+        "name": "Çeyrek Altın",
+        "buy": 11540,
+        "sell": 11645,
+        "change": 0
+      },
+      "yarim": {
+        "key": "yarim",
+        "name": "Yarım Altın",
+        "buy": 23116,
+        "sell": 23282,
+        "change": 0
+      },
+      "tam": {
+        "key": "tam",
+        "name": "Tam Altın",
+        "buy": 45913,
+        "sell": 46394,
+        "change": 0
+      },
+      "bilezik22": {
+        "key": "bilezik22",
+        "name": "22 Ayar Bilezik",
+        "buy": 6460.68,
+        "sell": 6676.06,
+        "change": 0
+      }
+    }
+  }
+]
