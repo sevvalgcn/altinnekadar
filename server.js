@@ -1114,25 +1114,57 @@ function hav(a,b,c,d){const R=6371,p=Math.PI/180,x=(c-a)*p,y=(d-b)*p,u=Math.sin(
 app.get("/api/reverse-geocode",(req,res)=>{const lat=Number(req.query.lat),lon=Number(req.query.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<35||lat>43||lon<25||lon>46)return res.status(400).json({error:"invalid_coordinates"});let best=null,dist=1e9;for(const [slug,[a,b]] of Object.entries(CENTERS)){const d=hav(lat,lon,a,b);if(d<dist){dist=d;best=slug}}res.json({citySlug:best,cityName:CITIES[best],approximate:true})});
 app.get("/api/source-status",(req,res)=>res.json(Object.fromEntries(Object.keys(CITIES).map(c=>{const cfg=siteConfig.cities?.[c];return[c,{configured:Boolean(verifiedSources[c])||cfg?.sourceMode==="manual",mode:cfg?.sourceMode||"none",name:cfg?.sourceName||verifiedSources[c]?.sourceName||null}]}))));
 app.get("/sitemap-dynamic.xml",(req,res)=>{
+  const escXml=value=>String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&apos;");
+
+  const urls=[];
+
+  const addUrl=(loc,lastmod=null,priority="0.7")=>{
+    let xml=`<url><loc>${escXml(loc)}</loc>`;
+    if(lastmod) xml+=`<lastmod>${escXml(lastmod)}</lastmod>`;
+    xml+=`<changefreq>daily</changefreq><priority>${priority}</priority></url>`;
+    urls.push(xml);
+  };
+
   const posts=loadSeoPosts()
     .sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
 
-  // Otomatik üretilen Altın Gündemi içerikleri
-  const postUrls=posts.map(p=>`
-  <url>
-    <loc>${BASE}/altin-gundemi/${p.slug}</loc>
-    <lastmod>${p.updatedAt||p.publishedAt}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>`);
+  for(const p of posts){
+    addUrl(
+      `${BASE}/altin-gundemi/${p.slug}`,
+      p.updatedAt||p.publishedAt,
+      "0.7"
+    );
+  }
 
-  // Şehir altın fiyatları
-  const cityUrls=Object.keys(CITIES).map(citySlug=>`
-  <url>
-    <loc>${BASE}/${citySlug}-altin-fiyatlari</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>`);
+  for(const citySlug of Object.keys(CITIES)){
+    addUrl(`${BASE}/${citySlug}-altin-fiyatlari`,null,"0.8");
+  }
+
+  for(const productSlug of Object.keys(GOLD_SEO_PRODUCTS)){
+    addUrl(`${BASE}/${productSlug}`,null,"0.8");
+  }
+
+  for(const citySlug of Object.keys(CITIES)){
+    for(const productSlug of Object.keys(GOLD_SEO_PRODUCTS)){
+      addUrl(`${BASE}/${citySlug}-${productSlug}`,null,"0.7");
+    }
+  }
+
+  const xml=
+    `<?xml version="1.0" encoding="UTF-8"?>\n`+
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`+
+    urls.join("\n")+
+    `\n</urlset>`;
+
+  res.set("Content-Type","application/xml; charset=utf-8");
+  res.send(xml);
+});
+
 
   // Altın türü ana sayfaları
   const productUrls=Object.keys(GOLD_SEO_PRODUCTS).map(productSlug=>`
