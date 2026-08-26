@@ -885,7 +885,19 @@ async function tcmb(){
  if(fxCache.data&&Date.now()-fxCache.time<FX_TTL)return fxCache.data;
  const r=await fetch("https://www.tcmb.gov.tr/kurlar/today.xml",{headers:{"User-Agent":"BugunAltin.com/1.0"}});if(!r.ok)throw new Error("tcmb");
  const rates=[];let m;const re=/<Currency\b[^>]*CurrencyCode="([A-Z]{3})"[^>]*>([\s\S]*?)<\/Currency>/gi;
- while((m=re.exec(xml)))const buy=Number(tag(m[2],"ForexBuying")),sell=Number(tag(m[2],"ForexSelling"));if(Number.isFinite(buy)&&Number.isFinite(sell))rates.push({code:m[1],name:tag(m[2],"Isim")||m[1],buy,sell})}
+ while((m=re.exec(xml))){
+  const buy=Number(tag(m[2],"ForexBuying"));
+  const sell=Number(tag(m[2],"ForexSelling"));
+
+  if(Number.isFinite(buy)&&Number.isFinite(sell)){
+    rates.push({
+      code:m[1],
+      name:tag(m[2],"Isim")||m[1],
+      buy,
+      sell
+    });
+  }
+}
  const dm=xml.match(/Tarih_Date[^>]*Tarih="([^"]+)"/i),data={sourceName:"TCMB",updatedAt:new Date().toISOString(),displayDate:dm?.[1]||"",rates};fxCache={time:Date.now(),data};return data;
 }
 
