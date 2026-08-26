@@ -76,7 +76,18 @@
     <div class="fx-grid" id="fxGrid" aria-live="polite"></div>
     <div class="converter panel-lite">
       <div><label for="fxAmount">Tutar</label><input id="fxAmount" type="number" value="" min="0" step="0.01"></div>
-      <div><label for="fxCurrency">Döviz</label><select id="fxCurrency"></select></div>
+      <div class="fx-currency-picker">
+  <label for="fxSearch">Döviz Ara</label>
+  <input
+    id="fxSearch"
+    type="search"
+    placeholder="Dolar, Euro, USD, EUR, JPY..."
+    autocomplete="off"
+  >
+
+  <label for="fxCurrency">Döviz</label>
+  <select id="fxCurrency"></select>
+</div>
       <button id="fxConvertBtn" class="primary" type="button">TL karşılığını hesapla</button>
       <output id="fxConvertResult" class="result">—</output>
     </div>
