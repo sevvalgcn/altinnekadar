@@ -466,7 +466,7 @@ function renderCityProductPage(citySlug,productSlug){
 
   if(!cityName||!p)return null;
 
-  const title=`${cityName} ${p.name} Altın Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
+  const title=`${cityName} ${p.name} Ne Kadar? Güncel Alış Satış Fiyatı | Bugün Altın`;
 
   const desc=`${cityName} ${p.name} altın ne kadar? Güncel ${p.short} alış ve satış fiyatlarını, şehir bazlı altın fiyatlarını ve hızlı altın hesaplama aracını Bugün Altın'da takip edin.`;
 
