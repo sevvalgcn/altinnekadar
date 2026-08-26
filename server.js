@@ -884,6 +884,7 @@ function tag(block,name){const m=block.match(new RegExp(`<${name}>([^<]*)</${nam
 async function tcmb(){
  if(fxCache.data&&Date.now()-fxCache.time<FX_TTL)return fxCache.data;
  const r=await fetch("https://www.tcmb.gov.tr/kurlar/today.xml",{headers:{"User-Agent":"BugunAltin.com/1.0"}});if(!r.ok)throw new Error("tcmb");
+  const xml=await r.text();
  const rates=[];let m;const re=/<Currency\b[^>]*CurrencyCode="([A-Z]{3})"[^>]*>([\s\S]*?)<\/Currency>/gi;
  while((m=re.exec(xml))){
   const buy=Number(tag(m[2],"ForexBuying"));
