@@ -535,6 +535,10 @@ function renderCityProductPage(citySlug,productSlug){
     `
   });
 }
+function simplePage(title,body){
+  return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>body{font-family:system-ui;max-width:850px;margin:60px auto;padding:20px;line-height:1.7}a{color:#9a7300}</style></head><body><a href="/">← Ana sayfa</a><h1>${esc(title)}</h1>${body}</body></html>`;
+}
+
 app.use((req,res,next)=>{res.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Permissions-Policy":"geolocation=(self)","Cross-Origin-Opener-Policy":"same-origin","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"});next()});
 app.use(express.static(PUBLIC,{maxAge:"1d",etag:true,index:false,immutable:false}));
 app.use(express.json({limit:"3mb"}));
@@ -1124,22 +1128,19 @@ app.get("/sitemap-dynamic.xml",(req,res)=>{
   const urls=[];
 
   const addUrl=(loc,lastmod=null,priority="0.7")=>{
-    let item=`<url><loc>${escXml(loc)}</loc>`;
-    if(lastmod)item+=`<lastmod>${escXml(lastmod)}</lastmod>`;
-    item+=`<changefreq>daily</changefreq>`;
-    item+=`<priority>${priority}</priority>`;
-    item+=`</url>`;
-    urls.push(item);
+    let xml=`<url><loc>${escXml(loc)}</loc>`;
+    if(lastmod) xml+=`<lastmod>${escXml(lastmod)}</lastmod>`;
+    xml+=`<changefreq>daily</changefreq><priority>${priority}</priority></url>`;
+    urls.push(xml);
   };
 
   const posts=loadSeoPosts()
     .sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
 
   for(const p of posts){
-    if(!p?.slug)continue;
     addUrl(
       `${BASE}/altin-gundemi/${p.slug}`,
-      p.updatedAt||p.publishedAt||null,
+      p.updatedAt||p.publishedAt,
       "0.7"
     );
   }
@@ -1158,17 +1159,17 @@ app.get("/sitemap-dynamic.xml",(req,res)=>{
     }
   }
 
-  const xml=[
-    `<?xml version="1.0" encoding="UTF-8"?>`,
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    ...urls,
-    `</urlset>`
-  ].join("\n");
+  const xml=
+    `<?xml version="1.0" encoding="UTF-8"?>\n`+
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`+
+    urls.join("\n")+
+    `\n</urlset>`;
 
-  res.status(200);
   res.set("Content-Type","application/xml; charset=utf-8");
   res.send(xml);
 });
+
+
 app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),goldApiConfigured:Boolean(process.env.GOLD_API_KEY),goldCacheAgeSeconds:centralGoldCache.time?Math.round((Date.now()-centralGoldCache.time)/1000):null}));
 
 app.use((req,res,next)=>{if(!siteConfig.site.maintenance)return next();if(req.path.startsWith("/admin")||req.path.startsWith("/api/admin")||req.path==="/health")return next();res.status(503).send(simplePage("Bakımdayız","<p>Site kısa süreli bakım çalışmasındadır.</p>"))});
@@ -1262,3 +1263,6 @@ app.get("/gizlilik",(req,res)=>res.send(simplePage(siteConfig.pages.privacyTitle
 app.get("/kullanim-sartlari",(req,res)=>res.send(simplePage(siteConfig.pages.termsTitle,`<p>${plainTextHtml(siteConfig.pages.termsBody)}</p>`)));
 app.use((req,res)=>res.status(404).send(simplePage("Sayfa bulunamadı","<p>Aradığınız sayfa mevcut değil.</p>")));
 runSeoScheduler();
+setInterval(runSeoScheduler,15*60*1000);
+
+app.listen(PORT,()=>console.log(`AltınNeKadar.com.tr http://localhost:${PORT}`));
