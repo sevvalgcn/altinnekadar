@@ -139,3 +139,14 @@ Döviz kartları TCMB ve Kapalıçarşı/serbest piyasa fiyatlarını yan yana g
 Kapalıçarşı tarafı mevcut Hasfiyat API anahtarını sunucu tarafında kullanır.
 Sırasıyla `source=doviz`, `source=doviz-api`, ardından Harem döviz verisini dener.
 API anahtarı frontend'e gönderilmez. Kapalıçarşı kaynağı erişilemezse TCMB çalışmaya devam eder.
+
+
+## AI SEO
+Render Environment:
+- OPENAI_API_KEY
+- OPENAI_SEO_MODEL=gpt-5.4-mini
+- AI_SEO_ENABLED=true
+- SEO_GITHUB_PERSIST=true
+
+Kontrol: /api/ai-seo-status
+AI başarısızsa mevcut veri tabanlı SEO içeriği fallback olarak yayınlanır.

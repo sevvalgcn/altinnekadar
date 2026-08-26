@@ -15,6 +15,9 @@ const UPLOADS=path.join(PUBLIC,"uploads");
 const SEO_POSTS_FILE=path.join(DATA_DIR,"seo-posts.json");
 const SEO_CONTENT_MAX_POSTS=Math.max(60,Number(process.env.SEO_MAX_POSTS)||500);
 const SEO_AUTO_ENABLED=String(process.env.SEO_AUTO_CONTENT||"true").toLowerCase()!=="false";
+const AI_SEO_ENABLED=String(process.env.AI_SEO_ENABLED||"true").toLowerCase()!=="false";
+const AI_SEO_MODEL=String(process.env.OPENAI_SEO_MODEL||"gpt-5.4-mini").trim();
+const OPENAI_RESPONSES_URL="https://api.openai.com/v1/responses";
 
 function loadSeoPosts(){
   try{
@@ -113,18 +116,75 @@ function buildSeoPostFromGold(data,slot,now=new Date()){
     prices:{gram,ceyrek,yarim,tam,bilezik22:bilezik}
   };
 }
+
+function openAiText(json){
+  if(typeof json?.output_text==="string"&&json.output_text.trim())return json.output_text.trim();
+  const out=[];
+  for(const item of json?.output||[])for(const c of item?.content||[]){
+    if(typeof c?.text==="string")out.push(c.text);
+    else if(typeof c?.text?.value==="string")out.push(c.text.value);
+  }
+  return out.join("\n").trim();
+}
+function cleanJsonText(text){
+  let s=String(text||"").trim().replace(/^```(?:json)?\s*/i,"").replace(/\s*```$/,"").trim();
+  const a=s.indexOf("{"),b=s.lastIndexOf("}");
+  return a>=0&&b>a?s.slice(a,b+1):s;
+}
+function validAiPost(x,base){
+  if(!x||typeof x!=="object")return null;
+  const title=String(x.title||"").trim().slice(0,150);
+  const description=String(x.description||"").trim().slice(0,300);
+  const body=Array.isArray(x.body)?x.body.map(v=>String(v||"").trim()).filter(Boolean).slice(0,10):[];
+  if(title.length<20||description.length<50||body.length<5||body.join(" ").length<1200)return null;
+  return {...base,title,description,body,aiGenerated:true,aiModel:AI_SEO_MODEL};
+}
+async function enhanceSeoPostWithAI(base,live){
+  const key=String(process.env.OPENAI_API_KEY||"").trim();
+  if(!AI_SEO_ENABLED||!key||!base)return base;
+  const instructions=[
+    "Bugün Altın adlı Türkçe finans sitesinin editörüsün.",
+    "Yalnız verilen canlı fiyat verilerini kullan; haber, sebep, Fed kararı, siyasi gelişme veya piyasa nedeni uydurma.",
+    "Finansal tavsiye verme.",
+    "Çıktı yalnız geçerli JSON olsun.",
+    'Biçim: {"title":"...","description":"...","body":["p1","p2","p3","p4","p5","p6"]}',
+    "Başlık 45-75 karakter, description 120-160 karakter, toplam metin 500-800 kelime olsun.",
+    "Gram, çeyrek ve mevcut diğer altın fiyatlarını doğal biçimde geçir.",
+    "Alış-satış farkı ve kuyumcu işçiliği konusunda açıklayıcı ol.",
+    "Son bölümde verilerin bilgilendirme amaçlı olduğunu belirt."
+  ].join("\n");
+  const input=JSON.stringify({tarih:base.dayKey,zaman:slotTitle(base.slot),kaynak:live?.sourceName,fiyatlar:live?.prices||[]});
+  try{
+    const r=await fetch(OPENAI_RESPONSES_URL,{method:"POST",headers:{
+      Authorization:`Bearer ${key}`,"Content-Type":"application/json","User-Agent":"BugunAltin.com/1.0"
+    },body:JSON.stringify({model:AI_SEO_MODEL,instructions,input,max_output_tokens:2200}),signal:AbortSignal.timeout(45000)});
+    if(!r.ok)throw new Error(`openai_http_${r.status}`);
+    const data=await r.json();
+    const parsed=JSON.parse(cleanJsonText(openAiText(data)));
+    return validAiPost(parsed,base)||base;
+  }catch(error){
+    console.error("AI SEO:",String(error?.message||error));
+    return {...base,aiGenerated:false,aiError:String(error?.message||error).slice(0,180)};
+  }
+}
+async function persistSeoPostsToGithub(rows){
+  if(String(process.env.SEO_GITHUB_PERSIST||"true").toLowerCase()==="false")return false;
+  try{return await githubPut("data/seo-posts.json",Buffer.from(JSON.stringify(rows.slice(-SEO_CONTENT_MAX_POSTS),null,2)),"Otomatik SEO içeriğini güncelle")}
+  catch(error){console.error("SEO GitHub persist:",String(error?.message||error));return false}
+}
+
 async function ensureSeoPost(slot,force=false){
   if(!SEO_AUTO_ENABLED&&!force)return null;
   const now=new Date(),dayKey=trDayKey(now),id=`${dayKey}-${slot}`;
-  const posts=loadSeoPosts();
-  const existing=posts.find(p=>p.id===id);
+  const posts=loadSeoPosts(),existing=posts.find(p=>p.id===id);
   if(existing&&!force)return existing;
   const live=await fetchHaremGold(force);
-  const post=buildSeoPostFromGold(live,slot,now);
-  if(!post)return null;
-  const filtered=posts.filter(p=>p.id!==id);
-  filtered.push(post);
+  const base=buildSeoPostFromGold(live,slot,now);
+  if(!base)return null;
+  const post=await enhanceSeoPostWithAI(base,live);
+  const filtered=posts.filter(p=>p.id!==id);filtered.push(post);
   saveSeoPosts(filtered);
+  await persistSeoPostsToGithub(filtered);
   return post;
 }
 async function runSeoScheduler(){
@@ -826,6 +886,10 @@ app.get("/altin-gundemi/:slug",(req,res)=>{
  const post=loadSeoPosts().find(p=>p.slug===req.params.slug);
  if(!post)return res.status(404).send(simplePage("İçerik bulunamadı","İçerik bulunamadı","Bu piyasa özeti mevcut değil."));
  res.send(renderSeoPost(post));
+});
+app.get("/api/ai-seo-status",(req,res)=>{
+ const k=String(process.env.OPENAI_API_KEY||"").trim(),gh=ghEnv();
+ res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,autoContent:SEO_AUTO_ENABLED,githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
 });
 app.post("/api/admin/seo-generate",requireAdmin,async(req,res)=>{
  const slot=["sabah","oglen","aksam","gece"].includes(req.body?.slot)?req.body.slot:slotForHour(trHour(new Date()));

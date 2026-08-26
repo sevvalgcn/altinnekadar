@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://bugunaltin.com/sitemap.xml
+
+Sitemap: https://bugunaltin.com/sitemap-dynamic.xml
