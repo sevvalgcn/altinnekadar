@@ -958,7 +958,7 @@ app.get("/api/fx",async(req,res)=>{
       sourceName:"TCMB + Kapalıçarşı",
       updatedAt:new Date().toISOString(),
       displayDate:official.displayDate,
-      rates:official.rates,
+     rates:market?.rates?.length ? market.rates : official.rates,
       tcmb:official,
       market
     });
