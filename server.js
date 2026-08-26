@@ -1159,7 +1159,16 @@ app.post("/api/admin/seo-generate",requireAdmin,async(req,res)=>{
  if(!post)return res.status(503).json({error:"seo_post_generation_failed"});
  res.json({ok:true,post});
 });
-app.get("/:goldType",(req,res,next)=>{
+app.get("/:city-:goldType",(req,res,next)=>{
+  const citySlug=req.params.city;
+  const productSlug=req.params.goldType;
+
+  const page=renderCityProductPage(citySlug,productSlug);
+
+  if(page)return res.send(page);
+
+  next();
+});
  const page=renderProductPage(req.params.goldType);
  if(page)return res.send(page);
  next();
