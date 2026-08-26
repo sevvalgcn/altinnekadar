@@ -444,6 +444,69 @@ app.get("/api/city-sources",(req,res)=>{
  res.set("Cache-Control","public,max-age=300").json(citySourceRegistry);
 });
 
+
+app.get("/api/gold-debug",async(req,res)=>{
+  const apiKey=String(process.env.GOLD_API_KEY||"").trim();
+  if(!apiKey)return res.status(503).json({configured:false,error:"GOLD_API_KEY_missing"});
+  try{
+    const response=await fetch(CENTRAL_GOLD_BASE,{
+      headers:{
+        "x-api-key":apiKey,
+        "Accept":"application/json",
+        "User-Agent":"BugunAltin.com/1.0"
+      },
+      signal:AbortSignal.timeout(10000)
+    });
+
+    const httpStatus=response.status;
+    let json=null;
+    let text=null;
+
+    try{
+      json=await response.json();
+    }catch{
+      try{text=await response.text()}catch{}
+    }
+
+    const out={
+      configured:true,
+      httpStatus,
+      ok:response.ok,
+      contentType:response.headers.get("content-type")||null
+    };
+
+    if(json&&typeof json==="object"){
+      out.topLevelKeys=Object.keys(json).slice(0,30);
+      out.dataType=Array.isArray(json.data)?"array":typeof json.data;
+      if(json.data&&typeof json.data==="object"){
+        out.dataKeys=Object.keys(json.data).slice(0,30);
+        if(Array.isArray(json.data.kalemler)){
+          out.kalemlerCount=json.data.kalemler.length;
+          out.sample=json.data.kalemler.slice(0,5).map(x=>({
+            keys:Object.keys(x||{}).slice(0,20),
+            tur:x?.tur??null,
+            isim:x?.isim??null,
+            sembol:x?.sembol??null,
+            alisPresent:x?.alis!==undefined,
+            satisPresent:x?.satis!==undefined
+          }));
+        }
+      }
+      if(json.error)out.providerError=String(json.error).slice(0,300);
+      if(json.message)out.providerMessage=String(json.message).slice(0,300);
+    }else if(text){
+      out.bodyPreview=String(text).slice(0,300);
+    }
+
+    res.status(response.ok?200:502).json(out);
+  }catch(error){
+    res.status(502).json({
+      configured:true,
+      error:String(error?.message||error)
+    });
+  }
+});
+
 app.get("/api/build-info",(req,res)=>{
  res.json({build:"BUGUNALTIN_DIAG_20260826_01"});
 });
