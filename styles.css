@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>__TITLE__</title>
+  <meta name="description" content="__DESCRIPTION__">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#111111">
+  <link rel="canonical" href="__CANONICAL__">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Bugün Altın">
+  <meta property="og:title" content="__TITLE__">
+  <meta property="og:description" content="__DESCRIPTION__">
+  <meta property="og:url" content="__CANONICAL__">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link id="siteFavicon" rel="icon" href="__FAVICON__">
+  <link rel="stylesheet" href="/styles.css">
+  __GOOGLE_VERIFY__
+  <script type="application/ld+json">__SCHEMA__</script>
+</head>
+<body>
+<a class="skip-link" href="#main">İçeriğe geç</a>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/" aria-label="Bugün Altın ana sayfa"><img src="/assets/bugun-altin-logo.png" alt="Bugün Altın" class="site-logo-img"></a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav">Menü</button>
+    <nav class="main-nav" id="mainNav" aria-label="Ana menü">
+      <a id="navGold" href="#gold">Altın Fiyatları</a>
+      <a id="navFx" href="#fx">Döviz Kurları</a>
+      <a id="navTools" href="#calculators">Hesaplamalar</a>
+      <a id="navCities" href="#cities">Şehirler</a>
+    </nav>
+    <button class="location-btn" id="locateBtn" type="button">📍 Konumumu Kullan</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero container" id="heroSection">
+    <div class="hero-copy">
+      <span class="eyebrow" id="heroEyebrow">ALTIN • DÖVİZ • HESAPLAMA</span>
+      <h1><span id="heroBefore" class="plain">Bugün</span> <span id="heroHighlight">altın</span><br><span id="heroAfter" class="plain">ne kadar?</span></h1>
+      <p id="heroDescription">Şehrine göre yerel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını tek ekranda takip et.</p>
+      <div class="hero-actions">
+        <button class="primary gold-btn" id="heroLocateBtn" type="button">📍 Konumumu Kullan</button>
+        <label class="city-picker"><span>Şehir</span><select id="citySelect" aria-label="Şehir seç"></select></label>
+      </div>
+      <div class="live-line"><span class="dot"></span><span id="statusText">Yerel fiyat kaynağı kontrol ediliyor…</span></div>
+    </div>
+    <aside class="market-box" id="marketBox" aria-label="Piyasa özeti">
+      <span class="kicker">PİYASA DURUMU</span>
+      <div class="market-row"><span>Gram Altın</span><strong id="heroGram">—</strong></div>
+      <div class="market-row"><span>Dolar / TL</span><strong id="heroUsd">—</strong></div>
+      <div class="market-row"><span>Euro / TL</span><strong id="heroEur">—</strong></div>
+    </aside>
+  </section>
+
+  <div class="container ad-slot" aria-label="Reklam alanı">Reklam alanı</div>
+
+  <section class="container section" id="gold">
+    <div class="section-title-row">
+      <div><span class="kicker">YEREL ALTIN</span><h2><span id="cityHeading">İstanbul</span> <span id="goldSectionTitle">altın fiyatları</span></h2></div>
+      <div class="source-chip" id="goldSourceChip">Kaynak kontrol ediliyor</div>
+    </div>
+    <div class="price-grid" id="priceGrid" aria-live="polite"></div>
+    <div class="notice" id="goldNotice">
+      Yerel kuyumcu odası/dernek kaynağı doğrulanmadıysa fiyat gösterilmez. Böylece başka bir kaynağın verisi “yerel fiyat” olarak sunulmaz.
+    </div>
+  </section>
+
+  <section class="container section" id="fx">
+    <div class="section-title-row">
+      <div><span class="kicker">TCMB DÖVİZ</span><h2 id="fxSectionTitle">Güncel döviz kurları</h2></div>
+      <div class="live-line compact"><span class="dot"></span><span id="fxStatus">TCMB verisi yükleniyor…</span></div>
+    </div>
+    <div class="fx-grid" id="fxGrid" aria-live="polite"></div>
+    <div class="converter panel-lite">
+      <div><label for="fxAmount">Tutar</label><input id="fxAmount" type="number" value="100" min="0" step="0.01"></div>
+      <div><label for="fxCurrency">Döviz</label><select id="fxCurrency"></select></div>
+      <button id="fxConvertBtn" class="primary" type="button">TL karşılığını hesapla</button>
+      <output id="fxConvertResult" class="result">—</output>
+    </div>
+  </section>
+
+  <section class="container section" id="calculators">
+    <div class="section-title-row"><div><span class="kicker">HIZLI İŞLEMLER</span><h2 id="toolsSectionTitle">Hesaplama araçları</h2></div></div>
+    <div class="tools-grid">
+      <article class="panel" id="goldCalcPanel">
+        <span class="tool-icon">₺</span><h3>Altın hesaplama</h3>
+        <label for="goldAmount">Miktar</label><input id="goldAmount" type="number" value="10" min="0" step="0.01">
+        <label for="goldType">Altın türü</label><select id="goldType"></select>
+        <button id="goldCalcBtn" class="primary" type="button">Hesapla</button>
+        <output id="goldCalcResult" class="result">—</output>
+      </article>
+      <article class="panel" id="loanCalcPanel">
+        <span class="tool-icon">▦</span><h3>Kredi vade hesaplama</h3>
+        <label for="loanAmount">Kredi tutarı</label><input id="loanAmount" type="number" value="500000" min="0">
+        <label for="loanRate">Aylık faiz (%)</label><input id="loanRate" type="number" value="3.29" min="0" step="0.01">
+        <label for="loanMonths">Vade (ay)</label><input id="loanMonths" type="number" value="36" min="1" max="360">
+        <button id="loanBtn" class="primary" type="button">Taksiti hesapla</button>
+        <output id="loanResult" class="result">—</output>
+        <small>Masraf, vergi ve sigorta dahil değildir.</small>
+      </article>
+      <article class="panel" id="percentCalcPanel">
+        <span class="tool-icon">%</span><h3>Yüzde hesaplama</h3>
+        <label for="percentBase">İlk değer</label><input id="percentBase" type="number" value="1000">
+        <label for="percentRate">Yüzde</label><input id="percentRate" type="number" value="20" step="0.01">
+        <button id="percentBtn" class="primary" type="button">Hesapla</button>
+        <output id="percentResult" class="result">—</output>
+      </article>
+      <article class="panel" id="vatCalcPanel">
+        <span class="tool-icon">KDV</span><h3>KDV hesaplama</h3>
+        <label for="vatBase">Tutar</label><input id="vatBase" type="number" value="1000" min="0">
+        <label for="vatRate">KDV oranı</label><select id="vatRate"><option value="1">%1</option><option value="10">%10</option><option value="20" selected>%20</option></select>
+        <label for="vatMode">İşlem</label><select id="vatMode"><option value="add">KDV ekle</option><option value="remove">KDV dahil tutardan çıkar</option></select>
+        <button id="vatBtn" class="primary" type="button">Hesapla</button>
+        <output id="vatResult" class="result">—</output>
+      </article>
+      <article class="panel" id="raiseCalcPanel">
+        <span class="tool-icon">↗</span><h3>Zam hesaplama</h3>
+        <label for="raiseBase">Mevcut tutar</label><input id="raiseBase" type="number" value="25000" min="0">
+        <label for="raiseRate">Zam oranı (%)</label><input id="raiseRate" type="number" value="15" min="0" step="0.01">
+        <button id="raiseBtn" class="primary" type="button">Yeni tutarı hesapla</button>
+        <output id="raiseResult" class="result">—</output>
+      </article>
+      <article class="panel">
+        <span class="tool-icon">⇄</span><h3>Döviz çevirici</h3>
+        <p class="muted">TCMB alış/satış verisiyle hızlı TL karşılığı hesabı.</p>
+        <a class="secondary-link" href="#fx">Döviz çeviriciye git →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="container benefits" id="benefitsSection">
+    <div><b>✓ Doğrulanmış kaynak</b><span>Kaynağı belli olmayan veri yayınlanmaz.</span></div>
+    <div><b>81 il altyapısı</b><span>Her il için ayrı yerel veri adaptörü.</span></div>
+    <div><b>Otomatik güncelleme</b><span>Döviz verileri periyodik yenilenir.</span></div>
+    <div><b>Mobil uyumlu</b><span>Telefon, tablet ve masaüstü.</span></div>
+  </section>
+
+  <section class="container section" id="cities">
+    <div class="section-title-row"><div><span class="kicker">81 İL</span><h2 id="citiesSectionTitle">Şehrine göre altın fiyatları</h2></div></div>
+    <input class="city-search" id="citySearch" type="search" placeholder="Şehir ara…" aria-label="Şehir ara">
+    <div class="city-links" id="cityLinks"></div>
+  </section>
+
+  <section class="container source-panel">
+    <span class="kicker">ŞEFFAFLIK</span><h2>Fiyat kaynağı</h2>
+    <p id="sourceText">Şehriniz için doğrulanmış yerel kaynak kontrol ediliyor.</p>
+    <a id="sourceLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Kaynağı aç</a>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div><a class="brand footer-brand" href="/"><span class="brand-icon">◆</span><span><b>Altın</b>NeKadar</span></a><p id="footerDescription">Altın, döviz ve günlük finans hesaplamaları.</p></div>
+    <div><b>Hızlı bağlantılar</b><a href="#gold">Altın fiyatları</a><a href="#fx">Döviz kurları</a><a id="navTools" href="#calculators">Hesaplamalar</a></div>
+    <div id="legalLinks"><b>Bilgilendirme</b><a href="/hakkimizda">Hakkımızda</a><a href="/gizlilik">Gizlilik</a><a href="/kullanim-sartlari">Kullanım şartları</a></div>
+  </div>
+  <div class="container disclaimer">Fiyatlar bilgilendirme amaçlıdır. Kuyumcu fiyatları işçilik, ürün, ödeme yöntemi ve mağazaya göre değişebilir. Finansal hesaplamalar yatırım veya kredi tavsiyesi değildir.</div>
+</footer>
+<script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bugün Altın Yönetim Paneli</title>
+<style>
+:root{--sidebar:#292e3a;--sidebar2:#222733;--bg:#edf1f5;--card:#fff;--line:#dfe4ea;--text:#30343b;--muted:#8d96a5;--pink:#e91e63;--gold:#d9a20b;--blue:#4c84ff;--green:#28a66a;--red:#da4d4d}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:var(--bg)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:#232833}
+.login-card{width:min(420px,100%);background:#fff;border-radius:4px;padding:30px;box-shadow:0 12px 36px rgba(0,0,0,.25)}
+.login-brand{font-size:30px;font-weight:800;margin-bottom:8px}.login-brand span{color:var(--gold)}
+.login-card p{color:#7d8490}.login-card input{width:100%;padding:12px;border:1px solid #d7dce3;margin:8px 0 14px}
+.btn{border:0;padding:11px 16px;border-radius:3px;font-weight:700}
+.btn-primary{background:var(--gold);color:#fff}.btn-dark{background:#333b49;color:#fff}.btn-danger{background:#b94545;color:#fff}.btn-light{background:#f2f4f6;border:1px solid #d9dee4;color:#555}
+.app{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);color:#9ea7ba;position:sticky;top:0;height:100vh;overflow:auto}
+.side-logo{height:74px;background:#20242e;display:flex;align-items:center;padding:0 18px;font-size:24px;font-weight:800;color:#fff}
+.side-logo span{color:#efb318}
+.side-logo small{display:block;font-size:10px;color:#737d90;font-weight:400;margin-top:3px}
+.side-home{display:flex;align-items:center;justify-content:space-between;padding:13px 12px;color:#fff;font-weight:700;border-bottom:1px solid #39404e}
+.nav-item{width:100%;border:0;background:transparent;color:#98a2b5;text-align:left;padding:13px 12px;border-bottom:1px solid #39404e;display:flex;justify-content:space-between;align-items:center}
+.nav-item:hover,.nav-item.active{background:#242934;color:#fff;border-left:3px solid var(--gold);padding-left:9px}
+.nav-icon{width:24px;text-align:center;color:#7e899d}
+.workspace{min-width:0}
+.topbar{height:74px;background:#fff;border-bottom:1px solid #e1e5ea;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:10}
+.top-brand{font-size:24px;font-weight:800;color:#e91e63}.top-brand span{color:#333}
+.top-actions{display:flex;align-items:center;gap:18px;color:#9aa2af}.admin-chip{font-size:13px;color:#7b8492}
+.content{padding:32px 22px}
+.welcome{background:#fff;padding:28px;text-align:center;margin-bottom:22px;border:1px solid #e1e5ea}
+.welcome h1{font-size:30px;font-weight:400;margin:0 0 8px}.welcome p{margin:0;color:#656b73}
+.page{display:none}.page.active{display:block}
+.panel{background:#fff;border:1px solid #dfe4ea;margin-bottom:18px}
+.panel-head{padding:16px 20px;border-bottom:1px solid #e1e5ea;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.panel-head h2{margin:0;font-size:18px}.panel-body{padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#555d69}
+.field input,.field select,.field textarea{width:100%;border:1px solid #d6dce3;background:#fff;padding:11px 12px;color:#333}
+.field textarea{min-height:110px;resize:vertical}
+.help{font-size:12px;color:#929aa7;margin-top:6px;line-height:1.45}
+.switch-row{display:flex;align-items:center;gap:9px;min-height:40px}.switch-row input{width:auto}
+.status{padding:6px 9px;border-radius:12px;font-size:11px;background:#edf0f3;color:#69717c}.status.ok{background:#e7f7ef;color:#218654}.status.bad{background:#fdeaea;color:#b83f3f}
+.savebar{position:sticky;bottom:0;z-index:9;background:rgba(237,241,245,.96);border-top:1px solid #dbe0e6;padding:12px 0;display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.city-layout{display:grid;grid-template-columns:300px 1fr;gap:18px}.city-search{width:100%;padding:10px;border:1px solid #d6dce3;margin-bottom:10px}
+.city-list{max-height:550px;overflow:auto;border:1px solid #e0e4e9}.city-btn{width:100%;text-align:left;border:0;border-bottom:1px solid #eceff2;background:#fff;padding:11px 12px}.city-btn:hover,.city-btn.active{background:#fff8e2;color:#8d6800}
+.price-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px;align-items:center}.price-grid .th{font-size:12px;color:#8b93a0;font-weight:700}
+.media-card{border:1px dashed #ccd2da;padding:18px;background:#fafbfc}.preview{width:100%;max-height:150px;object-fit:contain;background:#f1f3f5;border:1px solid #e0e4e8;margin-top:10px}
+.color-field{display:grid;grid-template-columns:60px 1fr;gap:8px}.color-field input[type=color]{padding:2px;height:44px}
+.quick-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.stat{background:#fff;border:1px solid #dfe4ea;padding:18px}.stat b{font-size:25px;display:block}.stat span{font-size:12px;color:#8b93a0}
+.system-line{padding:10px 0;border-bottom:1px solid #edf0f2}.system-line:last-child{border:0}
+.notice{padding:11px 13px;background:#fff6dc;border:1px solid #edd999;color:#705500;font-size:13px;margin-bottom:15px}
+.code{font-family:Consolas,monospace;font-size:12px;background:#f5f6f7;padding:2px 5px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;display:flex;overflow:auto}.side-logo{min-width:200px}.side-home{display:none}.nav-item{width:auto;min-width:max-content;border-bottom:0;border-right:1px solid #39404e}.topbar{top:0}.content{padding:18px 12px}.grid2,.grid3,.quick-stats,.city-layout{grid-template-columns:1fr}.welcome h1{font-size:24px}}
+</style>
+</head>
+<body>
+<section id="loginView" class="login-screen">
+<form id="loginForm" class="login-card">
+  <div class="login-brand"><span>Altın</span>NeKadar</div>
+  <h2>Yönetim Paneli</h2>
+  <p>Site yönetimine devam etmek için giriş yap.</p>
+  <div id="loginWarning" class="notice hidden"></div>
+  <input id="password" type="password" placeholder="Yönetici şifresi" autocomplete="current-password" required>
+  <button class="btn btn-primary" style="width:100%">Giriş Yap</button>
+  <div id="loginMsg" class="help"></div>
+</form>
+</section>
+
+<div id="appView" class="app hidden">
+<aside class="sidebar">
+  <div class="side-logo"><div><span>Altın</span>NeKadar<small>İÇERİK YÖNETİM SİSTEMİ</small></div></div>
+  <div class="side-home">Kontrol Paneli <span>⌂</span></div>
+  <button class="nav-item active" data-page="dashboard">Kontrol Paneli <span class="nav-icon">⌂</span></button>
+  <button class="nav-item" data-page="gold">Altın & Şehirler <span class="nav-icon">◆</span></button>
+  <button class="nav-item" data-page="currency">Döviz <span class="nav-icon">₺</span></button>
+  <button class="nav-item" data-page="calculators">Hesaplamalar <span class="nav-icon">%</span></button>
+  <button class="nav-item" data-page="appearance">Görünüm <span class="nav-icon">✎</span></button>
+  <button class="nav-item" data-page="media">Medya <span class="nav-icon">▣</span></button>
+  <button class="nav-item" data-page="ads">Reklam <span class="nav-icon">▥</span></button>
+  <button class="nav-item" data-page="seo">SEO & Sayfalar <span class="nav-icon">☷</span></button>
+  <button class="nav-item" data-page="settings">Ayarlar <span class="nav-icon">⚙</span></button>
+  <button class="nav-item" data-page="system">Sistem <span class="nav-icon">◈</span></button>
+</aside>
+
+<section class="workspace">
+<header class="topbar">
+  <div class="top-brand">ANK <span>Panel</span></div>
+  <div class="top-actions"><span id="persistStatus" class="status">Kontrol ediliyor</span><span class="admin-chip">Yönetici</span><button id="logoutBtn" class="btn btn-light">Çıkış</button></div>
+</header>
+
+<main class="content">
+<div class="welcome">
+  <h1>Bugün Altın İçerik Yönetim Sistemi</h1>
+  <p>“Siteyi kodla değil, panelden yönet.”</p>
+</div>
+
+<section id="dashboard" class="page active">
+  <div class="quick-stats">
+    <div class="stat"><b>81</b><span>İl altyapısı</span></div>
+    <div class="stat"><b id="statSources">0</b><span>Yerel altın kaynağı</span></div>
+    <div class="stat"><b>4</b><span>TCMB döviz kuru</span></div>
+    <div class="stat"><b id="statUptime">0</b><span>Sunucu çalışma dk.</span></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Ana Canlı Altın Kaynağı</h2><span id="centralGoldStatus" class="status">Kontrol ediliyor</span></div>
+    <div class="panel-body"><div id="centralGoldInfo">Canlı altın motoru kontrol ediliyor…</div><p class="help">Şehre özel doğrulanmış kaynak yoksa site merkezi canlı veriyi kullanır. Şehir özel kaynağı bağlandığında yerel kaynak öncelikli olur.</p></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Hızlı Site Ayarları</h2></div>
+    <div class="panel-body">
+      <div class="field"><label>Duyuru bandı</label><textarea id="announcement" placeholder="Boş bırakırsan görünmez"></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Varsayılan şehir</label><select id="defaultCity"></select></div>
+        <label class="switch-row"><input id="maintenance" type="checkbox"> Bakım modunu aç</label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gold" class="page">
+  <div class="panel">
+    <div class="panel-head"><h2>Toplu Şehir Kaynakları</h2><span class="status ok">81 ŞEHİR TEK REGISTRY</span></div>
+    <div class="panel-body">
+      <p><b>İstanbul:</b> Harem &nbsp;•&nbsp; <b>Ankara:</b> Harem &nbsp;•&nbsp; <b>İzmir:</b> resmî İZKO &nbsp;•&nbsp; <b>Sakarya:</b> şehir özel kaynak.</p>
+      <p class="help">Açık ve doğrulanmış şehir özel canlı veri bulunmayan diğer şehirler merkezi canlı kaynağa otomatik düşer; hiçbir kaynak uydurma biçimde “resmî oda verisi” olarak etiketlenmez.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Altın Fiyatları & Şehir Kaynakları</h2></div>
+    <div class="panel-body city-layout">
+      <div>
+        <input id="citySearch" class="city-search" placeholder="Şehir ara...">
+        <div id="cityList" class="city-list"></div>
+      </div>
+      <div>
+        <h3 id="cityTitle">Şehir Ayarı</h3>
+        <div class="grid2">
+          <div class="field"><label>Kaynak modu</label><select id="sourceMode"><option value="none">Kaynak yok</option><option value="manual">Panelden manuel fiyat</option><option value="adapter">Canlı API / adaptör</option></select></div>
+          <div class="field"><label>Kaynak adı</label><input id="sourceName" placeholder="Örn. Sakarya Kuyumcular Derneği"></div>
+        </div>
+        <div class="field"><label>Kaynak adresi</label><input id="sourceUrl" placeholder="https://..."></div>
+        <div id="manualPrices">
+          <div class="price-grid">
+            <div class="th">Altın türü</div><div class="th">Alış</div><div class="th">Satış</div>
+            <div>Gram Altın</div><input id="gramBuy" type="number" step=".01"><input id="gramSell" type="number" step=".01">
+            <div>Çeyrek Altın</div><input id="ceyrekBuy" type="number" step=".01"><input id="ceyrekSell" type="number" step=".01">
+            <div>Yarım Altın</div><input id="yarimBuy" type="number" step=".01"><input id="yarimSell" type="number" step=".01">
+            <div>Tam Altın</div><input id="tamBuy" type="number" step=".01"><input id="tamSell" type="number" step=".01">
+            <div>Cumhuriyet</div><input id="cumhuriyetBuy" type="number" step=".01"><input id="cumhuriyetSell" type="number" step=".01">
+            <div>22 Ayar Bilezik</div><input id="bilezik22Buy" type="number" step=".01"><input id="bilezik22Sell" type="number" step=".01">
+          </div>
+        </div>
+        <p class="help">Canlı kaynaklar kod tarafında doğrulanır. Panelden rastgele JavaScript veya scraping kodu çalıştırılmaz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="currency" class="page">
+  <div class="panel"><div class="panel-head"><h2>Döviz Ayarları</h2></div><div class="panel-body">
+    <div class="grid2">
+      <label class="switch-row"><input id="fxEnabled" type="checkbox"> TCMB döviz bölümünü göster</label>
+      <div class="field"><label>Arayüz yenileme aralığı (dakika)</label><input id="fxRefresh" type="number" min="1" max="60"></div>
+    </div>
+    <p class="help">Kur verisi TCMB tarafından yayınlanan kaynaktan backend üzerinden alınır ve sunucuda önbelleğe alınır.</p>
+  </div></div>
+</section>
+
+<section id="calculators" class="page">
+  <div class="panel"><div class="panel-head"><h2>Hesaplama Araçları</h2></div><div class="panel-body grid3">
+    <label class="switch-row"><input id="toolGold" type="checkbox"> Altın hesaplama</label>
+    <label class="switch-row"><input id="toolLoan" type="checkbox"> Kredi vade</label>
+    <label class="switch-row"><input id="toolPercent" type="checkbox"> Yüzde</label>
+    <label class="switch-row"><input id="toolVat" type="checkbox"> KDV</label>
+    <label class="switch-row"><input id="toolRaise" type="checkbox"> Zam</label>
+  </div></div>
+</section>
+
+<section id="appearance" class="page">
+  <div class="panel"><div class="panel-head"><h2>Logo & Marka</h2></div><div class="panel-body">
+    <div class="grid2">
+      <div class="field"><label>Site adı</label><input id="siteName"></div>
+      <div class="field"><label>Domain etiketi</label><input id="domainLabel"></div>
+      <div class="field"><label>Ana renk</label><div class="color-field"><input id="primaryColorPick" type="color"><input id="primaryColor"></div></div>
+      <div class="field"><label>Vurgu rengi</label><div class="color-field"><input id="accentColorPick" type="color"><input id="accentColor"></div></div>
+    </div>
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>Ana Sayfa Metinleri</h2></div><div class="panel-body">
+    <div class="field"><label>Üst küçük başlık</label><input id="heroEyebrow"></div>
+    <div class="grid3">
+      <div class="field"><label>Başlık 1</label><input id="heroTitleBefore"></div>
+      <div class="field"><label>Vurgulu kelime</label><input id="heroHighlight"></div>
+      <div class="field"><label>Başlık 2</label><input id="heroTitleAfter"></div>
+    </div>
+    <div class="field"><label>Açıklama</label><textarea id="heroDescription"></textarea></div>
+    <div class="grid2">
+      <div class="field"><label>Altın bölüm başlığı</label><input id="goldSectionTitle"></div>
+      <div class="field"><label>Döviz bölüm başlığı</label><input id="fxSectionTitle"></div>
+      <div class="field"><label>Hesaplamalar başlığı</label><input id="toolsSectionTitle"></div>
+      <div class="field"><label>Şehirler başlığı</label><input id="citiesSectionTitle"></div>
+    </div>
+    <div class="grid3">
+      <label class="switch-row"><input id="showMarket" type="checkbox"> Piyasa kutusu</label>
+      <label class="switch-row"><input id="showGold" type="checkbox"> Altın bölümü</label>
+      <label class="switch-row"><input id="showFx" type="checkbox"> Döviz bölümü</label>
+      <label class="switch-row"><input id="showCalculators" type="checkbox"> Hesaplamalar</label>
+      <label class="switch-row"><input id="showCities" type="checkbox"> Şehirler</label>
+      <label class="switch-row"><input id="showBenefits" type="checkbox"> Avantaj bandı</label>
+    </div>
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>Menü Yazıları</h2></div><div class="panel-body grid2">
+    <div class="field"><label>Altın</label><input id="navGold"></div>
+    <div class="field"><label>Döviz</label><input id="navFx"></div>
+    <div class="field"><label>Hesaplamalar</label><input id="navTools"></div>
+    <div class="field"><label>Şehirler</label><input id="navCities"></div>
+  </div></div>
+</section>
+
+<section id="media" class="page">
+  <div class="notice">Logo, favicon ve hero görseli GitHub reposundaki <span class="code">public/uploads</span> klasörüne kaydedilir. Ziyaretçi trafiği dosyaları sitenin kendisinden alır.</div>
+  <div class="grid3">
+    <div class="panel"><div class="panel-head"><h2>Logo</h2></div><div class="panel-body media-card">
+      <input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp">
+      <button class="btn btn-dark uploadBtn" data-kind="logo" data-input="logoFile">Yükle</button>
+      <div class="help">Öneri: şeffaf PNG/WebP, maksimum 2 MB.</div>
+      <img id="logoPreview" class="preview hidden" alt="Logo önizleme">
+    </div></div>
+    <div class="panel"><div class="panel-head"><h2>Favicon</h2></div><div class="panel-body media-card">
+      <input id="faviconFile" type="file" accept="image/png,image/webp,image/x-icon">
+      <button class="btn btn-dark uploadBtn" data-kind="favicon" data-input="faviconFile">Yükle</button>
+      <img id="faviconPreview" class="preview hidden" alt="Favicon önizleme">
+    </div></div>
+    <div class="panel"><div class="panel-head"><h2>Hero Görseli</h2></div><div class="panel-body media-card">
+      <input id="heroFile" type="file" accept="image/png,image/jpeg,image/webp">
+      <button class="btn btn-dark uploadBtn" data-kind="hero" data-input="heroFile">Yükle</button>
+      <div class="help">Performans için WebP önerilir, maksimum 2 MB.</div>
+      <img id="heroPreview" class="preview hidden" alt="Hero önizleme">
+    </div></div>
+  </div>
+</section>
+
+<section id="ads" class="page">
+  <div class="panel"><div class="panel-head"><h2>Reklam Yönetimi</h2></div><div class="panel-body">
+    <label class="switch-row"><input id="adsEnabled" type="checkbox"> Reklam alanlarını etkinleştir</label>
+    <div class="field"><label>AdSense Publisher ID</label><input id="adsClient" placeholder="ca-pub-..."></div>
+    <div class="grid2"><div class="field"><label>Üst slot</label><input id="topSlot"></div><div class="field"><label>Orta slot</label><input id="middleSlot"></div></div>
+    <p class="help">AdSense hesabı onaylanmadan boş bırakılabilir.</p>
+  </div></div>
+</section>
+
+<section id="seo" class="page">
+  <div class="panel"><div class="panel-head"><h2>SEO Ayarları</h2></div><div class="panel-body">
+    <div class="field"><label>Ana sayfa SEO başlığı</label><input id="seoTitle"></div>
+    <div class="field"><label>Ana sayfa meta açıklaması</label><textarea id="seoDescription"></textarea></div>
+    <div class="field"><label>Google Search Console doğrulama kodu</label><input id="googleVerification" placeholder="content değerini gir"></div>
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>Kurumsal Sayfalar</h2></div><div class="panel-body">
+    <div class="field"><label>Hakkımızda başlığı</label><input id="aboutTitle"></div><div class="field"><label>Hakkımızda metni</label><textarea id="aboutBody"></textarea></div>
+    <div class="field"><label>Gizlilik başlığı</label><input id="privacyTitle"></div><div class="field"><label>Gizlilik metni</label><textarea id="privacyBody"></textarea></div>
+    <div class="field"><label>Kullanım şartları başlığı</label><input id="termsTitle"></div><div class="field"><label>Kullanım şartları</label><textarea id="termsBody"></textarea></div>
+  </div></div>
+</section>
+
+<section id="settings" class="page">
+  <div class="panel"><div class="panel-head"><h2>Alt Bilgi & İletişim</h2></div><div class="panel-body">
+    <div class="field"><label>Footer açıklaması</label><textarea id="footerDescription"></textarea></div>
+    <div class="grid2"><div class="field"><label>İletişim e-postası</label><input id="contactEmail" type="email"></div><div class="field"><label>Copyright adı</label><input id="copyright"></div></div>
+    <label class="switch-row"><input id="showLegalLinks" type="checkbox"> Yasal sayfa bağlantılarını göster</label>
+  </div></div>
+</section>
+
+<section id="system" class="page">
+  <div class="panel"><div class="panel-head"><h2>Sistem Durumu</h2></div><div class="panel-body" id="systemInfo"></div></div>
+  <div class="panel"><div class="panel-head"><h2>Ücretsiz Kalıcı Depolama Mantığı</h2></div><div class="panel-body">
+    <p>Ayarlar ve panelden yüklenen düşük hacimli medya dosyaları GitHub reposunda tutulur. Render her deploy'da bunları sitenin kendi dosya alanına alır. Böylece başlangıçta ayrı ücretli veritabanı veya obje depolama servisi gerekmez.</p>
+    <p><b>Önemli:</b> Bu yapı logo, favicon, hero ve site ayarları için uygundur. İleride binlerce büyük görsel yükleyecek bir medya sistemi kurulursa Cloudflare R2 gibi ayrı obje depolamaya geçmek daha doğru olur.</p>
+    <div id="githubInfo"></div>
+  </div></div>
+</section>
+
+<div class="savebar"><span id="saveMsg" class="help"></span><button id="saveBtn" class="btn btn-primary">Değişiklikleri Kaydet</button></div>
+</main>
+</section>
+</div>
+
+<script src="/admin.js" defer></script>
+</body>
+</html>

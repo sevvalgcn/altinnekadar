@@ -1,0 +1,731 @@
+{
+  "adana": {
+    "city": "Adana",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "adiyaman": {
+    "city": "Adıyaman",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "afyonkarahisar": {
+    "city": "Afyonkarahisar",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "agri": {
+    "city": "Ağrı",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "amasya": {
+    "city": "Amasya",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "ankara": {
+    "city": "Ankara",
+    "mode": "harem",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Ankara İstanbul ile eşdeğer Harem fiyatı kullanır."
+  },
+  "antalya": {
+    "city": "Antalya",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "artvin": {
+    "city": "Artvin",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "aydin": {
+    "city": "Aydın",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "balikesir": {
+    "city": "Balıkesir",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bilecik": {
+    "city": "Bilecik",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bingol": {
+    "city": "Bingöl",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bitlis": {
+    "city": "Bitlis",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bolu": {
+    "city": "Bolu",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "burdur": {
+    "city": "Burdur",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bursa": {
+    "city": "Bursa",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "canakkale": {
+    "city": "Çanakkale",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "cankiri": {
+    "city": "Çankırı",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "corum": {
+    "city": "Çorum",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "denizli": {
+    "city": "Denizli",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "diyarbakir": {
+    "city": "Diyarbakır",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "edirne": {
+    "city": "Edirne",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "elazig": {
+    "city": "Elazığ",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "erzincan": {
+    "city": "Erzincan",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "erzurum": {
+    "city": "Erzurum",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "eskisehir": {
+    "city": "Eskişehir",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "gaziantep": {
+    "city": "Gaziantep",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "giresun": {
+    "city": "Giresun",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "gumushane": {
+    "city": "Gümüşhane",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "hakkari": {
+    "city": "Hakkari",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "hatay": {
+    "city": "Hatay",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "isparta": {
+    "city": "Isparta",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "mersin": {
+    "city": "Mersin",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "istanbul": {
+    "city": "İstanbul",
+    "mode": "harem",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": true,
+    "note": "İstanbul için Harem; erişilemezse merkezi fallback."
+  },
+  "izmir": {
+    "city": "İzmir",
+    "mode": "izko",
+    "sourceName": "İzmir Kuyumcular Odası",
+    "sourceUrl": "https://www.izko.org.tr/guncel-kur",
+    "official": true,
+    "local": true,
+    "note": "Resmî İZKO sayfası. Dinamik fiyat okunamazsa merkezi fallback."
+  },
+  "kars": {
+    "city": "Kars",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kastamonu": {
+    "city": "Kastamonu",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kayseri": {
+    "city": "Kayseri",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kirklareli": {
+    "city": "Kırklareli",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kirsehir": {
+    "city": "Kırşehir",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kocaeli": {
+    "city": "Kocaeli",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "konya": {
+    "city": "Konya",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kutahya": {
+    "city": "Kütahya",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "malatya": {
+    "city": "Malatya",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "manisa": {
+    "city": "Manisa",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kahramanmaras": {
+    "city": "Kahramanmaraş",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "mardin": {
+    "city": "Mardin",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "mugla": {
+    "city": "Muğla",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "mus": {
+    "city": "Muş",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "nevsehir": {
+    "city": "Nevşehir",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "nigde": {
+    "city": "Niğde",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "ordu": {
+    "city": "Ordu",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "rize": {
+    "city": "Rize",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "sakarya": {
+    "city": "Sakarya",
+    "mode": "sakaryaPage",
+    "sourceName": "ÇeyrekAltınFiyatları • Sakarya Kuyumcu",
+    "sourceUrl": "https://ceyrekaltinfiyatlari.com/sakarya",
+    "official": false,
+    "local": true,
+    "note": "Şehir özel sayfa; sayfa kendisi verileri Kapalıçarşı önerilen fiyatları olarak tanımlar."
+  },
+  "samsun": {
+    "city": "Samsun",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "siirt": {
+    "city": "Siirt",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "sinop": {
+    "city": "Sinop",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "sivas": {
+    "city": "Sivas",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "tekirdag": {
+    "city": "Tekirdağ",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "tokat": {
+    "city": "Tokat",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "trabzon": {
+    "city": "Trabzon",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "tunceli": {
+    "city": "Tunceli",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "sanliurfa": {
+    "city": "Şanlıurfa",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "usak": {
+    "city": "Uşak",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "van": {
+    "city": "Van",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "yozgat": {
+    "city": "Yozgat",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "zonguldak": {
+    "city": "Zonguldak",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "aksaray": {
+    "city": "Aksaray",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bayburt": {
+    "city": "Bayburt",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "karaman": {
+    "city": "Karaman",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kirikkale": {
+    "city": "Kırıkkale",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "batman": {
+    "city": "Batman",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "sirnak": {
+    "city": "Şırnak",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "bartin": {
+    "city": "Bartın",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "ardahan": {
+    "city": "Ardahan",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "igdir": {
+    "city": "Iğdır",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "yalova": {
+    "city": "Yalova",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "karabuk": {
+    "city": "Karabük",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "kilis": {
+    "city": "Kilis",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "osmaniye": {
+    "city": "Osmaniye",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  },
+  "duzce": {
+    "city": "Düzce",
+    "mode": "haremFallback",
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "official": false,
+    "local": false,
+    "note": "Doğrulanmış şehir özel canlı kaynak bulunana kadar Harem canlı verisi kullanılır."
+  }
+}

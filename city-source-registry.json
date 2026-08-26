@@ -1,0 +1,74 @@
+{
+  "site": {
+    "announcement": "",
+    "maintenance": false,
+    "defaultCity": "istanbul",
+    "siteName": "Bugün Altın",
+    "domainLabel": "bugunaltin.com",
+    "logoPath": "",
+    "faviconPath": "/favicon.svg",
+    "heroImagePath": "",
+    "primaryColor": "#e1a900",
+    "accentColor": "#f4c430"
+  },
+  "home": {
+    "eyebrow": "ALTIN • DÖVİZ • HESAPLAMA",
+    "heroTitleBefore": "Bugün",
+    "heroHighlight": "altın",
+    "heroTitleAfter": "ne kadar?",
+    "heroDescription": "Şehrine göre yerel altın fiyatlarını, TCMB döviz kurlarını ve finansal hesaplama araçlarını tek ekranda takip et.",
+    "goldSectionTitle": "altın fiyatları",
+    "fxSectionTitle": "Güncel döviz kurları",
+    "toolsSectionTitle": "Hesaplama araçları",
+    "citiesSectionTitle": "Şehrine göre altın fiyatları",
+    "showMarket": true,
+    "showGold": true,
+    "showFx": true,
+    "showCalculators": true,
+    "showCities": true,
+    "showBenefits": true
+  },
+  "navigation": {
+    "gold": "Altın Fiyatları",
+    "fx": "Döviz Kurları",
+    "tools": "Hesaplamalar",
+    "cities": "Şehirler"
+  },
+  "footer": {
+    "description": "Altın, döviz ve günlük finans hesaplamaları.",
+    "contactEmail": "",
+    "copyright": "Bugün Altın",
+    "showLegalLinks": true
+  },
+  "seo": {
+    "defaultTitle": "Bugün Altın - Güncel Altın ve Döviz Fiyatları",
+    "defaultDescription": "Bugün Altın ile gram, çeyrek, yarım ve tam altın fiyatlarını; şehir bazlı yerel altın fiyatlarını ve döviz kurlarını takip edin.",
+    "googleSiteVerification": ""
+  },
+  "fx": {
+    "enabled": true,
+    "refreshMinutes": 5
+  },
+  "tools": {
+    "gold": true,
+    "loan": true,
+    "percent": true,
+    "vat": true,
+    "raise": true
+  },
+  "ads": {
+    "enabled": false,
+    "adsenseClient": "",
+    "topSlot": "",
+    "middleSlot": ""
+  },
+  "pages": {
+    "aboutTitle": "Hakkımızda",
+    "aboutBody": "Bugün Altın; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.",
+    "privacyTitle": "Gizlilik",
+    "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.",
+    "termsTitle": "Kullanım Şartları",
+    "termsBody": "Fiyat ve hesaplamalar bilgilendirme amaçlıdır."
+  },
+  "cities": {}
+}
