@@ -15,7 +15,7 @@
   <meta property="og:url" content="__CANONICAL__">
   <link rel="manifest" href="/manifest.webmanifest">
   <link id="siteFavicon" rel="icon" href="__FAVICON__">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles.css?v=20260826-3">
   __GOOGLE_VERIFY__
   <script type="application/ld+json">__SCHEMA__</script>
 </head>
@@ -144,6 +144,10 @@
     <div class="city-links" id="cityLinks"></div>
   </section>
 
+  <section class="container seo-content" id="seoContent">
+    __SEO_CONTENT__
+  </section>
+
   <section class="container source-panel">
     <span class="kicker">ŞEFFAFLIK</span><h2>Fiyat kaynağı</h2>
     <p id="sourceText">Şehriniz için doğrulanmış yerel kaynak kontrol ediliyor.</p>
@@ -153,12 +157,38 @@
 
 <footer>
   <div class="container footer-grid">
-    <div><a class="brand footer-brand" href="/"><span class="brand-icon">◆</span><span><b>Altın</b>NeKadar</span></a><p id="footerDescription">Altın, döviz ve günlük finans hesaplamaları.</p></div>
-    <div><b>Hızlı bağlantılar</b><a href="#gold">Altın fiyatları</a><a href="#fx">Döviz kurları</a><a id="navTools" href="#calculators">Hesaplamalar</a></div>
+    <div><a class="brand footer-brand" href="/"><span class="brand-icon">◆</span><span><b>Bugün</b> Altın</span></a><p id="footerDescription">Altın, döviz ve günlük finans hesaplamaları.</p></div>
+    <div><b>Hızlı bağlantılar</b>
+      <a href="/gram-altin">Gram altın</a>
+      <a href="/ceyrek-altin">Çeyrek altın</a>
+      <a href="/22-ayar-bilezik">22 ayar bilezik</a>
+      <a href="#fx">Döviz kurları</a>
+      <a id="navTools" href="#calculators">Hesaplamalar</a>
+    </div>
     <div id="legalLinks"><b>Bilgilendirme</b><a href="/hakkimizda">Hakkımızda</a><a href="/gizlilik">Gizlilik</a><a href="/kullanim-sartlari">Kullanım şartları</a></div>
   </div>
   <div class="container disclaimer">Fiyatlar bilgilendirme amaçlıdır. Kuyumcu fiyatları işçilik, ürün, ödeme yöntemi ve mağazaya göre değişebilir. Finansal hesaplamalar yatırım veya kredi tavsiyesi değildir.</div>
 </footer>
-<script src="/app.js" defer></script>
+<script src="/app.js?v=20260826-3" defer></script>
+
+<script>
+(function(){
+  const KEY="bugunaltin-cache-reset-v3";
+  if(localStorage.getItem(KEY)!=="1"){
+    Promise.all([
+      ("caches" in window ? caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))) : Promise.resolve()),
+      ("serviceWorker" in navigator ? navigator.serviceWorker.getRegistrations().then(regs=>Promise.all(regs.map(r=>r.unregister()))) : Promise.resolve())
+    ]).finally(()=>{
+      localStorage.setItem(KEY,"1");
+      if(!location.search.includes("cache_reset=1")){
+        const u=new URL(location.href);
+        u.searchParams.set("cache_reset","1");
+        location.replace(u.toString());
+      }
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
