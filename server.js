@@ -731,47 +731,66 @@ async function tcmb(){
  const dm=xml.match(/Tarih_Date[^>]*Tarih="([^"]+)"/i),data={sourceName:"TCMB",updatedAt:new Date().toISOString(),displayDate:dm?.[1]||"",rates};fxCache={time:Date.now(),data};return data;
 }
 
+
 let marketFxCache={time:0,data:null};const MARKET_FX_TTL=60_000;
-function normalizeMarketFxPayload(payload){
-  const raw=Array.isArray(payload)?payload:(Array.isArray(payload?.data)?payload.data:(Array.isArray(payload?.prices)?payload.prices:(Array.isArray(payload?.data?.prices)?payload.data.prices:[])));
-  const wanted=new Set(["USD","EUR","GBP","CHF"]);
-  const rates=[];
-  for(const x of raw){
-    const code=String(x.symbol||x.code||x.currency||x.key||"").toUpperCase().replace(/[^A-Z]/g,"");
-    let c=code;
-    if(c.endsWith("TRY")&&c.length>=6)c=c.slice(0,3);
-    if(!wanted.has(c))continue;
-    const buy=Number(x.buy??x.alis??x.buying??x.bid);
-    const sell=Number(x.sell??x.satis??x.selling??x.ask);
-    if(Number.isFinite(buy)&&Number.isFinite(sell))rates.push({code:c,name:c,buy,sell});
-  }
-  return rates;
+function marketFxSymbol(item){
+  const raw=String(item?.symbol??item?.sembol??item?.code??item?.kod??item?.currency??item?.title??item?.name??item?.isim??"")
+    .toUpperCase().replace(/\s/g,"").replace(/[\/_-]/g,"");
+  if(raw==="USD"||raw==="USDTRY"||raw.includes("DOLAR"))return "USD";
+  if(raw==="EUR"||raw==="EURTRY"||raw.includes("EURO"))return "EUR";
+  if(raw==="GBP"||raw==="GBPTRY"||raw.includes("STERLIN")||raw.includes("POUND"))return "GBP";
+  if(raw==="CHF"||raw==="CHFTRY"||raw.includes("ISVICRE"))return "CHF";
+  return null;
 }
 async function marketFx(){
   if(marketFxCache.data&&Date.now()-marketFxCache.time<MARKET_FX_TTL)return marketFxCache.data;
-  const key=String(process.env.HAREM_API_KEY||process.env.HASFİYAT_API_KEY||process.env.HASFIYAT_API_KEY||process.env.GOLD_API_KEY||"").trim();
-  if(!key)throw new Error("hasfiyat_key_missing");
-  const urls=[
-    "https://api.hasfiyat.com/api/prices?source=doviz&symbols=USD,EUR,GBP,CHF",
-    "https://api.hasfiyat.com/api/prices?source=doviz-api&symbols=USD,EUR,GBP,CHF",
-    "https://api.hasfiyat.com/api/prices?source=harem&symbols=USD,EUR,GBP,CHF"
-  ];
-  let lastError=null;
-  for(const url of urls){
-    try{
-      const r=await fetch(url,{headers:{Authorization:`Bearer ${key}`,Accept:"application/json","User-Agent":"BugunAltin.com/1.0"}});
-      if(!r.ok){lastError=new Error(`market_fx_http_${r.status}`);continue}
-      const payload=await r.json();
-      const rates=normalizeMarketFxPayload(payload);
-      if(rates.length){
-        const data={sourceName:"Kapalıçarşı / Serbest Piyasa",provider:"Hasfiyat",updatedAt:new Date().toISOString(),rates};
-        marketFxCache={time:Date.now(),data};return data;
-      }
-      lastError=new Error("market_fx_empty");
-    }catch(e){lastError=e}
+  const token=String(process.env.HAREM_API_KEY||"").trim();
+  if(!token)throw new Error("HAREM_API_KEY_missing");
+
+  const url="https://api.hasfiyat.com/api/prices?source=doviz&symbols=USD,EUR,GBP,CHF";
+  const r=await fetch(url,{
+    headers:{
+      "Authorization":`Bearer ${token}`,
+      "Accept":"application/json",
+      "User-Agent":"BugunAltin.com/1.0"
+    },
+    signal:AbortSignal.timeout(10000)
+  });
+  if(!r.ok)throw new Error(`market_fx_http_${r.status}`);
+
+  const json=await r.json();
+  const items=haremList(json);
+  if(!items.length)throw new Error("market_fx_empty_response");
+
+  const rates=[],seen=new Set();
+  for(const item of items){
+    const code=marketFxSymbol(item);
+    if(!code||seen.has(code))continue;
+    const buy=haremPriceValue(item,"buy"),sell=haremPriceValue(item,"sell");
+    if(buy===null&&sell===null)continue;
+    rates.push({code,name:code,buy:buy??sell??0,sell:sell??buy??0});
+    seen.add(code);
   }
-  throw lastError||new Error("market_fx_unavailable");
+  if(!rates.length)throw new Error("market_fx_symbols_missing");
+  const data={
+    sourceName:"Kapalıçarşı / Serbest Piyasa",
+    provider:"Hasfiyat Döviz API",
+    updatedAt:json?.updatedAt||json?.timestamp||json?.data?.updatedAt||new Date().toISOString(),
+    rates
+  };
+  marketFxCache={time:Date.now(),data};
+  return data;
 }
+
+app.get("/api/market-fx-status",async(req,res)=>{
+  try{
+    const data=await marketFx();
+    res.json({live:true,source:data.sourceName,provider:data.provider,updatedAt:data.updatedAt,rates:data.rates});
+  }catch(error){
+    res.status(503).json({live:false,error:String(error?.message||error)});
+  }
+});
+
 app.get("/api/fx",async(req,res)=>{
   try{
     const official=await tcmb();
