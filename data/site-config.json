@@ -3,8 +3,8 @@
     "announcement": "",
     "maintenance": false,
     "defaultCity": "istanbul",
-    "siteName": "AltınNeKadar",
-    "domainLabel": "altinnekadar.com.tr",
+    "siteName": "Bugün Altın",
+    "domainLabel": "bugunaltin.com",
     "logoPath": "",
     "faviconPath": "/favicon.svg",
     "heroImagePath": "",
@@ -37,7 +37,7 @@
   "footer": {
     "description": "Altın, döviz ve günlük finans hesaplamaları.",
     "contactEmail": "",
-    "copyright": "AltınNeKadar.com.tr",
+    "copyright": "BugunAltin.com",
     "showLegalLinks": true
   },
   "seo": {
@@ -64,7 +64,7 @@
   },
   "pages": {
     "aboutTitle": "Hakkımızda",
-    "aboutBody": "AltınNeKadar.com.tr; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.",
+    "aboutBody": "BugunAltin.com; altın, döviz ve finansal hesaplama araçlarını sade bir arayüzde sunar.",
     "privacyTitle": "Gizlilik",
     "privacyBody": "Gizlilik metni yönetim panelinden güncellenebilir.",
     "termsTitle": "Kullanım Şartları",

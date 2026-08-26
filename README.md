@@ -1,9 +1,9 @@
-# AltınNeKadar.com.tr — Nova Tarzı Yönetim Paneli
+# BugunAltin.com — Nova Tarzı Yönetim Paneli
 
 Bu sürüm, mevcut finans sitesini kod değiştirmeden yönetmek için hazırlanmıştır.
 
 ## Panel
-`https://altinnekadar.com.tr/admin`
+`https://bugunaltin.com/admin`
 
 ### Panelden yönetilenler
 - Logo, favicon, hero görseli
