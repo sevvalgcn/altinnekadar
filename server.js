@@ -11,6 +11,165 @@ const DATA_DIR=path.join(__dirname,"data");
 const CONFIG_FILE=path.join(DATA_DIR,"site-config.json");
 const UPLOADS=path.join(PUBLIC,"uploads");
 
+
+const SEO_POSTS_FILE=path.join(DATA_DIR,"seo-posts.json");
+const SEO_CONTENT_MAX_POSTS=Math.max(60,Number(process.env.SEO_MAX_POSTS)||500);
+const SEO_AUTO_ENABLED=String(process.env.SEO_AUTO_CONTENT||"true").toLowerCase()!=="false";
+
+function loadSeoPosts(){
+  try{
+    const rows=JSON.parse(fs.readFileSync(SEO_POSTS_FILE,"utf8"));
+    return Array.isArray(rows)?rows:[];
+  }catch{return []}
+}
+function saveSeoPosts(rows){
+  try{
+    fs.writeFileSync(SEO_POSTS_FILE,JSON.stringify(rows.slice(-SEO_CONTENT_MAX_POSTS),null,2),"utf8");
+  }catch(error){console.error("SEO posts save:",String(error?.message||error))}
+}
+function trDateParts(date=new Date()){
+  const parts=new Intl.DateTimeFormat("tr-TR",{
+    timeZone:"Europe/Istanbul",year:"numeric",month:"2-digit",day:"2-digit",
+    hour:"2-digit",minute:"2-digit",hour12:false
+  }).formatToParts(date);
+  return Object.fromEntries(parts.map(x=>[x.type,x.value]));
+}
+function trDayKey(date=new Date()){
+  const p=trDateParts(date);
+  return `${p.year}-${p.month}-${p.day}`;
+}
+function trHour(date=new Date()){return Number(trDateParts(date).hour||0)}
+function slotForHour(hour){
+  if(hour>=6&&hour<11)return "sabah";
+  if(hour>=11&&hour<16)return "oglen";
+  if(hour>=16&&hour<21)return "aksam";
+  return "gece";
+}
+function slotTitle(slot){
+  return {sabah:"Güne Başlarken",oglen:"Öğle Güncellemesi",aksam:"Akşam Altın Özeti",gece:"Günün Kapanış Özeti"}[slot]||"Altın Piyasası";
+}
+function postSlug(dayKey,slot){return `${dayKey}-${slot}-altin-piyasasi`}
+function moneyTR(n){
+  return Number(n||0).toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function pctText(n){
+  const v=Number(n||0);
+  return `${v>0?"+":""}${v.toLocaleString("tr-TR",{minimumFractionDigits:2,maximumFractionDigits:2})}%`;
+}
+function buildSeoPostFromGold(data,slot,now=new Date()){
+  if(!data||!Array.isArray(data.prices)||!data.prices.length)return null;
+  const dayKey=trDayKey(now);
+  const byKey=Object.fromEntries(data.prices.map(p=>[p.key,p]));
+  const gram=byKey.gram,ceyrek=byKey.ceyrek,yarim=byKey.yarim,tam=byKey.tam,bilezik=byKey.bilezik22;
+  if(!gram||!ceyrek)return null;
+
+  const titleMap={
+    sabah:`Altın Fiyatlarında Güne Başlangıç: Gram ${moneyTR(gram.sell)} TL`,
+    oglen:`Gram ve Çeyrek Altında Öğle Saatlerinde Son Durum`,
+    aksam:`Altın Fiyatlarında Akşam Özeti: Gram ve Çeyrek Kaç TL?`,
+    gece:`Günün Altın Piyasası Özeti: Gram Altın ${moneyTR(gram.sell)} TL`
+  };
+  const descMap={
+    sabah:`${dayKey} sabahında gram altın ${moneyTR(gram.sell)} TL, çeyrek altın ${moneyTR(ceyrek.sell)} TL satış seviyesinde. Güncel altın fiyatları ve piyasa özeti.`,
+    oglen:`Öğle saatlerinde gram altın ${moneyTR(gram.sell)} TL, çeyrek altın ${moneyTR(ceyrek.sell)} TL. Gün içi altın fiyatları tek sayfada.`,
+    aksam:`Akşam saatlerinde gram, çeyrek, yarım ve tam altın fiyatlarında son durum. Gram altın satış ${moneyTR(gram.sell)} TL.`,
+    gece:`Günün kapanışında gram altın ${moneyTR(gram.sell)} TL, çeyrek altın ${moneyTR(ceyrek.sell)} TL seviyesinde. Gün sonu altın özeti.`
+  };
+
+  const introMap={
+    sabah:"Yeni güne altın fiyatlarıyla başlanırken gram ve çeyrek altın yatırımcıların en çok takip ettiği kalemler arasında yer alıyor.",
+    oglen:"Günün ilk yarısı geride kalırken gram ve çeyrek altında alış-satış seviyeleri yeniden yakından izleniyor.",
+    aksam:"Piyasalarda günün son bölümüne girilirken altın fiyatlarında oluşan alış-satış seviyeleri dikkat çekiyor.",
+    gece:"Günün sonunda altın piyasasında gram, çeyrek ve diğer temel ürünlerde oluşan fiyatlar öne çıkıyor."
+  };
+
+  const rows=[
+    gram&&`Gram Altın: alış ${moneyTR(gram.buy)} TL, satış ${moneyTR(gram.sell)} TL`,
+    ceyrek&&`Çeyrek Altın: alış ${moneyTR(ceyrek.buy)} TL, satış ${moneyTR(ceyrek.sell)} TL`,
+    yarim&&`Yarım Altın: alış ${moneyTR(yarim.buy)} TL, satış ${moneyTR(yarim.sell)} TL`,
+    tam&&`Tam Altın: alış ${moneyTR(tam.buy)} TL, satış ${moneyTR(tam.sell)} TL`,
+    bilezik&&`22 Ayar Bilezik: alış ${moneyTR(bilezik.buy)} TL, satış ${moneyTR(bilezik.sell)} TL`
+  ].filter(Boolean);
+
+  const body=[
+    introMap[slot],
+    `Bugün Altın canlı veri ekranında gram altının satış fiyatı ${moneyTR(gram.sell)} TL, çeyrek altının satış fiyatı ${moneyTR(ceyrek.sell)} TL olarak görüntüleniyor.`,
+    rows.join(" • "),
+    "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
+    "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
+  ];
+
+  return {
+    id:`${dayKey}-${slot}`,
+    slug:postSlug(dayKey,slot),
+    slot,dayKey,
+    title:titleMap[slot],
+    description:descMap[slot],
+    body,
+    sourceName:data.sourceName||"Harem Altın",
+    sourceUrl:data.sourceUrl||"",
+    publishedAt:now.toISOString(),
+    updatedAt:data.fetchedAt||data.updatedAt||now.toISOString(),
+    prices:{gram,ceyrek,yarim,tam,bilezik22:bilezik}
+  };
+}
+async function ensureSeoPost(slot,force=false){
+  if(!SEO_AUTO_ENABLED&&!force)return null;
+  const now=new Date(),dayKey=trDayKey(now),id=`${dayKey}-${slot}`;
+  const posts=loadSeoPosts();
+  const existing=posts.find(p=>p.id===id);
+  if(existing&&!force)return existing;
+  const live=await fetchHaremGold(force);
+  const post=buildSeoPostFromGold(live,slot,now);
+  if(!post)return null;
+  const filtered=posts.filter(p=>p.id!==id);
+  filtered.push(post);
+  saveSeoPosts(filtered);
+  return post;
+}
+async function runSeoScheduler(){
+  if(!SEO_AUTO_ENABLED)return;
+  const slot=slotForHour(trHour(new Date()));
+  try{await ensureSeoPost(slot,false)}catch(error){console.error("SEO scheduler:",String(error?.message||error))}
+}
+function renderSeoPost(post){
+  if(!post)return null;
+  const canonical=`${BASE}/altin-gundemi/${post.slug}`;
+  const title=`${post.title} | Bugün Altın`;
+  const bodyHtml=post.body.map((p,i)=>i===2?`<p class="market-line">${esc(p)}</p>`:`<p>${esc(p)}</p>`).join("");
+  const article=`<article class="seo-article">
+    <span class="kicker">${esc(slotTitle(post.slot).toLocaleUpperCase("tr-TR"))}</span>
+    <h1>${esc(post.title)}</h1>
+    <p class="article-meta">${new Date(post.publishedAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"})} • Kaynak: ${esc(post.sourceName)}</p>
+    ${bodyHtml}
+    <div class="article-links">
+      <a href="/gram-altin">Gram Altın</a>
+      <a href="/ceyrek-altin">Çeyrek Altın</a>
+      <a href="/istanbul-altin-fiyatlari">İstanbul Altın Fiyatları</a>
+      <a href="/sakarya-altin-fiyatlari">Sakarya Altın Fiyatları</a>
+    </div>
+  </article>`;
+  const schema=JSON.stringify({"@context":"https://schema.org","@type":"Article",
+    headline:post.title,description:post.description,datePublished:post.publishedAt,dateModified:post.updatedAt,
+    mainEntityOfPage:canonical,author:{"@type":"Organization","name":"Bugün Altın"},
+    publisher:{"@type":"Organization","name":"Bugün Altın"}});
+  return renderTemplate({title,desc:post.description,canonical,schema,seoContent:article});
+}
+function renderSeoIndex(){
+  const posts=loadSeoPosts().sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
+  const cards=posts.slice(0,80).map(p=>`<a class="news-card" href="/altin-gundemi/${p.slug}">
+    <span>${esc(slotTitle(p.slot))}</span><h2>${esc(p.title)}</h2>
+    <p>${esc(p.description)}</p><small>${new Date(p.publishedAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"})}</small>
+  </a>`).join("");
+  return renderTemplate({
+    title:"Altın Gündemi - Günlük Altın Fiyatları ve Piyasa Özetleri | Bugün Altın",
+    desc:"Gram altın, çeyrek altın ve altın piyasasında günün sabah, öğle, akşam ve gece güncellemelerini takip edin.",
+    canonical:`${BASE}/altin-gundemi`,
+    schema:JSON.stringify({"@context":"https://schema.org","@type":"CollectionPage","name":"Altın Gündemi","url":`${BASE}/altin-gundemi`}),
+    seoContent:`<div class="seo-copy"><span class="kicker">ALTIN GÜNDEMİ</span><h1>Altın Gündemi</h1><p>Gün boyunca canlı fiyatlardan hazırlanan altın piyasası özetleri.</p><div class="news-grid">${cards||"<p>İlk piyasa özeti hazırlanıyor.</p>"}</div></div>`
+  });
+}
+
 const CITY_SOURCE_FILE=path.join(DATA_DIR,"city-source-registry.json");
 function loadCitySourceRegistry(){
   try{return JSON.parse(fs.readFileSync(CITY_SOURCE_FILE,"utf8"))}
@@ -189,14 +348,6 @@ function simplePage(title,body){return `<!doctype html><html lang="tr"><head><me
 
 app.disable("x-powered-by");app.set("trust proxy",1);
 app.use((req,res,next)=>{res.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Permissions-Policy":"geolocation=(self)","Cross-Origin-Opener-Policy":"same-origin","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"});next()});
-app.use((req,res,next)=>{
- if(req.path.endsWith(".html")||req.path.endsWith(".js")||req.path.endsWith(".css")||req.path==="/"){
-  res.set("Cache-Control","no-cache, no-store, must-revalidate");
-  res.set("Pragma","no-cache");
-  res.set("Expires","0");
- }
- next();
-});
 app.use(express.static(PUBLIC,{maxAge:"1d",etag:true,index:false,immutable:false}));
 app.use(express.json({limit:"3mb"}));
 
@@ -584,10 +735,28 @@ app.get("/api/fx",async(req,res)=>{try{res.set("Cache-Control","public,max-age=6
 function hav(a,b,c,d){const R=6371,p=Math.PI/180,x=(c-a)*p,y=(d-b)*p,u=Math.sin(x/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(u))}
 app.get("/api/reverse-geocode",(req,res)=>{const lat=Number(req.query.lat),lon=Number(req.query.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon)||lat<35||lat>43||lon<25||lon>46)return res.status(400).json({error:"invalid_coordinates"});let best=null,dist=1e9;for(const [slug,[a,b]] of Object.entries(CENTERS)){const d=hav(lat,lon,a,b);if(d<dist){dist=d;best=slug}}res.json({citySlug:best,cityName:CITIES[best],approximate:true})});
 app.get("/api/source-status",(req,res)=>res.json(Object.fromEntries(Object.keys(CITIES).map(c=>{const cfg=siteConfig.cities?.[c];return[c,{configured:Boolean(verifiedSources[c])||cfg?.sourceMode==="manual",mode:cfg?.sourceMode||"none",name:cfg?.sourceName||verifiedSources[c]?.sourceName||null}]}))));
+app.get("/sitemap-dynamic.xml",(req,res)=>{
+ const posts=loadSeoPosts().sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
+ const body=posts.map(p=>`  <url><loc>${BASE}/altin-gundemi/${p.slug}</loc><lastmod>${p.updatedAt||p.publishedAt}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>`).join("\n");
+ res.type("application/xml").send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>`);
+});
+
 app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),goldApiConfigured:Boolean(process.env.GOLD_API_KEY),goldCacheAgeSeconds:centralGoldCache.time?Math.round((Date.now()-centralGoldCache.time)/1000):null}));
 
 app.use((req,res,next)=>{if(!siteConfig.site.maintenance)return next();if(req.path.startsWith("/admin")||req.path.startsWith("/api/admin")||req.path==="/health")return next();res.status(503).send(simplePage("Bakımdayız","<p>Site kısa süreli bakım çalışmasındadır.</p>"))});
 app.get("/",(req,res)=>res.send(renderHome("istanbul")));
+app.get("/altin-gundemi",(req,res)=>res.send(renderSeoIndex()));
+app.get("/altin-gundemi/:slug",(req,res)=>{
+ const post=loadSeoPosts().find(p=>p.slug===req.params.slug);
+ if(!post)return res.status(404).send(simplePage("İçerik bulunamadı","İçerik bulunamadı","Bu piyasa özeti mevcut değil."));
+ res.send(renderSeoPost(post));
+});
+app.post("/api/admin/seo-generate",requireAdmin,async(req,res)=>{
+ const slot=["sabah","oglen","aksam","gece"].includes(req.body?.slot)?req.body.slot:slotForHour(trHour(new Date()));
+ const post=await ensureSeoPost(slot,true);
+ if(!post)return res.status(503).json({error:"seo_post_generation_failed"});
+ res.json({ok:true,post});
+});
 app.get("/:goldType",(req,res,next)=>{
  const page=renderProductPage(req.params.goldType);
  if(page)return res.send(page);
@@ -598,4 +767,7 @@ app.get("/hakkimizda",(req,res)=>res.send(simplePage(siteConfig.pages.aboutTitle
 app.get("/gizlilik",(req,res)=>res.send(simplePage(siteConfig.pages.privacyTitle,`<p>${plainTextHtml(siteConfig.pages.privacyBody)}</p>`)));
 app.get("/kullanim-sartlari",(req,res)=>res.send(simplePage(siteConfig.pages.termsTitle,`<p>${plainTextHtml(siteConfig.pages.termsBody)}</p>`)));
 app.use((req,res)=>res.status(404).send(simplePage("Sayfa bulunamadı","<p>Aradığınız sayfa mevcut değil.</p>")));
+runSeoScheduler();
+setInterval(runSeoScheduler,15*60*1000);
+
 app.listen(PORT,()=>console.log(`AltınNeKadar.com.tr http://localhost:${PORT}`));

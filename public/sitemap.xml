@@ -91,4 +91,5 @@
   <url><loc>https://bugunaltin.com/hakkimizda</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
   <url><loc>https://bugunaltin.com/gizlilik</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
   <url><loc>https://bugunaltin.com/kullanim-sartlari</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://bugunaltin.com/altin-gundemi</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 </urlset>

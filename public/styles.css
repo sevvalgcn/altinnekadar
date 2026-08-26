@@ -40,3 +40,20 @@ h1 .plain{color:#fff}
  .seo-copy p{font-size:15px}
  .seo-links{grid-template-columns:1fr}
 }
+
+/* Altın Gündemi */
+.news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.news-card{display:block;padding:20px;border:1px solid #e6e0d3;border-radius:16px;background:#fff;text-decoration:none;color:inherit}
+.news-card:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(20,16,5,.06)}
+.news-card>span{font-size:12px;font-weight:800;letter-spacing:.08em;color:#8a6900}
+.news-card h2{font-size:20px;margin:8px 0}
+.news-card p{font-size:14px;line-height:1.6;color:#666}
+.news-card small{color:#8a8a8a}
+.seo-article{background:#fff;border:1px solid #e7e2d8;border-radius:18px;padding:30px}
+.seo-article h1{font-size:34px;line-height:1.15;margin:10px 0 10px}
+.seo-article p{font-size:16px;line-height:1.8;color:#4f4f4f}
+.article-meta{font-size:13px!important;color:#888!important}
+.market-line{padding:14px 16px;border-radius:12px;background:#faf7ed;font-weight:700;color:#3d3211!important}
+.article-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.article-links a{padding:9px 12px;border-radius:999px;background:#f6f0db;color:#6b5100;text-decoration:none;font-weight:700}
+@media(max-width:700px){.news-grid{grid-template-columns:1fr}.seo-article{padding:20px}.seo-article h1{font-size:27px}}

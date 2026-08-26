@@ -111,3 +111,25 @@ Yeni parser:
 3. Harem Altın / Hasfiyat canlı fallback
 
 Merkezi apinoktam artık şehir fallback'i değildir.
+
+
+## Otomatik SEO İçerik Sistemi
+
+Varsayılan olarak `SEO_AUTO_CONTENT=true`.
+
+Türkiye saatine göre dört içerik dilimi:
+- 06:00-10:59 → Sabah
+- 11:00-15:59 → Öğle
+- 16:00-20:59 → Akşam
+- 21:00-05:59 → Gece
+
+Sunucu her 15 dakikada bir bulunduğu dilimin içeriğinin mevcut olup olmadığını kontrol eder.
+Aynı gün/dilim için yalnızca bir içerik tutulur.
+
+Sayfalar:
+- `/altin-gundemi`
+- `/altin-gundemi/YYYY-MM-DD-sabah-altin-piyasasi`
+- `/sitemap-dynamic.xml`
+
+Not: Render ücretsiz servis uykuya girerse tam saat garantisi yoktur. Servis yeniden uyandığında o anki dilim için eksik içerik otomatik oluşturulur.
+İçerikler canlı Harem altın verilerinden üretilir; dış haber iddiaları otomatik uydurulmaz.
