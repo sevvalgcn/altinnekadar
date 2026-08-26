@@ -465,7 +465,71 @@ let centralGoldCache={time:0,data:null,lastError:null};
 function parseGoldNumber(v){if(typeof v==="number")return Number.isFinite(v)?v:null;let s=String(v??"").trim();if(!s)return null;if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",", ".");else if(s.includes(","))s=s.replace(",", ".");const n=Number(s);return Number.isFinite(n)?n:null}
 function centralGoldKey(item){const symbol=String(item?.sembol||"").toUpperCase(),tur=String(item?.tur||"").toLocaleLowerCase("tr-TR"),isim=String(item?.isim||"").toLocaleLowerCase("tr-TR");if(symbol==="GRA"||tur==="gram"||isim.includes("gram alt"))return "gram";if(tur==="ceyrek"||tur==="çeyrek"||isim.includes("çeyrek"))return "ceyrek";if(tur==="yarim"||tur==="yarım"||isim.includes("yarım"))return "yarim";if(tur==="tam"||isim.includes("tam alt"))return "tam";if(tur==="cumhuriyet"||isim.includes("cumhuriyet"))return "cumhuriyet";if(tur.includes("22")||isim.includes("22 ayar"))return "bilezik22";return null}
 function centralGoldName(key){return {gram:"Gram Altın",ceyrek:"Çeyrek Altın",yarim:"Yarım Altın",tam:"Tam Altın",cumhuriyet:"Cumhuriyet Altını",bilezik22:"22 Ayar Bilezik"}[key]||key}
-async function fetchCentralGold(force=false){const now=Date.now();if(!force&&centralGoldCache.data&&now-centralGoldCache.time<CENTRAL_GOLD_TTL)return centralGoldCache.data;const apiKey=String(process.env.GOLD_API_KEY||"").trim();if(apiKey&&[...apiKey].some(ch=>ch.charCodeAt(0)>255)){centralGoldCache.lastError="GOLD_API_KEY_non_ascii";return centralGoldCache.data||null;}if(!apiKey){centralGoldCache.lastError="GOLD_API_KEY_missing";return centralGoldCache.data||null}try{const r=await fetch(CENTRAL_GOLD_BASE,{headers:{"x-api-key":apiKey,"Accept":"application/json","User-Agent":"BugunAltin.com/1.0"},signal:AbortSignal.timeout(10000)});if(!r.ok)throw new Error(`gold_api_http_${r.status}`);const json=await r.json(),items=json?.data?.kalemler;if(!Array.isArray(items)||!items.length)throw new Error("gold_api_invalid_format");const prices=[],seen=new Set();for(const item of items){const key=centralGoldKey(item);if(!key||seen.has(key))continue;const buy=parseGoldNumber(item.alis),sell=parseGoldNumber(item.satis),change=parseGoldNumber(item.degisim);if(buy==null&&sell==null)continue;prices.push({key,name:centralGoldName(key),buy:buy??sell??0,sell:sell??buy??0,change:change??0});seen.add(key)}if(!prices.some(p=>p.key==="gram"))throw new Error("gold_api_missing_gram");const data={verified:true,central:true,sourceName:"apinoktam Altın API",sourceUrl:"https://apinoktam.erenozdemir.com.tr/en/api-noktalari/altin-fiyatlari-api",providerSource:json?.meta?.kaynak||"truncgil.com",updatedAt:json?.data?.tarih||json?.meta?.updatedAt||new Date().toISOString(),fetchedAt:new Date().toISOString(),prices};centralGoldCache={time:now,data,lastError:null};return data}catch(err){centralGoldCache.lastError=String(err?.message||err);console.error("Central gold:",centralGoldCache.lastError);return centralGoldCache.data||null}}
+function centralGoldList(json){
+  if(Array.isArray(json?.data?.kalemler))return json.data.kalemler;
+  if(Array.isArray(json?.kalemler))return json.kalemler;
+  if(Array.isArray(json?.data))return json.data;
+  if(Array.isArray(json?.prices))return json.prices;
+  if(Array.isArray(json?.result))return json.result;
+  if(Array.isArray(json?.data?.prices))return json.data.prices;
+  if(Array.isArray(json?.data?.items))return json.data.items;
+  return [];
+}
+function centralGoldValue(item,side){
+  const fields=side==="buy"?["alis","alış","buy","buying","bid"]:["satis","satış","sell","selling","ask"];
+  for(const field of fields){
+    if(item?.[field]!==undefined&&item?.[field]!==null){
+      const n=parseGoldNumber(item[field]);
+      if(n!==null)return n;
+    }
+  }
+  return null;
+}
+async function fetchCentralGold(force=false){
+  const now=Date.now();
+  if(!force&&centralGoldCache.data&&now-centralGoldCache.time<CENTRAL_GOLD_TTL)return centralGoldCache.data;
+  const apiKey=String(process.env.GOLD_API_KEY||"").trim();
+  if(apiKey&&[...apiKey].some(ch=>ch.charCodeAt(0)>255)){centralGoldCache.lastError="GOLD_API_KEY_non_ascii";return centralGoldCache.data||null;}
+  if(!apiKey){centralGoldCache.lastError="GOLD_API_KEY_missing";return centralGoldCache.data||null;}
+  try{
+    const r=await fetch(CENTRAL_GOLD_BASE,{headers:{
+      "Authorization":`Bearer ${apiKey}`,
+      "x-api-key":apiKey,
+      "Accept":"application/json",
+      "User-Agent":"BugunAltin.com/1.0"
+    },signal:AbortSignal.timeout(10000)});
+    const raw=await r.text();
+    let json=null;
+    try{json=raw?JSON.parse(raw):null}catch{throw new Error(`gold_api_non_json_${r.status}`)}
+    if(!r.ok){
+      const msg=String(json?.error?.message||json?.message||json?.error||"").replace(/\s+/g,"_").slice(0,80);
+      throw new Error(`gold_api_http_${r.status}${msg?`_${msg}`:""}`);
+    }
+    const items=centralGoldList(json);
+    if(!items.length){
+      const msg=String(json?.error?.message||json?.message||json?.error||"").replace(/\s+/g,"_").slice(0,80);
+      throw new Error(msg?`gold_api_${msg}`:"gold_api_empty_response");
+    }
+    const prices=[],seen=new Set();
+    for(const item of items){
+      const key=centralGoldKey(item);
+      if(!key||seen.has(key))continue;
+      const buy=centralGoldValue(item,"buy"),sell=centralGoldValue(item,"sell");
+      const change=parseGoldNumber(item?.degisim??item?.değişim??item?.change);
+      if(buy==null&&sell==null)continue;
+      prices.push({key,name:centralGoldName(key),buy:buy??sell??0,sell:sell??buy??0,change:change??0});
+      seen.add(key);
+    }
+    if(!prices.some(p=>p.key==="gram"))throw new Error("gold_api_missing_gram");
+    const data={verified:true,central:true,sourceName:"apinoktam Altın API",sourceUrl:"https://apinoktam.erenozdemir.com.tr/docs",providerSource:json?.meta?.kaynak||json?.source||"truncgil.com",updatedAt:json?.data?.tarih||json?.meta?.updatedAt||json?.updatedAt||new Date().toISOString(),fetchedAt:new Date().toISOString(),prices};
+    centralGoldCache={time:now,data,lastError:null};
+    return data;
+  }catch(err){
+    centralGoldCache.lastError=String(err?.message||err);
+    console.error("Central gold:",centralGoldCache.lastError);
+    return centralGoldCache.data||null;
+  }
+}
 
 
 const HAREM_GOLD_URL="https://api.hasfiyat.com/api/prices?source=harem";
