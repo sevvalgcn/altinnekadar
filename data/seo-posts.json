@@ -118,234 +118,57 @@
     "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
   },
   {
-    "id": "2026-08-27-sabah",
-    "slug": "2026-08-27-sabah-altin-piyasasi",
-    "slot": "sabah",
-    "dayKey": "2026-08-27",
-    "title": "Altın Fiyatlarında Güne Başlangıç: Gram 7.148,34 TL",
-    "description": "2026-08-27 sabahında gram altın 7.148,34 TL, çeyrek altın 11.686,00 TL satış seviyesinde. Güncel altın fiyatları ve piyasa özeti.",
-    "body": [
-      "Yeni güne altın fiyatlarıyla başlanırken gram ve çeyrek altın yatırımcıların en çok takip ettiği kalemler arasında yer alıyor.",
-      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 7.148,34 TL, çeyrek altının satış fiyatı 11.686,00 TL olarak görüntüleniyor.",
-      "Gram Altın: alış 7.115,55 TL, satış 7.148,34 TL • Çeyrek Altın: alış 11.563,00 TL, satış 11.686,00 TL • Yarım Altın: alış 23.161,00 TL, satış 23.364,00 TL • Tam Altın: alış 46.002,00 TL, satış 46.556,00 TL • 22 Ayar Bilezik: alış 6.473,15 TL, satış 6.699,44 TL",
-      "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
-      "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
-    ],
-    "sourceName": "Harem Altın • Hasfiyat API",
-    "sourceUrl": "https://altinapi.hasfiyat.com/",
-    "publishedAt": "2026-08-27T03:02:54.228Z",
-    "updatedAt": "2026-08-27T03:02:54.803Z",
-    "prices": {
-      "gram": {
-        "key": "gram",
-        "name": "Gram Altın",
-        "buy": 7115.55,
-        "sell": 7148.34,
-        "change": 0
-      },
-      "ceyrek": {
-        "key": "ceyrek",
-        "name": "Çeyrek Altın",
-        "buy": 11563,
-        "sell": 11686,
-        "change": 0
-      },
-      "yarim": {
-        "key": "yarim",
-        "name": "Yarım Altın",
-        "buy": 23161,
-        "sell": 23364,
-        "change": 0
-      },
-      "tam": {
-        "key": "tam",
-        "name": "Tam Altın",
-        "buy": 46002,
-        "sell": 46556,
-        "change": 0
-      },
-      "bilezik22": {
-        "key": "bilezik22",
-        "name": "22 Ayar Bilezik",
-        "buy": 6473.15,
-        "sell": 6699.44,
-        "change": 0
-      }
-    },
-    "aiGenerated": false,
-    "aiModel": "gpt-5.4-mini",
-    "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
-  },
-  {
-    "id": "2026-08-27-oglen",
-    "slug": "2026-08-27-oglen-altin-piyasasi",
-    "slot": "oglen",
-    "dayKey": "2026-08-27",
-    "title": "Gram ve Çeyrek Altında Öğle Saatlerinde Son Durum",
-    "description": "Öğle saatlerinde gram altın 7.110,21 TL, çeyrek altın 11.623,00 TL. Gün içi altın fiyatları tek sayfada.",
-    "body": [
-      "Günün ilk yarısı geride kalırken gram ve çeyrek altında alış-satış seviyeleri yeniden yakından izleniyor.",
-      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 7.110,21 TL, çeyrek altının satış fiyatı 11.623,00 TL olarak görüntüleniyor.",
-      "Gram Altın: alış 7.079,29 TL, satış 7.110,21 TL • Çeyrek Altın: alış 11.504,00 TL, satış 11.623,00 TL • Yarım Altın: alış 23.043,00 TL, satış 23.239,00 TL • Tam Altın: alış 45.768,00 TL, satış 46.307,00 TL • 22 Ayar Bilezik: alış 6.440,16 TL, satış 6.663,60 TL",
-      "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
-      "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
-    ],
-    "sourceName": "Harem Altın • Hasfiyat API",
-    "sourceUrl": "https://altinapi.hasfiyat.com/",
-    "publishedAt": "2026-08-27T08:02:54.575Z",
-    "updatedAt": "2026-08-27T08:02:54.676Z",
-    "prices": {
-      "gram": {
-        "key": "gram",
-        "name": "Gram Altın",
-        "buy": 7079.29,
-        "sell": 7110.21,
-        "change": 0
-      },
-      "ceyrek": {
-        "key": "ceyrek",
-        "name": "Çeyrek Altın",
-        "buy": 11504,
-        "sell": 11623,
-        "change": 0
-      },
-      "yarim": {
-        "key": "yarim",
-        "name": "Yarım Altın",
-        "buy": 23043,
-        "sell": 23239,
-        "change": 0
-      },
-      "tam": {
-        "key": "tam",
-        "name": "Tam Altın",
-        "buy": 45768,
-        "sell": 46307,
-        "change": 0
-      },
-      "bilezik22": {
-        "key": "bilezik22",
-        "name": "22 Ayar Bilezik",
-        "buy": 6440.16,
-        "sell": 6663.6,
-        "change": 0
-      }
-    },
-    "aiGenerated": false,
-    "aiModel": "gpt-5.4-mini",
-    "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
-  },
-  {
-    "id": "2026-08-27-aksam",
-    "slug": "2026-08-27-aksam-altin-piyasasi",
-    "slot": "aksam",
-    "dayKey": "2026-08-27",
-    "title": "Altın Fiyatlarında Akşam Özeti: Gram ve Çeyrek Kaç TL?",
-    "description": "Akşam saatlerinde gram, çeyrek, yarım ve tam altın fiyatlarında son durum. Gram altın satış 7.075,91 TL.",
-    "body": [
-      "Piyasalarda günün son bölümüne girilirken altın fiyatlarında oluşan alış-satış seviyeleri dikkat çekiyor.",
-      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 7.075,91 TL, çeyrek altının satış fiyatı 11.568,00 TL olarak görüntüleniyor.",
-      "Gram Altın: alış 7.046,67 TL, satış 7.075,91 TL • Çeyrek Altın: alış 11.452,00 TL, satış 11.568,00 TL • Yarım Altın: alış 22.936,00 TL, satış 23.126,00 TL • Tam Altın: alış 45.555,00 TL, satış 46.082,00 TL • 22 Ayar Bilezik: alış 6.410,47 TL, satış 6.631,35 TL",
-      "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
-      "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
-    ],
-    "sourceName": "Harem Altın • Hasfiyat API",
-    "sourceUrl": "https://altinapi.hasfiyat.com/",
-    "publishedAt": "2026-08-27T13:02:54.646Z",
-    "updatedAt": "2026-08-27T13:02:54.898Z",
-    "prices": {
-      "gram": {
-        "key": "gram",
-        "name": "Gram Altın",
-        "buy": 7046.67,
-        "sell": 7075.91,
-        "change": 0
-      },
-      "ceyrek": {
-        "key": "ceyrek",
-        "name": "Çeyrek Altın",
-        "buy": 11452,
-        "sell": 11568,
-        "change": 0
-      },
-      "yarim": {
-        "key": "yarim",
-        "name": "Yarım Altın",
-        "buy": 22936,
-        "sell": 23126,
-        "change": 0
-      },
-      "tam": {
-        "key": "tam",
-        "name": "Tam Altın",
-        "buy": 45555,
-        "sell": 46082,
-        "change": 0
-      },
-      "bilezik22": {
-        "key": "bilezik22",
-        "name": "22 Ayar Bilezik",
-        "buy": 6410.47,
-        "sell": 6631.35,
-        "change": 0
-      }
-    },
-    "aiGenerated": false,
-    "aiModel": "gpt-5.4-mini",
-    "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
-  },
-  {
     "id": "2026-08-27-gece",
     "slug": "2026-08-27-gece-altin-piyasasi",
     "slot": "gece",
     "dayKey": "2026-08-27",
-    "title": "Günün Altın Piyasası Özeti: Gram Altın 7.107,30 TL",
-    "description": "Günün kapanışında gram altın 7.107,30 TL, çeyrek altın 11.619,00 TL seviyesinde. Gün sonu altın özeti.",
+    "title": "Günün Altın Piyasası Özeti: Gram Altın 7.108,26 TL",
+    "description": "Günün kapanışında gram altın 7.108,26 TL, çeyrek altın 11.620,00 TL seviyesinde. Gün sonu altın özeti.",
     "body": [
       "Günün sonunda altın piyasasında gram, çeyrek ve diğer temel ürünlerde oluşan fiyatlar öne çıkıyor.",
-      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 7.107,30 TL, çeyrek altının satış fiyatı 11.619,00 TL olarak görüntüleniyor.",
-      "Gram Altın: alış 7.069,61 TL, satış 7.107,30 TL • Çeyrek Altın: alış 11.489,00 TL, satış 11.619,00 TL • Yarım Altın: alış 23.012,00 TL, satış 23.230,00 TL • Tam Altın: alış 45.705,00 TL, satış 46.288,00 TL • 22 Ayar Bilezik: alış 6.431,35 TL, satış 6.660,87 TL",
+      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 7.108,26 TL, çeyrek altının satış fiyatı 11.620,00 TL olarak görüntüleniyor.",
+      "Gram Altın: alış 7.070,57 TL, satış 7.108,26 TL • Çeyrek Altın: alış 11.490,00 TL, satış 11.620,00 TL • Yarım Altın: alış 23.015,00 TL, satış 23.233,00 TL • Tam Altın: alış 45.712,00 TL, satış 46.295,00 TL • 22 Ayar Bilezik: alış 6.432,22 TL, satış 6.661,77 TL",
       "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
       "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
     ],
     "sourceName": "Harem Altın • Hasfiyat API",
     "sourceUrl": "https://altinapi.hasfiyat.com/",
-    "publishedAt": "2026-08-27T18:02:54.717Z",
-    "updatedAt": "2026-08-27T18:02:54.860Z",
+    "publishedAt": "2026-08-27T18:03:39.370Z",
+    "updatedAt": "2026-08-27T18:03:40.065Z",
     "prices": {
       "gram": {
         "key": "gram",
         "name": "Gram Altın",
-        "buy": 7069.61,
-        "sell": 7107.3,
+        "buy": 7070.57,
+        "sell": 7108.26,
         "change": 0
       },
       "ceyrek": {
         "key": "ceyrek",
         "name": "Çeyrek Altın",
-        "buy": 11489,
-        "sell": 11619,
+        "buy": 11490,
+        "sell": 11620,
         "change": 0
       },
       "yarim": {
         "key": "yarim",
         "name": "Yarım Altın",
-        "buy": 23012,
-        "sell": 23230,
+        "buy": 23015,
+        "sell": 23233,
         "change": 0
       },
       "tam": {
         "key": "tam",
         "name": "Tam Altın",
-        "buy": 45705,
-        "sell": 46288,
+        "buy": 45712,
+        "sell": 46295,
         "change": 0
       },
       "bilezik22": {
         "key": "bilezik22",
         "name": "22 Ayar Bilezik",
-        "buy": 6431.35,
-        "sell": 6660.87,
+        "buy": 6432.22,
+        "sell": 6661.77,
         "change": 0
       }
     },
