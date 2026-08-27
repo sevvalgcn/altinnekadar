@@ -72,3 +72,10 @@ h1 .plain{color:#fff}
  .fx-source{padding:11px}
  .fx-sell{font-size:19px}
 }
+
+
+/* Mobil şehir adları her telefonda okunur kalsın */
+@media(max-width:620px){
+  .city-picker select{background:#fff;color:#111}
+  .city-picker option{color:#111;background:#fff}
+}
