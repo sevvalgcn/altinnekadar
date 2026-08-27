@@ -409,9 +409,8 @@ function renderTemplate({title,desc,canonical,schema,seoContent}){
    .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"))
    .replace("__SEO_CONTENT__",seoContent||"");
 }
-function renderHome(citySlug="istanbul"){
+function renderHome(citySlug="istanbul",isRoot=false){
   const city=CITIES[citySlug]||"Türkiye";
-  const isRoot=citySlug==="istanbul";
   const title=isRoot?(siteConfig.seo.defaultTitle||"Bugün Altın - Güncel Altın ve Döviz Fiyatları"):`${city} Altın Fiyatları Bugün - Gram, Çeyrek, Bilezik | Bugün Altın`;
   const desc=isRoot?(siteConfig.seo.defaultDescription||"Bugün Altın ile gram, çeyrek, yarım ve tam altın fiyatlarını takip edin."):`${city} altın fiyatları bugün ne kadar? Gram altın, çeyrek altın, yarım, tam, Cumhuriyet altını ve 22 ayar bilezik güncel alış-satış fiyatlarını takip edin.`;
   const canonical=isRoot?`${BASE}/`:`${BASE}/${citySlug}-altin-fiyatlari`;
@@ -1172,7 +1171,7 @@ app.get("/api/source-status",(req,res)=>res.json(Object.fromEntries(Object.keys(
 app.get("/health",(req,res)=>res.json({ok:true,time:new Date().toISOString(),goldApiConfigured:Boolean(process.env.GOLD_API_KEY),goldCacheAgeSeconds:centralGoldCache.time?Math.round((Date.now()-centralGoldCache.time)/1000):null}));
 
 app.use((req,res,next)=>{if(!siteConfig.site.maintenance)return next();if(req.path.startsWith("/admin")||req.path.startsWith("/api/admin")||req.path==="/health")return next();res.status(503).send(simplePage("Bakımdayız","<p>Site kısa süreli bakım çalışmasındadır.</p>"))});
-app.get("/",(req,res)=>res.send(renderHome("istanbul")));
+app.get("/",(req,res)=>res.send(renderHome("istanbul",true)));
 app.get("/altin-gundemi",(req,res)=>res.send(renderSeoIndex()));
 app.get("/altin-gundemi/:slug",(req,res)=>{
  const post=loadSeoPosts().find(p=>p.slug===req.params.slug);
@@ -1241,6 +1240,13 @@ app.post("/api/admin/seo-generate",requireAdmin,async(req,res)=>{
  if(!post)return res.status(503).json({error:"seo_post_generation_failed"});
  res.json({ok:true,post});
 });
+for(const productSlug of Object.keys(GOLD_SEO_PRODUCTS)){
+ app.get(`/:city-${productSlug}`,(req,res,next)=>{
+  const page=renderCityProductPage(req.params.city,productSlug);
+  if(page)return res.send(page);
+  next();
+ });
+}
 app.get("/:city-:goldType",(req,res,next)=>{
   const citySlug=req.params.city;
   const productSlug=req.params.goldType;
