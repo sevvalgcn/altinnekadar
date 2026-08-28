@@ -38,12 +38,16 @@ jobs:
         run: |
           grep -F '$("locateBtn")?.addEventListener("click",locate);' public/app.js
           grep -F '$("citySearch")?.addEventListener("input",e=>renderCityLinks(e.target.value));' public/app.js
-      - name: Commit UI change
+      - name: Commit and push UI change safely
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/index.html
           git commit -m "Fix location and city search controls"
-          git push
-
-# trigger
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin main; then exit 0; fi
+            sleep 1
+          done
+          exit 1
