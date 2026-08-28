@@ -45,3 +45,5 @@ jobs:
           git add public/index.html
           git commit -m "Fix location and city search controls"
           git push
+
+# trigger
