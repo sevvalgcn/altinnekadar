@@ -366,7 +366,6 @@ async function loadPublicConfig(){
     set("navGold",n.gold);
     set("navFx",n.fx);
     set("navTools",n.tools);
-    set("navCities",n.cities);
     set("footerDescription",f.description);
 
     const show=(id,on)=>{
@@ -413,6 +412,14 @@ function markGoldSourceMode(data){
 }
 
 function setupEvents(){
+  window.CitySearch?.initCityTypeahead({
+    input:$("navCitySearch"),
+    suggestions:$("navCitySuggestions"),
+    cities:CITIES,
+    navigate:url=>{window.location.href=url;},
+    documentRef:document
+  });
+
   $("citySelect")?.addEventListener("change",()=>{
     currentCity=$("citySelect").value;
     history.pushState(null,"",`/${currentCity}-altin-fiyatlari`);
@@ -452,7 +459,8 @@ function setupEvents(){
     $("menuToggle")?.setAttribute("aria-expanded",String(open));
   });
 
-  $("mainNav")?.addEventListener("click",()=>{
+  $("mainNav")?.addEventListener("click",event=>{
+    if(!event.target.closest("a"))return;
     $("mainNav")?.classList.remove("open");
     $("menuToggle")?.setAttribute("aria-expanded","false");
   });

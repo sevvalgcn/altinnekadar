@@ -24,6 +24,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <link id="siteFavicon" rel="icon" href="__FAVICON__">
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/city-search.css">
   __GOOGLE_VERIFY__
   <script type="application/ld+json">__SCHEMA__</script>
 </head>
@@ -37,7 +38,11 @@
       <a id="navGold" href="#gold">Altın Fiyatları</a>
       <a id="navFx" href="#fx">Döviz Kurları</a>
       <a id="navTools" href="#calculators">Hesaplamalar</a>
-      <a id="navCities" href="#cities">Şehirler</a>
+      <a href="/haberler">Haberler</a>
+      <div class="nav-city-search">
+        <input id="navCitySearch" type="search" placeholder="Şehir ara…" aria-label="Şehir ara" aria-autocomplete="list" aria-controls="navCitySuggestions" aria-expanded="false" autocomplete="off">
+        <div class="nav-city-suggestions" id="navCitySuggestions" role="listbox" hidden></div>
+      </div>
     </nav>
   </div>
 </header>
@@ -276,12 +281,14 @@
       <a href="/ceyrek-altin">Çeyrek altın</a>
       <a href="/22-ayar-bilezik">22 ayar bilezik</a>
       <a href="#fx">Döviz kurları</a>
+      <a href="/haberler">Ekonomi haberleri</a>
       <a id="navTools" href="#calculators">Hesaplamalar</a>
     </div>
     <div id="legalLinks"><b>Bilgilendirme</b><a href="/hakkimizda">Hakkımızda</a><a href="/gizlilik">Gizlilik</a><a href="/kullanim-sartlari">Kullanım şartları</a></div>
   </div>
   <div class="container disclaimer">Fiyatlar bilgilendirme amaçlıdır. Kuyumcu fiyatları işçilik, ürün, ödeme yöntemi ve mağazaya göre değişebilir. Finansal hesaplamalar yatırım veya kredi tavsiyesi değildir.</div>
 </footer>
+<script src="/city-search.js" defer></script>
 <script src="/app.js" defer></script>
 </body>
 </html>
