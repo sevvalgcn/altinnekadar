@@ -34,6 +34,7 @@ async function load(){
  $("systemInfo").innerHTML=`<div class="system-line"><b>Servis:</b> ${status.service}</div><div class="system-line"><b>Node:</b> ${status.node}</div><div class="system-line"><b>Çalışma süresi:</b> ${Math.round(status.uptime/60)} dakika</div><div class="system-line"><b>Canlı adaptör:</b> ${status.adapters}</div><div class="system-line"><b>Panel kaynağı:</b> ${status.configuredSources}</div>`;
  $("githubInfo").innerHTML=status.githubPersistence?'<span class="status ok">GitHub otomatik kayıt aktif</span>':'<span class="status bad">GITHUB_TOKEN / OWNER / REPO ayarları eksik</span>';
  await loadSeoManager();
+ await loadNewsManager();
 }
 function renderCities(q){const n=(q||"").toLocaleLowerCase("tr-TR");$("cityList").innerHTML=Object.entries(cities).filter(([,name])=>name.toLocaleLowerCase("tr-TR").includes(n)).map(([s,name])=>`<button class="city-btn ${s===selectedCity?"active":""}" data-city="${s}">${name}</button>`).join("");document.querySelectorAll(".city-btn").forEach(b=>b.addEventListener("click",()=>selectCity(b.dataset.city)))}
 $("citySearch").addEventListener("input",e=>renderCities(e.target.value));
@@ -74,6 +75,31 @@ document.addEventListener("DOMContentLoaded",()=>{
    o.textContent=d.aiGenerated?`✓ AI içerik başarıyla yenilendi (${d.post?.aiModel||"AI"}).`:`⚠ AI devreye girmedi: ${d.post?.aiError||"Bilinmeyen hata"}`;
   }catch(e){o.textContent="✕ Hata: "+(e.message||e)}
   finally{b.disabled=false;b.textContent=old}
+ });
+});
+
+let newsPosts=[],selectedNewsId=null;
+function newsBodyFromText(value){return String(value||"").split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean)}
+function fillNewsEditor(post){
+ selectedNewsId=post?.id||null;
+ setv("newsCategory",post?.category||"ekonomi");setv("newsStatus",post?.status||"draft");setv("newsTitle",post?.title||"");setv("newsDescription",post?.description||"");setv("newsBody",(post?.body||[]).join("\n\n"));setv("newsSourceName",post?.sourceName||"");setv("newsSourceUrl",post?.sourceUrl||"");setv("newsImage",post?.image||"");
+}
+async function loadNewsManager(){
+ if(!$("newsSelect"))return;
+ const data=await api("/api/admin/news");newsPosts=data.posts||[];
+ $("newsSelect").innerHTML='<option value="">Yeni haber oluştur</option>'+newsPosts.map(p=>`<option value="${p.id}">${p.status==="published"?"Yayında":p.status==="archived"?"Kaldırıldı":"Taslak"} • ${p.title}</option>`).join("");
+ if(selectedNewsId){const post=newsPosts.find(p=>p.id===selectedNewsId);if(post)fillNewsEditor(post)}
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ $("newsSelect")?.addEventListener("change",e=>fillNewsEditor(newsPosts.find(p=>p.id===e.target.value)||null));
+ $("newNews")?.addEventListener("click",()=>{$("newsSelect").value="";fillNewsEditor(null);$("newsTitle").focus()});
+ $("saveNews")?.addEventListener("click",async()=>{
+  const body={category:$("newsCategory").value,status:$("newsStatus").value,title:$("newsTitle").value.trim(),description:$("newsDescription").value.trim(),body:newsBodyFromText($("newsBody").value),sourceName:$("newsSourceName").value.trim()||"Bugün Altın",sourceUrl:$("newsSourceUrl").value.trim(),image:$("newsImage").value.trim()};
+  $("newsMsg").textContent="Kaydediliyor…";
+  try{
+   const result=await api(selectedNewsId?`/api/admin/news/${encodeURIComponent(selectedNewsId)}`:"/api/admin/news",{method:selectedNewsId?"PUT":"POST",body:JSON.stringify(body)});
+   selectedNewsId=result.post.id;$("newsMsg").textContent=result.githubCommitted?"Haber kaydedildi ve GitHub'a işlendi.":"Haber kaydedildi; GitHub kalıcı kayıt kapalı.";await loadNewsManager();$("newsSelect").value=selectedNewsId;
+  }catch(error){$("newsMsg").textContent="Kayıt başarısız: "+(error.data?.details?.join(", ")||error.message)}
  });
 });
 

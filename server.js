@@ -2,12 +2,13 @@ const express=require("express");
 const path=require("path");
 const fs=require("fs");
 const crypto=require("crypto");
+const {normalizeNewsPost,validateNewsInput,publishedNews,slugify}=require("./public/news.js");
 
 const app=express();
 const PORT=process.env.PORT||3000;
 const BASE="https://bugunaltin.com";
 const PUBLIC=path.join(__dirname,"public");
-const DATA_DIR=path.join(__dirname,"data");
+const DATA_DIR=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):path.join(__dirname,"data");
 const CONFIG_FILE=path.join(DATA_DIR,"site-config.json");
 const UPLOADS=path.join(PUBLIC,"uploads");
 
@@ -224,15 +225,21 @@ async function runSeoScheduler(){
   const slot=slotForHour(trHour(new Date()));
   try{await ensureSeoPost(slot,false)}catch(error){console.error("SEO scheduler:",String(error?.message||error))}
 }
-function renderSeoPost(post){
-  if(!post)return null;
-  const canonical=`${BASE}/altin-gundemi/${post.slug}`;
+function categoryTitle(category){return {altin:"Altın",doviz:"Döviz",borsa:"Borsa",kripto:"Kripto",ekonomi:"Ekonomi"}[category]||"Ekonomi"}
+function renderNewsPost(rawPost,legacyPath=false){
+  if(!rawPost)return null;
+  const post=normalizeNewsPost(rawPost);
+  if(post.status!=="published")return null;
+  const canonical=`${BASE}/haberler/${post.slug}`;
   const title=`${post.title} | Bugün Altın`;
   const bodyHtml=post.body.map((p,i)=>i===2?`<p class="market-line">${esc(p)}</p>`:`<p>${esc(p)}</p>`).join("");
+  const source=/^https?:\/\//i.test(post.sourceUrl)?`<a href="${esc(post.sourceUrl)}" rel="nofollow noopener" target="_blank">${esc(post.sourceName)}</a>`:esc(post.sourceName);
+  const image=post.image&&post.image.startsWith("/")?`<img class="article-cover" src="${esc(post.image)}" alt="${esc(post.title)}">`:"";
   const article=`<article class="seo-article">
-    <span class="kicker">${esc(slotTitle(post.slot).toLocaleUpperCase("tr-TR"))}</span>
+    <span class="kicker">${esc(categoryTitle(post.category).toLocaleUpperCase("tr-TR"))}</span>
     <h1>${esc(post.title)}</h1>
-    <p class="article-meta">${new Date(post.publishedAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"})} • Kaynak: ${esc(post.sourceName)}</p>
+    <p class="article-meta">${new Date(post.publishedAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"})} • Kaynak: ${source}</p>
+    ${image}
     ${bodyHtml}
     <div class="article-links">
       <a href="/gram-altin">Gram Altın</a>
@@ -241,25 +248,38 @@ function renderSeoPost(post){
       <a href="/sakarya-altin-fiyatlari">Sakarya Altın Fiyatları</a>
     </div>
   </article>`;
-  const schema=JSON.stringify({"@context":"https://schema.org","@type":"Article",
+  const schema=JSON.stringify({"@context":"https://schema.org","@type":"NewsArticle",
     headline:post.title,description:post.description,datePublished:post.publishedAt,dateModified:post.updatedAt,
     mainEntityOfPage:canonical,author:{"@type":"Organization","name":"Bugün Altın"},
     publisher:{"@type":"Organization","name":"Bugün Altın"}});
   return renderTemplate({title,desc:post.description,canonical,schema,seoContent:article});
 }
-function renderSeoIndex(){
-  const posts=loadSeoPosts().sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
-  const cards=posts.slice(0,80).map(p=>`<a class="news-card" href="/altin-gundemi/${p.slug}">
-    <span>${esc(slotTitle(p.slot))}</span><h2>${esc(p.title)}</h2>
+function newsCards(posts,limit=80){
+  return publishedNews(posts).slice(0,limit).map(p=>`<a class="news-card" href="/haberler/${p.slug}">
+    ${p.image&&p.image.startsWith("/")?`<img src="${esc(p.image)}" alt="">`:""}
+    <span>${esc(categoryTitle(p.category))}</span><h2>${esc(p.title)}</h2>
     <p>${esc(p.description)}</p><small>${new Date(p.publishedAt).toLocaleString("tr-TR",{timeZone:"Europe/Istanbul"})}</small>
-  </a>`).join("");
+  </a>`).join("")
+}
+function renderNewsIndex(category=""){
+  const all=publishedNews(loadSeoPosts());
+  const posts=category?all.filter(p=>p.category===category):all;
+  const filters=["","altin","doviz","borsa","kripto","ekonomi"].map(x=>`<a class="news-filter${x===category?" active":""}" href="/haberler${x?`?kategori=${x}`:""}">${x?categoryTitle(x):"Tümü"}</a>`).join("");
+  const cards=newsCards(posts);
   return renderTemplate({
-    title:"Altın Gündemi - Günlük Altın Fiyatları ve Piyasa Özetleri | Bugün Altın",
-    desc:"Gram altın, çeyrek altın ve altın piyasasında günün sabah, öğle, akşam ve gece güncellemelerini takip edin.",
-    canonical:`${BASE}/altin-gundemi`,
-    schema:JSON.stringify({"@context":"https://schema.org","@type":"CollectionPage","name":"Altın Gündemi","url":`${BASE}/altin-gundemi`}),
-    seoContent:`<div class="seo-copy"><span class="kicker">ALTIN GÜNDEMİ</span><h1>Altın Gündemi</h1><p>Gün boyunca canlı fiyatlardan hazırlanan altın piyasası özetleri.</p><div class="news-grid">${cards||"<p>İlk piyasa özeti hazırlanıyor.</p>"}</div></div>`
+    title:"Ekonomi ve Yatırım Haberleri | Bugün Altın",
+    desc:"Altın, döviz, borsa, kripto ve ekonomi gündemindeki gelişmeleri yatırımcı odaklı içeriklerle takip edin.",
+    canonical:`${BASE}/haberler${category?`?kategori=${category}`:""}`,
+    schema:JSON.stringify({"@context":"https://schema.org","@type":"CollectionPage","name":"Ekonomi ve Yatırım Haberleri","url":`${BASE}/haberler`}),
+    seoContent:`<div class="seo-copy"><span class="kicker">YATIRIMCI GÜNDEMİ</span><h1>Ekonomi ve Yatırım Haberleri</h1><p>Altın, döviz, borsa, kripto ve ekonomide öne çıkan gelişmeler.</p><div class="news-filters">${filters}</div><div class="news-grid">${cards||"<p>Bu kategoride henüz yayınlanmış haber bulunmuyor.</p>"}</div></div>`
   });
+}
+function renderSeoPost(post){return renderNewsPost(post,true)}
+function renderSeoIndex(){return renderNewsIndex("altin")}
+function renderHomeNewsSection(){
+  const cards=newsCards(loadSeoPosts(),6);
+  if(!cards)return "";
+  return `<section class="home-news"><div class="section-title-row"><div><span class="kicker">YATIRIMCI GÜNDEMİ</span><h2>Ekonomi ve Yatırım Haberleri</h2></div><a class="secondary-link" href="/haberler">Tüm haberler →</a></div><div class="news-grid">${cards}</div></section>`;
 }
 
 const CITY_SOURCE_FILE=path.join(DATA_DIR,"city-source-registry.json");
@@ -421,7 +441,7 @@ function renderHome(citySlug="istanbul",isRoot=false){
     [`${city} fiyatları kuyumcuda farklı olabilir mi?`,`Evet. İşçilik, alış-satış makası ve mağaza koşulları nedeniyle farklılık oluşabilir.`]
   ];
   const breadcrumbs=isRoot?[{name:"Ana Sayfa",url:`${BASE}/`}]:[{name:"Ana Sayfa",url:`${BASE}/`},{name:`${city} Altın Fiyatları`,url:canonical}];
-  return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:citySeoContent(citySlug)});
+  return renderTemplate({title,desc,canonical,schema:schemaBundle({title,desc,canonical,faqs,breadcrumbs}),seoContent:`${isRoot?renderHomeNewsSection():""}${citySeoContent(citySlug)}`});
 }
 function renderProductPage(slug){
   const p=GOLD_SEO_PRODUCTS[slug]; 
@@ -556,12 +576,12 @@ app.get("/sitemap-dynamic.xml",(req,res)=>{
     urls.push(xml);
   };
 
-  const posts=loadSeoPosts()
-    .sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
+  const posts=publishedNews(loadSeoPosts());
+  addUrl(`${BASE}/haberler`,null,"0.8");
 
   for(const p of posts){
     addUrl(
-      `${BASE}/altin-gundemi/${p.slug}`,
+      `${BASE}/haberler/${p.slug}`,
       p.updatedAt||p.publishedAt,
       "0.7"
     );
@@ -1178,6 +1198,16 @@ app.get("/altin-gundemi/:slug",(req,res)=>{
  if(!post)return res.status(404).send(simplePage("İçerik bulunamadı","İçerik bulunamadı","Bu piyasa özeti mevcut değil."));
  res.send(renderSeoPost(post));
 });
+app.get("/haberler",(req,res)=>{
+ const category=String(req.query.kategori||"");
+ res.send(renderNewsIndex(["altin","doviz","borsa","kripto","ekonomi"].includes(category)?category:""));
+});
+app.get("/haberler/:slug",(req,res)=>{
+ const post=loadSeoPosts().find(p=>p.slug===req.params.slug);
+ const page=renderNewsPost(post);
+ if(!page)return res.status(404).send(simplePage("Haber bulunamadı","<p>Bu haber yayında değil veya mevcut değil.</p>"));
+ res.send(page);
+});
 app.get("/api/ai-seo-status",(req,res)=>{
  const k=String(process.env.OPENAI_API_KEY||process.env.OPENAI_KEY||"").trim(),gh=ghEnv();
  res.json({enabled:AI_SEO_ENABLED,configured:Boolean(k),model:AI_SEO_MODEL,fallbackModel:AI_SEO_FALLBACK_MODEL,autoContent:seoAutomationEnabled(),githubPersistence:Boolean(gh.token&&gh.owner&&gh.repo),postCount:loadSeoPosts().length});
@@ -1185,6 +1215,30 @@ app.get("/api/ai-seo-status",(req,res)=>{
 app.get("/api/admin/seo-posts",requireAdmin,(req,res)=>{
  const posts=loadSeoPosts().sort((a,b)=>new Date(b.updatedAt||b.publishedAt)-new Date(a.updatedAt||a.publishedAt));
  res.json({posts,automation:{enabled:Boolean(siteConfig.seoAutomation?.enabled),mode:siteConfig.seoAutomation?.mode||"auto"}});
+});
+app.get("/api/admin/news",requireAdmin,(req,res)=>{
+ res.json({posts:loadSeoPosts().map(normalizeNewsPost).sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt))});
+});
+app.post("/api/admin/news",requireAdmin,async(req,res)=>{
+ const now=new Date().toISOString();
+ const candidate={...req.body,id:crypto.randomUUID(),slug:slugify(req.body?.slug||req.body?.title),sourceType:"manual",publishedAt:req.body?.status==="published"?now:null,updatedAt:now};
+ const checked=validateNewsInput(candidate);
+ if(!checked.ok)return res.status(400).json({error:"invalid_news",details:checked.errors});
+ const posts=loadSeoPosts();posts.push(checked.value);saveSeoPosts(posts);
+ const githubCommitted=await persistSeoPostsToGithub(posts);
+ res.status(201).json({ok:true,post:checked.value,githubCommitted});
+});
+app.put("/api/admin/news/:id",requireAdmin,async(req,res)=>{
+ const posts=loadSeoPosts(),i=posts.findIndex(p=>p.id===req.params.id);
+ if(i<0)return res.status(404).json({error:"news_not_found"});
+ const old=normalizeNewsPost(posts[i]);snapshotSeoPost(old,"news-manual-edit");
+ const now=new Date().toISOString();
+ const candidate={...old,...req.body,id:old.id,slug:slugify(req.body?.slug||old.slug||req.body?.title||old.title),publishedAt:req.body?.status==="published"?(old.publishedAt||now):old.publishedAt,updatedAt:now};
+ const checked=validateNewsInput(candidate);
+ if(!checked.ok)return res.status(400).json({error:"invalid_news",details:checked.errors});
+ posts[i]=checked.value;saveSeoPosts(posts);
+ const [githubCommitted]=await Promise.all([persistSeoPostsToGithub(posts),persistSeoHistoryToGithub()]);
+ res.json({ok:true,post:checked.value,githubCommitted});
 });
 app.put("/api/admin/seo-automation",requireAdmin,async(req,res)=>{
  siteConfig.seoAutomation={enabled:Boolean(req.body?.enabled),mode:req.body?.mode==="manual"?"manual":"auto"};

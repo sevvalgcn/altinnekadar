@@ -81,6 +81,7 @@ button{cursor:pointer}
   <button class="nav-item" data-page="appearance">Görünüm <span class="nav-icon">✎</span></button>
   <button class="nav-item" data-page="media">Medya <span class="nav-icon">▣</span></button>
   <button class="nav-item" data-page="ads">Reklam <span class="nav-icon">▥</span></button>
+  <button class="nav-item" data-page="news">Haber Yönetimi <span class="nav-icon">▤</span></button>
   <button class="nav-item" data-page="seo">SEO & Sayfalar <span class="nav-icon">☷</span></button>
   <button class="nav-item" data-page="settings">Ayarlar <span class="nav-icon">⚙</span></button>
   <button class="nav-item" data-page="system">Sistem <span class="nav-icon">◈</span></button>
@@ -251,6 +252,26 @@ button{cursor:pointer}
     <div class="field"><label>AdSense Publisher ID</label><input id="adsClient" placeholder="ca-pub-..."></div>
     <div class="grid2"><div class="field"><label>Üst slot</label><input id="topSlot"></div><div class="field"><label>Orta slot</label><input id="middleSlot"></div></div>
     <p class="help">AdSense hesabı onaylanmadan boş bırakılabilir.</p>
+  </div></div>
+</section>
+
+<section id="news" class="page">
+  <div class="panel"><div class="panel-head"><h2>Ekonomi ve Yatırım Haberleri</h2><button id="newNews" type="button" class="btn btn-dark">Yeni Haber</button></div><div class="panel-body">
+    <div class="field"><label>Haber seç</label><select id="newsSelect"></select></div>
+    <div class="grid2">
+      <div class="field"><label>Kategori</label><select id="newsCategory"><option value="altin">Altın</option><option value="doviz">Döviz</option><option value="borsa">Borsa</option><option value="kripto">Kripto</option><option value="ekonomi">Ekonomi</option></select></div>
+      <div class="field"><label>Yayın durumu</label><select id="newsStatus"><option value="draft">Taslak</option><option value="published">Yayında</option><option value="archived">Yayından kaldırıldı</option></select></div>
+    </div>
+    <div class="field"><label>Başlık</label><input id="newsTitle" maxlength="150"></div>
+    <div class="field"><label>SEO özeti</label><textarea id="newsDescription" maxlength="300"></textarea></div>
+    <div class="field"><label>Haber metni</label><textarea id="newsBody" style="min-height:280px"></textarea><div class="help">Paragrafları boş satırla ayır.</div></div>
+    <div class="grid2">
+      <div class="field"><label>Kaynak adı</label><input id="newsSourceName" maxlength="120"></div>
+      <div class="field"><label>Kaynak bağlantısı</label><input id="newsSourceUrl" type="url" placeholder="https://"></div>
+    </div>
+    <div class="field"><label>Kapak görseli yolu</label><input id="newsImage" placeholder="/uploads/haber.jpg"><div class="help">Medya bölümünden yüklenen site içi görsel yolunu kullan.</div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button id="saveNews" type="button" class="btn btn-primary">Haberi Kaydet</button><a class="btn btn-light" href="/haberler" target="_blank">Haberleri Gör</a></div>
+    <div id="newsMsg" class="help" style="margin-top:10px"></div>
   </div></div>
 </section>
 

@@ -1,0 +1,13 @@
+.main-nav{align-items:center}
+.nav-city-search{position:relative;width:210px}
+.nav-city-search input{min-height:40px;padding:8px 36px 8px 12px;border-color:#d8d8d2;background:#fafaf8}
+.nav-city-search:after{content:"⌕";position:absolute;right:12px;top:7px;font-size:21px;color:#8c6900;pointer-events:none}
+.nav-city-suggestions{position:absolute;top:calc(100% + 7px);left:0;right:0;z-index:80;padding:6px;background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:0 12px 30px rgba(0,0,0,.14)}
+.nav-city-suggestions[hidden]{display:none}
+.city-suggestion{display:block;width:100%;padding:10px 11px;border:0;border-radius:8px;background:#fff;text-align:left;font-weight:750;color:#222}
+.city-suggestion:hover,.city-suggestion:focus{background:#fff6d6;outline:none}
+
+@media(max-width:980px){
+  .nav-city-search{width:100%}
+  .nav-city-suggestions{position:static;margin-top:7px}
+}
