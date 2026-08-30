@@ -794,5 +794,64 @@
     "aiGenerated": false,
     "aiModel": "gpt-5.4-mini",
     "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
+  },
+  {
+    "id": "2026-08-30-sabah",
+    "slug": "2026-08-30-sabah-altin-piyasasi",
+    "slot": "sabah",
+    "dayKey": "2026-08-30",
+    "title": "Altın Fiyatlarında Güne Başlangıç: Gram 6.892,70 TL",
+    "description": "2026-08-30 sabahında gram altın 6.892,70 TL, çeyrek altın 11.268,00 TL satış seviyesinde. Güncel altın fiyatları ve piyasa özeti.",
+    "body": [
+      "Yeni güne altın fiyatlarıyla başlanırken gram ve çeyrek altın yatırımcıların en çok takip ettiği kalemler arasında yer alıyor.",
+      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 6.892,70 TL, çeyrek altının satış fiyatı 11.268,00 TL olarak görüntüleniyor.",
+      "Gram Altın: alış 6.823,23 TL, satış 6.892,70 TL • Çeyrek Altın: alış 11.088,00 TL, satış 11.268,00 TL • Yarım Altın: alış 22.209,00 TL, satış 22.528,00 TL • Tam Altın: alış 44.111,00 TL, satış 44.891,00 TL • 22 Ayar Bilezik: alış 6.207,14 TL, satış 6.459,14 TL",
+      "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
+      "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
+    ],
+    "sourceName": "Harem Altın • Hasfiyat API",
+    "sourceUrl": "https://altinapi.hasfiyat.com/",
+    "publishedAt": "2026-08-30T03:00:02.304Z",
+    "updatedAt": "2026-08-30T03:00:02.366Z",
+    "prices": {
+      "gram": {
+        "key": "gram",
+        "name": "Gram Altın",
+        "buy": 6823.23,
+        "sell": 6892.7,
+        "change": 0
+      },
+      "ceyrek": {
+        "key": "ceyrek",
+        "name": "Çeyrek Altın",
+        "buy": 11088,
+        "sell": 11268,
+        "change": 0
+      },
+      "yarim": {
+        "key": "yarim",
+        "name": "Yarım Altın",
+        "buy": 22209,
+        "sell": 22528,
+        "change": 0
+      },
+      "tam": {
+        "key": "tam",
+        "name": "Tam Altın",
+        "buy": 44111,
+        "sell": 44891,
+        "change": 0
+      },
+      "bilezik22": {
+        "key": "bilezik22",
+        "name": "22 Ayar Bilezik",
+        "buy": 6207.14,
+        "sell": 6459.14,
+        "change": 0
+      }
+    },
+    "aiGenerated": false,
+    "aiModel": "gpt-5.4-mini",
+    "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
   }
 ]
