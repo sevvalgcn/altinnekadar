@@ -424,9 +424,11 @@ function schemaBundle(page){
 }
 function renderTemplate({title,desc,canonical,schema,seoContent}){
   const verification=siteConfig.seo.googleSiteVerification?`<meta name="google-site-verification" content="${esc(siteConfig.seo.googleSiteVerification)}">`:"";
+  const adsenseClient=/^ca-pub-\d+$/.test(String(siteConfig.ads?.adsenseClient||""))?String(siteConfig.ads.adsenseClient):"";
+  const adsense=siteConfig.ads?.enabled&&adsenseClient?`<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(adsenseClient)}" crossorigin="anonymous"></script>`:"";
   return fs.readFileSync(path.join(PUBLIC,"index.html"),"utf8")
    .replaceAll("__TITLE__",esc(title)).replaceAll("__DESCRIPTION__",esc(desc)).replaceAll("__CANONICAL__",canonical)
-   .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"))
+   .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__ADSENSE__",adsense).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"))
    .replace("__SEO_CONTENT__",seoContent||"");
 }
 function renderHome(citySlug="istanbul",isRoot=false){
@@ -558,7 +560,7 @@ function simplePage(title,body){
   return `<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>body{font-family:system-ui;max-width:850px;margin:60px auto;padding:20px;line-height:1.7}a{color:#9a7300}</style></head><body><a href="/">← Ana sayfa</a><h1>${esc(title)}</h1>${body}</body></html>`;
 }
 
-app.use((req,res,next)=>{res.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Permissions-Policy":"geolocation=(self)","Cross-Origin-Opener-Policy":"same-origin","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"});next()});
+app.use((req,res,next)=>{res.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Permissions-Policy":"geolocation=(self)","Cross-Origin-Opener-Policy":"same-origin","Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob: https://*.google.com https://*.googleusercontent.com https://*.googlesyndication.com https://*.doubleclick.net; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.googlesyndication.com https://*.doubleclick.net; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"});next()});
 app.get("/sitemap-dynamic.xml",(req,res)=>{
   const escXml=value=>String(value??"")
     .replace(/&/g,"&amp;")
