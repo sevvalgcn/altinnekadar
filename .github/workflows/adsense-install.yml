@@ -1,0 +1,91 @@
+name: Install AdSense
+
+on:
+  push:
+    paths:
+      - '.github/workflows/adsense-install.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify RED
+        shell: bash
+        run: |
+          set +e
+          npm test -- --test-name-pattern='AdSense' > /tmp/adsense-red.log 2>&1
+          code=$?
+          cat /tmp/adsense-red.log
+          if [ "$code" -eq 0 ]; then
+            echo 'AdSense tests unexpectedly passed before implementation.'
+            exit 1
+          fi
+          exit 0
+      - name: Apply AdSense integration
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          client = 'ca-pub-3281657102517909'
+
+          cfg_path = Path('data/site-config.json')
+          cfg = json.loads(cfg_path.read_text(encoding='utf-8'))
+          cfg.setdefault('ads', {})['enabled'] = True
+          cfg['ads']['adsenseClient'] = client
+          cfg_path.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          index_path = Path('public/index.html')
+          index = index_path.read_text(encoding='utf-8')
+          if '__ADSENSE__' not in index:
+              index = index.replace('  __GOOGLE_VERIFY__\n', '  __GOOGLE_VERIFY__\n  __ADSENSE__\n', 1)
+          index_path.write_text(index, encoding='utf-8')
+
+          server_path = Path('server.js')
+          server = server_path.read_text(encoding='utf-8')
+          old = '''function renderTemplate({title,desc,canonical,schema,seoContent}){\n  const verification=siteConfig.seo.googleSiteVerification?`<meta name="google-site-verification" content="${esc(siteConfig.seo.googleSiteVerification)}">`:"";\n  return fs.readFileSync(path.join(PUBLIC,"index.html"),"utf8")\n   .replaceAll("__TITLE__",esc(title)).replaceAll("__DESCRIPTION__",esc(desc)).replaceAll("__CANONICAL__",canonical)\n   .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"))\n   .replace("__SEO_CONTENT__",seoContent||"");\n}'''
+          new = '''function renderTemplate({title,desc,canonical,schema,seoContent}){\n  const verification=siteConfig.seo.googleSiteVerification?`<meta name="google-site-verification" content="${esc(siteConfig.seo.googleSiteVerification)}">`:"";\n  const adsenseClient=/^ca-pub-\\d+$/.test(String(siteConfig.ads?.adsenseClient||""))?String(siteConfig.ads.adsenseClient):"";\n  const adsense=siteConfig.ads?.enabled&&adsenseClient?`<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(adsenseClient)}" crossorigin="anonymous"></script>`:"";\n  return fs.readFileSync(path.join(PUBLIC,"index.html"),"utf8")\n   .replaceAll("__TITLE__",esc(title)).replaceAll("__DESCRIPTION__",esc(desc)).replaceAll("__CANONICAL__",canonical)\n   .replace("__SCHEMA__",schema).replace("__GOOGLE_VERIFY__",verification).replace("__ADSENSE__",adsense).replace("__FAVICON__",esc(siteConfig.site.faviconPath||"/favicon.svg"))\n   .replace("__SEO_CONTENT__",seoContent||"");\n}'''
+          if old not in server:
+              raise SystemExit('renderTemplate block not found')
+          server = server.replace(old, new, 1)
+
+          old_csp = '''"Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"'''
+          new_csp = '''"Content-Security-Policy":"default-src 'self'; img-src 'self' data: blob: https://*.google.com https://*.googleusercontent.com https://*.googlesyndication.com https://*.doubleclick.net; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.googlesyndication.com https://*.doubleclick.net; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests"'''
+          if old_csp not in server:
+              raise SystemExit('CSP block not found')
+          server = server.replace(old_csp, new_csp, 1)
+          server_path.write_text(server, encoding='utf-8')
+
+          for p in [
+              'tests/.adsense-red-proof.txt',
+              'docs/adsense-note.tmp',
+              'docs/.noop',
+              'docs/.cleanup-needed',
+              'docs/.last-temp',
+              'docs/.final-temp',
+              'docs/.ignore',
+              'docs/.oops',
+          ]:
+              path = Path(p)
+              if path.exists():
+                  path.unlink()
+      - name: Verify GREEN
+        run: |
+          npm test
+          npm run check
+      - name: Commit integration
+        run: |
+          git config user.name 'Bugün Altın Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -A
+          git commit -m 'AdSense entegrasyonunu etkinleştir'
+          git push
