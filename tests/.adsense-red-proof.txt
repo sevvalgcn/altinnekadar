@@ -1,0 +1,1 @@
+AdSense tests are expected to fail before production changes: data/site-config.json currently has ads.enabled=false and empty adsenseClient; server.js currently has no AdSense script URL. This file is a temporary TDD marker and will be removed after implementation.
