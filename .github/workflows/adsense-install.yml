@@ -22,11 +22,15 @@ jobs:
         shell: bash
         run: |
           set +e
-          npm test -- --test-name-pattern='AdSense' > /tmp/adsense-red.log 2>&1
+          node --test --test-name-pattern='AdSense' tests/adsense.test.js > /tmp/adsense-red.log 2>&1
           code=$?
           cat /tmp/adsense-red.log
           if [ "$code" -eq 0 ]; then
             echo 'AdSense tests unexpectedly passed before implementation.'
+            exit 1
+          fi
+          if ! grep -Eq 'site config enables AdSense|server emits the AdSense script' /tmp/adsense-red.log; then
+            echo 'RED did not fail for the expected AdSense behavior.'
             exit 1
           fi
           exit 0
@@ -80,7 +84,7 @@ jobs:
                   path.unlink()
       - name: Verify GREEN
         run: |
-          npm test
+          node --test --test-name-pattern='AdSense' tests/adsense.test.js
           npm run check
       - name: Commit integration
         run: |
