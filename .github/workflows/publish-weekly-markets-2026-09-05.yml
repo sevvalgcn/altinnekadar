@@ -1,0 +1,67 @@
+name: Publish weekly markets SEO 2026-09-05
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-weekly-markets-2026-09-05.yml'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add verified SEO post if unique
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          p=Path('data/seo-posts.json')
+          posts=json.loads(p.read_text(encoding='utf-8'))
+          slug='altin-borsa-dustu-dolar-yukseldi-haftalik-piyasa-4-eylul-2026'
+          if any(x.get('slug')==slug for x in posts):
+              raise SystemExit(0)
+          post={
+            'id':'2026-09-05-haftalik-piyasa-performansi',
+            'slug':slug,
+            'slot':'gundem',
+            'dayKey':'2026-09-05',
+            'title':'Altın ve Borsa Haftayı Düşüşle Kapattı: Dolar Yükseldi',
+            'description':'Haftalık piyasa performansı: gram altın yüzde 3,77, BIST 100 yüzde 4,30 gerilerken dolar/TL yüzde 0,41 yükseldi. İşte 4 Eylül 2026 haftası verileri.',
+            'category':'piyasalar',
+            'status':'published',
+            'body':[
+              'Türkiye piyasalarında haftanın kapanışında altın ve hisse senetlerinde düşüş, döviz kurlarında ise sınırlı yükseliş öne çıktı. Anadolu Ajansı’nın 4 Eylül 2026 tarihli haftalık piyasa derlemesine göre Borsa İstanbul’da işlem gören hisse senetleri haftalık bazda ortalama yüzde 4,30 değer kaybetti.',
+              'Kapalıçarşı’da 24 ayar külçe altının gram satış fiyatı haftalık bazda yüzde 3,77 azalarak 6 bin 890 liraya geriledi. Cumhuriyet altınının satış fiyatı yüzde 3,78 düşüşle 44 bin 952 liraya, çeyrek altının satış fiyatı ise yüzde 3,72 kayıpla 11 bin 284 liraya indi.',
+              'Döviz tarafında haftalık görünüm altından ayrıştı. ABD doları yüzde 0,41 artışla 48,4400 liraya, avro ise yüzde 0,05 yükselişle 56,2590 liraya çıktı. Böylece dolar/TL haftayı sınırlı yükselişle tamamlarken altındaki geri çekilme daha belirgin oldu.',
+              'BIST 100 endeksi hafta içinde 13.876,66 ile 14.662,89 puan aralığında hareket ettikten sonra haftayı 14.012,42 puandan tamamladı. Yatırım fonları haftalık bazda yüzde 1,77, emeklilik fonları yüzde 1,31 değer kaybederken yatırım fonları içinde en yüksek haftalık getiri yüzde 0,72 ile para piyasası fonlarında görüldü.',
+              'Küresel piyasalarda ise güçlü ABD istihdam verileri sonrasında faiz beklentileri yeniden fiyatlanıyor. Reuters’a göre ağustosta ABD tarım dışı istihdamı 162 bin kişi arttı ve işsizlik oranı yüzde 4,1’de kaldı; veri sonrasında dolar güçlenirken ons altın geriledi. Önümüzdeki dönemde ABD enflasyon verileri ve merkez bankalarının faiz kararları değerli metaller ile döviz piyasalarının odağında kalacak. Bu haber yalnızca piyasa verilerini aktarmaktadır ve yatırım tavsiyesi değildir.'
+            ],
+            'sourceName':'Anadolu Ajansı • Reuters',
+            'sourceUrl':'https://www.aa.com.tr/tr/ekonomi/bu-hafta-yatirim-araclarinin-performansi/4047626',
+            'sourceUrls':['https://www.aa.com.tr/tr/ekonomi/bu-hafta-yatirim-araclarinin-performansi/4047626','https://www.reuters.com/world/india/gold-holds-ground-with-us-payrolls-data-radar-2026-09-04/'],
+            'publishedAt':'2026-09-05T11:00:00.000Z',
+            'updatedAt':'2026-09-05T11:00:00.000Z',
+            'aiGenerated':True,
+            'aiModel':'gpt-5.6-sol'
+          }
+          posts.append(post)
+          p.write_text(json.dumps(posts,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+      - name: Verify post
+        shell: python
+        run: |
+          import json
+          p=json.load(open('data/seo-posts.json',encoding='utf-8'))
+          slug='altin-borsa-dustu-dolar-yukseldi-haftalik-piyasa-4-eylul-2026'
+          x=[i for i in p if i.get('slug')==slug]
+          assert len(x)==1
+          assert x[0].get('status')=='published'
+          assert len(x[0].get('body',[]))>=4
+          assert x[0].get('sourceName') and x[0].get('sourceUrl') and x[0].get('publishedAt')
+      - name: Commit post
+        run: |
+          git config user.name 'Bugün Altın Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/seo-posts.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'Haftalık piyasa performansı SEO haberini yayınla'
+          git push
