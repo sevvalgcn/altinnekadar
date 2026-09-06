@@ -2307,5 +2307,29 @@
     "updatedAt": "2026-09-06T10:57:00.000Z",
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-06-opec-ekim-karari",
+    "slug": "opec-ekim-2026-petrol-uretimi-karari-degismedi",
+    "slot": "gundem",
+    "dayKey": "2026-09-06",
+    "title": "OPEC+ Ekim Kararını Açıkladı: Petrol Üretim Politikası Değişmedi",
+    "description": "OPEC+ 6 Eylül toplantısında ekim ayı petrol üretim politikasını değiştirmedi. Yedi ülkenin bir sonraki toplantısı 4 Ekim 2026 tarihinde yapılacak.",
+    "category": "piyasalar",
+    "status": "published",
+    "body": [
+      "Petrol piyasalarının yakından izlediği OPEC+ toplantısından karar çıktı. Reuters’ın 6 Eylül 2026 tarihli haberine göre Suudi Arabistan, Rusya, Irak, Kuveyt, Cezayir, Kazakistan ve Umman’ın yer aldığı yedi OPEC+ ülkesi, ekim ayı için mevcut petrol üretim politikasını değiştirmeme kararı aldı. Böylece piyasaların hafta sonu beklediği üretim kararı netleşmiş oldu.",
+      "OPEC+ ağustos ayında eylül üretimi için artış kararı almış ve 2023 yılında üzerinde uzlaşılan günlük 1,65 milyon varillik arz kesintisinin kademeli olarak geri alınması sürecini tamamlamıştı. Reuters, İran savaşı ve Hürmüz Boğazı üzerinden petrol sevkiyatında yaşanan aksaklıklar nedeniyle grubun fiili üretiminin belirlenen hedeflerin altında kaldığını aktardı.",
+      "Ekim ayı politikasının değiştirilmemesi, enerji piyasalarında arz görünümünün yakından izlenmeye devam edeceği anlamına geliyor. Hürmüz Boğazı küresel petrol ve LNG ticareti açısından kritik geçiş noktalarından biri olduğu için bölgedeki sevkiyat koşulları petrol fiyatları, enerji maliyetleri ve küresel enflasyon beklentileri bakımından önem taşıyor.",
+      "OPEC+ açısından sıradaki önemli başlıklardan biri 2027 yılı üretim kotalarının belirlenmesinde kullanılacak üretim kapasitelerinin yeniden değerlendirilmesi olacak. Reuters’ın aktardığına göre grup, yeni kotalar konusunda ilerlemeden önce üyelerin üretim kapasitelerini gözden geçirmeyi planlıyor. 6 Eylül’de yayımlanan açıklamada ekim sonrasındaki üretim politikası hakkında ayrıca bir karar duyurulmadı.",
+      "Yedi OPEC+ ülkesinin bir sonraki toplantısının 4 Ekim 2026 tarihinde yapılması planlanıyor. Petrol fiyatlarındaki değişimler küresel enflasyon, ulaştırma ve üretim maliyetleri üzerinden finansal piyasalar tarafından da takip ediliyor. Bu haber güncel gelişmeleri bilgilendirme amacıyla aktarmaktadır ve yatırım tavsiyesi değildir."
+    ],
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/business/energy/opec-set-keep-oil-output-policy-unchanged-sunday-sources-say-2026-09-06/",
+    "sourceType": "editorial-web",
+    "publishedAt": "2026-09-06T16:04:00.000Z",
+    "updatedAt": "2026-09-06T16:04:00.000Z",
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol"
   }
 ]
