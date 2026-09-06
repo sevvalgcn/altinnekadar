@@ -1,0 +1,57 @@
+name: Publish OPEC SEO 2026-09-06
+on: push
+permissions:
+  contents: write
+jobs:
+  publish:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Append verified SEO post
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const p='data/seo-posts.json';
+          const posts=JSON.parse(fs.readFileSync(p,'utf8'));
+          const slug='opec-plus-ekim-2026-petrol-uretimi-karari';
+          if(posts.some(x=>x.slug===slug)) process.exit(0);
+          posts.push({
+            id:'2026-09-06-opec-plus-petrol',
+            slug,
+            slot:'gundem',
+            dayKey:'2026-09-06',
+            title:'OPEC+ Kararı Petrol Piyasasının Odağında: Ekim Üretimi İçin Kritik Toplantı',
+            description:'OPEC+ ülkeleri 6 Eylül 2026’da ekim ayı petrol üretim politikasını görüşüyor. Reuters kaynaklarına göre mevcut üretim politikasının korunması bekleniyor.',
+            category:'piyasalar',
+            status:'published',
+            body:[
+              'Petrol piyasalarında haftanın en önemli gündemlerinden biri OPEC+ grubunun 6 Eylül 2026 Pazar günü gerçekleştireceği toplantı oldu. Reuters’ın konuya yakın kaynaklara dayandırdığı haberine göre, OPEC ve Rusya dahil müttefiklerinden oluşan grubun ekim ayı için mevcut petrol üretim politikasını değiştirmemesi bekleniyor.',
+              'OPEC+ ağustos ayında eylül üretimi için kademeli bir artışa onay vermiş ve 2023 yılında devreye alınan günlük 1,65 milyon varillik arz kesintisinin geri alınması sürecini ilerletmişti. Buna karşın Reuters, grubun daha geniş kapsamlı bazı üretim kesintilerinin 2026 sonuna kadar yürürlükte kalmaya devam ettiğini aktarıyor.',
+              'Petrol fiyatlarında son günlerde Orta Doğu kaynaklı arz endişeleri de etkili oldu. Reuters verilerine göre Brent petrol 3 Eylül’de yüzde 1,7 yükselişle varil başına 97,29 dolara, ABD tipi WTI petrol ise yüzde 2,2 artışla 93,04 dolara çıktı. Bu hareket, enerji fiyatlarının küresel enflasyon ve merkez bankalarının para politikası beklentileri açısından yeniden yakından izlenmesine neden oldu.',
+              'Petrol fiyatları Türkiye açısından da önem taşıyor. Enerji maliyetlerindeki değişimler ithalat maliyetleri, enflasyon görünümü ve döviz piyasasına ilişkin beklentiler üzerinde etkili olabildiğinden OPEC+ kararları yalnızca küresel enerji piyasaları tarafından değil, yurt içindeki ekonomi takipçileri tarafından da izleniyor.',
+              'Toplantıdan çıkacak resmi kararın ardından üretim politikasında değişiklik olup olmadığı netleşecek. Bu haber mevcut doğrulanmış bilgiler ve Reuters’ın 6 Eylül tarihli haberinde aktarılan kaynak bilgileri temel alınarak hazırlanmıştır. İçerik yatırım tavsiyesi değildir.'
+            ],
+            sourceName:'Reuters',
+            sourceUrl:'https://www.reuters.com/business/energy/opec-set-keep-oil-output-policy-unchanged-sunday-sources-say-2026-09-06/',
+            sourceType:'editorial-web',
+            publishedAt:'2026-09-06T10:57:00.000Z',
+            updatedAt:'2026-09-06T10:57:00.000Z',
+            aiGenerated:true,
+            aiModel:'gpt-5.6-sol'
+          });
+          fs.writeFileSync(p,JSON.stringify(posts,null,2)+'\n');
+          NODE
+      - name: Verify
+        run: node -e "const p=require('./data/seo-posts.json'); const x=p.find(x=>x.slug==='opec-plus-ekim-2026-petrol-uretimi-karari'); if(!x||x.status!=='published'||x.body.length<4) process.exit(1)"
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/seo-posts.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'OPEC+ ekim üretim gündemi SEO haberini yayımla'
+          git push
