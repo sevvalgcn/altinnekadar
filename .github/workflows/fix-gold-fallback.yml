@@ -1,0 +1,94 @@
+name: Fix Gold Source Fallback
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-gold-fallback.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Add regression test
+        shell: bash
+        run: |
+          cat > tests/gold-fallback.test.js <<'EOF'
+          const test=require('node:test');
+          const assert=require('node:assert/strict');
+          const fs=require('node:fs');
+
+          test('şehir fiyatlarında Harem kullanılamazsa merkezi canlı kaynak devreye girer',()=>{
+            const src=fs.readFileSync('server.js','utf8');
+            const start=src.indexOf('async function cityGold(city){');
+            const end=src.indexOf('\napp.get("/api/city-source"',start);
+            assert.ok(start>=0&&end>start,'cityGold bloğu bulunamadı');
+            const block=src.slice(start,end);
+            assert.match(block,/const centralFallback=await fetchCentralGold\(\);/);
+            assert.match(block,/centralFallback\?\.prices\?\.length/);
+            assert.match(block,/return \{\.\.\.centralFallback,city,verified:true,local:false/);
+          });
+
+          test('yedek kaynak ön yüzde yerel kaynak gibi etiketlenmez',()=>{
+            const src=fs.readFileSync('public/app.js','utf8');
+            assert.match(src,/data\.local\?"Doğrulanmış yerel kaynak":"Canlı yedek kaynak"/);
+          });
+          EOF
+
+      - name: Verify RED
+        shell: bash
+        run: |
+          set +e
+          node --test tests/gold-fallback.test.js > /tmp/gold-red.log 2>&1
+          code=$?
+          cat /tmp/gold-red.log
+          if [ "$code" -eq 0 ]; then
+            echo 'Regression tests unexpectedly passed before implementation.'
+            exit 1
+          fi
+          exit 0
+
+      - name: Apply root-cause fix
+        shell: python
+        run: |
+          from pathlib import Path
+
+          server_path=Path('server.js')
+          server=server_path.read_text(encoding='utf-8')
+          old=''' const haremFallback=await fetchHaremGold();\n if(!haremFallback)return null;\n const entry=citySourceRegistry?.[city]||{};\n let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";\n if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";\n if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";\n return {...haremFallback,city,local:false,official:false,sourceName};'''
+          new=''' const haremFallback=await fetchHaremGold();\n const entry=citySourceRegistry?.[city]||{};\n if(haremFallback){\n  let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";\n  if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";\n  if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";\n  return {...haremFallback,city,local:false,official:false,sourceName};\n }\n\n const centralFallback=await fetchCentralGold();\n if(centralFallback?.prices?.length){\n  let sourceName="Türkiye Geneli Canlı Altın Verisi • Merkezi yedek kaynak";\n  if(entry.mode==="izko")sourceName="İZKO ve Harem erişilemedi • Merkezi canlı yedek";\n  if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı ve Harem erişilemedi • Merkezi canlı yedek";\n  return {...centralFallback,city,verified:true,local:false,official:false,sourceName,sourceUrl:centralFallback.sourceUrl||""};\n }\n return null;'''
+          if old not in server:
+              raise SystemExit('cityGold fallback block not found')
+          server=server.replace(old,new,1)
+          server_path.write_text(server,encoding='utf-8')
+
+          app_path=Path('public/app.js')
+          app=app_path.read_text(encoding='utf-8')
+          old_ui='''if($("goldSourceChip"))$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":"Doğrulanmış yerel kaynak";'''
+          new_ui='''if($("goldSourceChip"))$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":(data.local?"Doğrulanmış yerel kaynak":"Canlı yedek kaynak");'''
+          if old_ui not in app:
+              raise SystemExit('goldSourceChip line not found')
+          app=app.replace(old_ui,new_ui,1)
+          app_path.write_text(app,encoding='utf-8')
+
+      - name: Verify GREEN
+        run: |
+          node --test tests/gold-fallback.test.js
+          npm run check
+
+      - name: Commit fix
+        run: |
+          git config user.name 'Bugün Altın Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add server.js public/app.js tests/gold-fallback.test.js
+          git commit -m 'Şehir altın fiyatlarına merkezi canlı yedek ekle'
+          git push
