@@ -59,7 +59,7 @@ function renderGold(data){
   }
 
   if($("goldType"))$("goldType").innerHTML=data.prices.map(p=>`<option value="${p.key}">${p.name}</option>`).join("");
-  if($("goldSourceChip"))$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":"Doğrulanmış yerel kaynak";
+  if($("goldSourceChip"))$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":(data.local?"Doğrulanmış yerel kaynak":"Canlı yedek kaynak");
   if($("statusText"))$("statusText").textContent=`${CITIES[currentCity]} • ${new Date(data.updatedAt).toLocaleString("tr-TR")}`;
   if($("sourceText"))$("sourceText").textContent=`Kaynak: ${data.sourceName}`;
 

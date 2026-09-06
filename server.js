@@ -1012,12 +1012,22 @@ async function cityGold(city){
  }
 
  const haremFallback=await fetchHaremGold();
- if(!haremFallback)return null;
  const entry=citySourceRegistry?.[city]||{};
- let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";
- if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";
- if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";
- return {...haremFallback,city,local:false,official:false,sourceName};
+ if(haremFallback){
+  let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";
+  if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";
+  if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";
+  return {...haremFallback,city,local:false,official:false,sourceName};
+ }
+
+ const centralFallback=await fetchCentralGold();
+ if(centralFallback?.prices?.length){
+  let sourceName="Türkiye Geneli Canlı Altın Verisi • Merkezi yedek kaynak";
+  if(entry.mode==="izko")sourceName="İZKO ve Harem erişilemedi • Merkezi canlı yedek";
+  if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı ve Harem erişilemedi • Merkezi canlı yedek";
+  return {...centralFallback,city,verified:true,local:false,official:false,sourceName,sourceUrl:centralFallback.sourceUrl||""};
+ }
+ return null;
 }
 
 app.get("/api/city-source",(req,res)=>{
