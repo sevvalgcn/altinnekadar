@@ -4,16 +4,72 @@ const path='public/app.js';
 let src=fs.readFileSync(path,'utf8');
 
 const marker='const number=n=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:4}).format(Number(n)||0);';
-const helpers=`${marker}\n\nconst GOLD_CACHE_KEY="bugunaltin:last-good-gold:v1";\n\nfunction saveGoldCache(data){\n  if(!data?.prices?.length)return;\n  try{\n    localStorage.setItem(GOLD_CACHE_KEY,JSON.stringify({city:currentCity,data,savedAt:Date.now()}));\n  }catch{}\n}\n\nfunction readGoldCache(){\n  try{\n    const cached=JSON.parse(localStorage.getItem(GOLD_CACHE_KEY)||"null");\n    if(cached?.city===currentCity&&cached?.data?.prices?.length)return cached.data;\n  }catch{}\n  return null;\n}\n\nfunction showGoldStaleNotice(){\n  if($("goldSourceChip"))$("goldSourceChip").textContent="Son başarılı fiyat";\n  if($("statusText"))$("statusText").textContent=\\`${CITIES[currentCity]} • canlı güncelleme bekleniyor\\`;\n}`;
+const helperBlock=[
+  marker,
+  '',
+  'const GOLD_CACHE_KEY="bugunaltin:last-good-gold:v1";',
+  '',
+  'function saveGoldCache(data){',
+  '  if(!data?.prices?.length)return;',
+  '  try{',
+  '    localStorage.setItem(GOLD_CACHE_KEY,JSON.stringify({city:currentCity,data,savedAt:Date.now()}));',
+  '  }catch{}',
+  '}',
+  '',
+  'function readGoldCache(){',
+  '  try{',
+  '    const cached=JSON.parse(localStorage.getItem(GOLD_CACHE_KEY)||"null");',
+  '    if(cached?.city===currentCity&&cached?.data?.prices?.length)return cached.data;',
+  '  }catch{}',
+  '  return null;',
+  '}',
+  '',
+  'function showGoldStaleNotice(){',
+  '  if($("goldSourceChip"))$("goldSourceChip").textContent="Son başarılı fiyat";',
+  '  if($("statusText"))$("statusText").textContent=`${CITIES[currentCity]} • canlı güncelleme bekleniyor`;',
+  '}'
+].join('\n');
 
 if(!src.includes('const GOLD_CACHE_KEY="bugunaltin:last-good-gold:v1";')){
   if(!src.includes(marker))throw new Error('number helper marker bulunamadı');
-  src=src.replace(marker,helpers);
+  src=src.replace(marker,helperBlock);
 }
 
-const oldLoad=`async function loadGold(){\n  try{\n    const r=await fetch(\\`/api/prices?city=\\${encodeURIComponent(currentCity)}\\`,{cache:"no-store"});\n    if(!r.ok)throw 0;\n    renderGold(await r.json());\n  }catch{\n    renderGold({verified:false,prices:[]});\n  }\n}`;
+const oldLoad=[
+  'async function loadGold(){',
+  '  try{',
+  '    const r=await fetch(`/api/prices?city=${encodeURIComponent(currentCity)}`,{cache:"no-store"});',
+  '    if(!r.ok)throw 0;',
+  '    renderGold(await r.json());',
+  '  }catch{',
+  '    renderGold({verified:false,prices:[]});',
+  '  }',
+  '}'
+].join('\n');
 
-const newLoad=`async function loadGold(){\n  try{\n    const r=await fetch(\\`/api/prices?city=\\${encodeURIComponent(currentCity)}\\`,{cache:"no-store"});\n    if(!r.ok)throw 0;\n    const data=await r.json();\n    renderGold(data);\n    saveGoldCache(data);\n  }catch{\n    if(goldData?.prices?.length){\n      showGoldStaleNotice();\n      return;\n    }\n    const cached=readGoldCache();\n    if(cached){\n      renderGold(cached);\n      showGoldStaleNotice();\n      return;\n    }\n    renderGold({verified:false,prices:[]});\n  }\n}`;
+const newLoad=[
+  'async function loadGold(){',
+  '  try{',
+  '    const r=await fetch(`/api/prices?city=${encodeURIComponent(currentCity)}`,{cache:"no-store"});',
+  '    if(!r.ok)throw 0;',
+  '    const data=await r.json();',
+  '    renderGold(data);',
+  '    saveGoldCache(data);',
+  '  }catch{',
+  '    if(goldData?.prices?.length){',
+  '      showGoldStaleNotice();',
+  '      return;',
+  '    }',
+  '    const cached=readGoldCache();',
+  '    if(cached){',
+  '      renderGold(cached);',
+  '      showGoldStaleNotice();',
+  '      return;',
+  '    }',
+  '    renderGold({verified:false,prices:[]});',
+  '  }',
+  '}'
+].join('\n');
 
 if(!src.includes('saveGoldCache(data);')){
   if(!src.includes(oldLoad))throw new Error('loadGold eski bloğu bulunamadı');
