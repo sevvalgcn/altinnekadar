@@ -2141,5 +2141,26 @@
     "updatedAt": "2026-09-05T11:00:00.000Z",
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-06-piyasa-takvimi",
+    "slug": "altin-yeni-hafta-kritik-takvim-enflasyon-fed-eylul-2026",
+    "title": "Altında Yeni Haftanın Kritik Takvimi: ABD Enflasyonu ve Fed Toplantısı Ne Zaman?",
+    "description": "Altın ve dolar için yeni haftada kritik veri takvimi: ABD ÜFE 10 Eylül, TÜFE 11 Eylül, Fed faiz kararı 16 Eylül 2026’da izlenecek.",
+    "body": [
+      "Altın ve döviz piyasalarında yeni haftanın gündemi ABD enflasyon verileri ve Federal Rezerv’in eylül toplantısı olacak. ABD Çalışma İstatistikleri Bürosunun resmi takvimine göre ağustos ayı Üretici Fiyat Endeksi 10 Eylül 2026 Perşembe, Tüketici Fiyat Endeksi ise 11 Eylül 2026 Cuma günü açıklanacak.",
+      "ABD’de ağustos ayında tarım dışı istihdam 162 bin kişi arttı ve işsizlik oranı yüzde 4,1’de kaldı. Beklentilerin üzerindeki istihdam artışı sonrasında dolar ve tahvil faizlerinde hareketlilik görülürken altın haftanın son işlem gününde geriledi. Bu nedenle enflasyon verileri, faiz beklentilerinin yeniden şekillenmesi açısından piyasaların yakından izleyeceği başlıklar arasında bulunuyor.",
+      "BLS verilerine göre temmuz ayında ABD tüketici fiyatları aylık yüzde 0,1, yıllık yüzde 3,4 arttı. Gıda ve enerji hariç çekirdek tüketici fiyatları ise temmuzda aylık yüzde 0,2 ve yıllık yüzde 2,5 yükseldi. 11 Eylül’de yayımlanacak ağustos verisi, enflasyon eğiliminin devam edip etmediğine ilişkin yeni bir gösterge sağlayacak.",
+      "Federal Rezervin yayımladığı son toplantı tutanaklarında bir sonraki Federal Açık Piyasa Komitesi toplantısının 15-16 Eylül 2026 tarihlerinde yapılacağı belirtiliyor. Temmuz toplantısında politika faizi değiştirilmezken bazı üyeler 25 baz puanlık artıştan yana oy kullanmıştı. Eylül toplantısı öncesinde açıklanacak üretici ve tüketici enflasyonu verileri bu nedenle ayrıca önem taşıyor.",
+      "Altın fiyatları faiz beklentileri, ABD doları, tahvil getirileri ve küresel risk algısındaki değişimlerden etkilenebiliyor. Türkiye’de gram altının yönünde bunlara ek olarak dolar/TL kuru da belirleyici olabiliyor. Bu haber yalnızca doğrulanmış ekonomik takvimi ve piyasa verilerini aktarmaktadır; yatırım tavsiyesi değildir."
+    ],
+    "category": "ekonomi",
+    "status": "published",
+    "image": "",
+    "sourceName": "U.S. Bureau of Labor Statistics • Federal Reserve",
+    "sourceUrl": "https://www.bls.gov/schedule/2026/09_sched_list.htm",
+    "sourceType": "editorial",
+    "publishedAt": "2026-09-06T06:00:00.000Z",
+    "updatedAt": "2026-09-06T06:00:00.000Z"
   }
 ]
