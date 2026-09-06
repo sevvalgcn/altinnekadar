@@ -1,0 +1,160 @@
+name: Publish SEO Batch 2026-09-06
+
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-seo-batch-2026-09-06.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Publish verified SEO news batch
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          p = Path('data/seo-posts.json')
+          posts = json.loads(p.read_text(encoding='utf-8'))
+          existing = {x.get('slug') for x in posts}
+
+          batch = [
+            {
+              'id':'2026-09-06-kira-artis-orani',
+              'slug':'eylul-2026-kira-artis-orani-yuzde-31-79-oldu-yeni-kira-ne-kadar',
+              'title':'Eylül 2026 Kira Artış Oranı Belli Oldu: Yeni Kira Ne Kadar?',
+              'description':'Eylül 2026 kira artış oranı yüzde 31,79 oldu. 10 bin, 15 bin, 20 bin ve 25 bin TL kira için yeni tutarlar ve TÜİK verisi.',
+              'category':'ekonomi','status':'published','image':'','sourceType':'editorial-web',
+              'sourceName':'TÜİK • Türk Borçlar Kanunu m.344',
+              'sourceUrl':'https://veriportali.tuik.gov.tr/tr/press/58290/metadata',
+              'sourceUrls':['https://veriportali.tuik.gov.tr/tr/press/58290/metadata','https://tr.euronews.com/business/2026/09/03/eylul-2026-kira-artis-orani-kiracilar-yeni-orani-bekliyor'],
+              'publishedAt':'2026-09-06T06:40:00.000Z','updatedAt':'2026-09-06T06:40:00.000Z',
+              'body':[
+                'Eylül ayında kira sözleşmesini yenileyecek milyonlarca kiracı ve ev sahibinin beklediği oran netleşti. TÜİK’in Ağustos 2026 Tüketici Fiyat Endeksi verisinde on iki aylık ortalamalara göre artış yüzde 31,79 olarak açıklandı. Konut ve çatılı iş yeri kiralarında yenileme döneminde esas alınan bu oran, Eylül 2026 için yasal artış tavanının yüzde 31,79 olmasını sağladı.',
+                'Ağustos ayında yenilenen sözleşmelerde esas alınan oran yüzde 31,90 seviyesindeydi. Böylece Eylül ayındaki kira artış tavanı bir önceki aya göre 0,11 puan geriledi. TÜİK aynı bültende yıllık tüketici enflasyonunu yüzde 31,51, aylık artışı ise yüzde 1,84 olarak duyurdu. Kira artışında yıllık enflasyon değil, on iki aylık ortalama değişim oranı dikkate alınıyor.',
+                'Yüzde 31,79 oranı üzerinden örnek hesaplamada mevcut kirası 10 bin TL olan bir konutun yeni kira tutarı 13 bin 179 TL, 15 bin TL olan bir konutun 19 bin 768,50 TL, 20 bin TL olan bir konutun 26 bin 358 TL ve 25 bin TL olan bir konutun 32 bin 947,50 TL seviyesine geliyor. Bunlar yalnızca oran üzerinden yapılan matematiksel örneklerdir.',
+                'Türk Borçlar Kanunu’nun 344. maddesi kapsamında kira bedelindeki artışın TÜFE’nin on iki aylık ortalamalara göre değişim oranını aşmaması esas alınıyor. Tarafların sözleşme koşulları, beş yılı aşan kiralamalar veya mahkeme kararına konu durumlar farklı hukuki değerlendirmeler gerektirebilir.',
+                'TÜİK’in bir sonraki tüketici enflasyonu bülteninin 5 Ekim 2026 tarihinde yayımlanması planlanıyor. Ekim ayında sözleşmesini yenileyecek kiracılar açısından yeni kira artış oranı bu veride açıklanacak on iki aylık ortalamaya göre belirlenecek. Bu içerik genel bilgilendirme amaçlıdır ve hukuki danışmanlık niteliği taşımaz.'
+              ]
+            },
+            {
+              'id':'2026-09-06-tcmb-faiz-karari-ne-zaman',
+              'slug':'merkez-bankasi-faiz-karari-ne-zaman-eylul-2026-tcmb-ppk-tarihi',
+              'title':'Merkez Bankası Faiz Kararı Ne Zaman? Eylül 2026 PPK Tarihi',
+              'description':'TCMB Eylül 2026 faiz kararı tarihi belli. PPK 10 Eylül’de toplanacak; son toplantıda politika faizi yüzde 37’de sabit tutulmuştu.',
+              'category':'ekonomi','status':'published','image':'','sourceType':'editorial-web',
+              'sourceName':'Türkiye Cumhuriyet Merkez Bankası',
+              'sourceUrl':'https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb%2Btr/main%2Bmenu/duyurular/takvim',
+              'sourceUrls':['https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb%2Btr/main%2Bmenu/duyurular/takvim','https://tcmb.gov.tr/wps/wcm/connect/TR/TCMB%2BTR/Main%2BMenu/Duyurular/Basin/2026/DUY2026-28'],
+              'publishedAt':'2026-09-06T06:45:00.000Z','updatedAt':'2026-09-06T06:45:00.000Z',
+              'body':[
+                'Türkiye Cumhuriyet Merkez Bankasının eylül ayı faiz kararı için geri sayım başladı. TCMB’nin resmi Para Politikası Kurulu takvimine göre kurul 10 Eylül 2026 Perşembe günü toplanacak ve faiz kararı aynı gün kamuoyuyla paylaşılacak. Toplantı özeti ise 17 Eylül 2026 tarihinde yayımlanacak.',
+                'TCMB bir önceki Para Politikası Kurulu toplantısını 23 Temmuz’da gerçekleştirmişti. Kurul bu toplantıda politika faizi olan bir hafta vadeli repo ihale faiz oranını yüzde 37’de sabit tutmuş, gecelik borç verme faizini yüzde 40 ve gecelik borçlanma faizini yüzde 35,5 seviyesinde bırakmıştı.',
+                'Eylül toplantısı öncesinde açıklanan son enflasyon verileri de piyasa gündeminde. TÜİK’e göre Ağustos 2026’da tüketici fiyatları aylık yüzde 1,84 artarken yıllık enflasyon yüzde 31,51 olarak gerçekleşti. On iki aylık ortalamalara göre artış yüzde 31,79 oldu.',
+                'Merkez Bankasının faiz kararı, TL mevduat ve kredi faizlerinden döviz ve altın fiyatlarına kadar birçok finansal göstergenin yakından takip ettiği başlıklardan biri. Ancak piyasalardaki hareket yalnızca politika faizine bağlı değil; enflasyon, küresel faizler, risk algısı ve döviz talebi gibi çok sayıda değişken aynı anda etkili olabiliyor.',
+                'TCMB’nin resmi takviminde 2026 yılı için eylül toplantısından sonra 22 Ekim ve 10 Aralık tarihlerinde iki PPK toplantısı daha bulunuyor. Bu haber yalnızca resmi takvim ve daha önce açıklanmış kararları aktarmaktadır; faiz kararının yönüne ilişkin tahmin veya yatırım tavsiyesi içermez.'
+              ]
+            },
+            {
+              'id':'2026-09-06-ecb-faiz-karari-euro',
+              'slug':'ecb-faiz-karari-ne-zaman-eylul-2026-euro-icin-kritik-tarih',
+              'title':'ECB Faiz Kararı Ne Zaman? Euro İçin Kritik Tarih Yaklaşıyor',
+              'description':'Avrupa Merkez Bankası eylül faiz kararı 10 Eylül 2026’da açıklanacak. Temmuz toplantısında üç temel faiz oranı değiştirilmemişti.',
+              'category':'doviz','status':'published','image':'','sourceType':'editorial-web',
+              'sourceName':'European Central Bank',
+              'sourceUrl':'https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.pl.html',
+              'sourceUrls':['https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.pl.html','https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260723~29f24d99bc.en.html'],
+              'publishedAt':'2026-09-06T06:50:00.000Z','updatedAt':'2026-09-06T06:50:00.000Z',
+              'body':[
+                'Euro/TL ve küresel döviz piyasalarını takip edenlerin gündemindeki Avrupa Merkez Bankası faiz toplantısı bu hafta yapılacak. ECB’nin resmi takvimine göre Yönetim Konseyi para politikası toplantısının ilk günü 9 Eylül, karar ve basın toplantısının yapılacağı ikinci gün ise 10 Eylül 2026 olacak.',
+                'Avrupa Merkez Bankası 23 Temmuz’daki son para politikası toplantısında üç temel faiz oranını değiştirmeme kararı aldı. ECB açıklamasında enerji fiyatlarındaki yüksek oynaklık ve Orta Doğu’daki çatışmaların enflasyon görünümüne etkisinin yakından izlendiğini, kararların veri odaklı ve toplantı bazında alınacağını bildirdi.',
+                'ECB faiz kararları euro kurunun küresel piyasalardaki seyrinde önemli başlıklardan biri olarak takip ediliyor. Euro/TL açısından ise euro/dolar paritesinin yanında Türk lirasının hareketi de belirleyici olduğu için, Avrupa’daki kararların yurt içindeki kura etkisi birebir ve tek yönlü olmak zorunda değil.',
+                '10 Eylül günü küresel takvim ayrıca ABD üretici enflasyonu ve Türkiye Cumhuriyet Merkez Bankasının PPK kararı nedeniyle de yoğun olacak. Aynı gün açıklanacak farklı veriler ve merkez bankası kararları, döviz piyasalarında gün içi hareketliliğin artmasına neden olabilecek başlıklar arasında yer alıyor; bu ifade bir yön tahmini değil, takvim yoğunluğuna ilişkin bir değerlendirmedir.',
+                'ECB’nin bir sonraki para politikası toplantısı 28-29 Ekim 2026 tarihlerinde gerçekleştirilecek. Bu içerik yalnızca resmi toplantı takvimini ve daha önce yayımlanmış para politikası kararını özetlemektedir; euro veya diğer para birimleri için yatırım tavsiyesi değildir.'
+              ]
+            },
+            {
+              'id':'2026-09-06-tl-reel-deger',
+              'slug':'turk-lirasinin-reel-degeri-agustosta-geriledi-rek-105-04',
+              'title':'Türk Lirasının Reel Değeri Ağustosta Geriledi: Endeks 105,04',
+              'description':'TCMB verilerine göre TÜFE bazlı reel efektif döviz kuru Ağustos 2026’da 105,04’e geriledi. Temmuz verisi 106,11’e revize edildi.',
+              'category':'doviz','status':'published','image':'','sourceType':'editorial-web',
+              'sourceName':'Türkiye Cumhuriyet Merkez Bankası',
+              'sourceUrl':'https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb%2Btr/main%2Bmenu/istatistikler/doviz%2Bkurlari/reel%2Befektif%2Bdoviz%2Bkuruu',
+              'sourceUrls':['https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb%2Btr/main%2Bmenu/istatistikler/doviz%2Bkurlari/reel%2Befektif%2Bdoviz%2Bkuruu','https://www.bloomberght.com/tl-nin-reel-degeri-agustos-ta-geriledi-3787371'],
+              'publishedAt':'2026-09-06T06:55:00.000Z','updatedAt':'2026-09-06T06:55:00.000Z',
+              'body':[
+                'Türk lirasının fiyat hareketleri ve dış ticaret açısından göreli değerini izlemek için kullanılan reel efektif döviz kuru göstergesi ağustos ayında geriledi. Türkiye Cumhuriyet Merkez Bankasının 4 Eylül’de yayımladığı verilere göre TÜFE bazlı Reel Efektif Döviz Kuru Endeksi Ağustos 2026’da 105,04 seviyesine indi.',
+                'Temmuz ayına ilişkin TÜFE bazlı endeks daha önce 105,96 olarak açıklanmış, son veri setinde 106,11 seviyesine revize edilmişti. Buna göre endeks ağustosta bir önceki aya kıyasla yaklaşık 1,07 puan düşüş gösterdi. Yİ-ÜFE bazlı reel efektif döviz kuru ise 101,35 seviyesinde gerçekleşti.',
+                'Reel efektif döviz kuru, Türkiye’nin dış ticaretinde önemli paya sahip ülkelerin para birimlerinden oluşturulan ağırlıklı kur sepetinin Türkiye ile diğer ülkeler arasındaki fiyat farklılıklarından arındırılmasıyla hesaplanıyor. Bu nedenle gösterge, yalnızca dolar/TL veya euro/TL gibi tek bir kura bakmaktan farklı bir ölçüm sunuyor.',
+                'Endeksteki artış genel olarak Türk lirasının reel olarak değer kazanması, düşüş ise reel değer kaybı yönünde yorumlanıyor. Ancak bu gösterge günlük döviz kuru tahmini yapmak için tasarlanmış bir veri değil; dış ticaret rekabeti ve göreli fiyat düzeyleri açısından daha geniş bir çerçeve sunuyor.',
+                'TCMB reel efektif döviz kuru verilerini aylık olarak yayımlıyor. Dolar ve euro kurlarını takip eden yatırımcılar açısından REK verisi, nominal kur hareketlerine enflasyon farklarının da eklendiği tamamlayıcı bir gösterge niteliğinde. Bu haber bilgilendirme amaçlıdır ve yatırım tavsiyesi değildir.'
+              ]
+            },
+            {
+              'id':'2026-09-06-agustos-enflasyon',
+              'slug':'agustos-2026-enflasyon-ne-kadar-tuik-yillik-yuzde-31-51',
+              'title':'Ağustos 2026 Enflasyonu Açıklandı: Yıllık TÜFE Yüzde 31,51',
+              'description':'TÜİK Ağustos 2026 enflasyon verilerini açıkladı. TÜFE aylık yüzde 1,84, yıllık yüzde 31,51 arttı; 12 aylık ortalama yüzde 31,79 oldu.',
+              'category':'ekonomi','status':'published','image':'','sourceType':'editorial-web',
+              'sourceName':'Türkiye İstatistik Kurumu',
+              'sourceUrl':'https://veriportali.tuik.gov.tr/tr/press/58290/metadata',
+              'publishedAt':'2026-09-06T07:00:00.000Z','updatedAt':'2026-09-06T07:00:00.000Z',
+              'body':[
+                'Türkiye İstatistik Kurumu Ağustos 2026 tüketici enflasyonu verilerini yayımladı. Buna göre Tüketici Fiyat Endeksi ağustosta bir önceki aya göre yüzde 1,84 arttı. Yıllık enflasyon yüzde 31,51, yılbaşından bu yana artış yüzde 22,07 ve on iki aylık ortalamalara göre artış yüzde 31,79 olarak gerçekleşti.',
+                'Ana harcama grupları içinde gıda ve alkolsüz içeceklerde yıllık artış yüzde 33,79, ulaştırmada yüzde 35,08, konut, su, elektrik, gaz ve diğer yakıtlarda yüzde 39,77 olarak kaydedildi. Bu üç grubun yıllık enflasyona katkısı sırasıyla 8,12, 5,94 ve 5,01 yüzde puan oldu.',
+                'TÜİK verilerine göre endekste kapsanan 174 alt sınıfın 134’ünde ağustos ayında fiyat artışı görüldü. 35 alt sınıfın endeksi gerilerken 5 alt sınıfta değişim olmadı. Böylece fiyat artışlarının ürün ve hizmet gruplarının önemli bölümüne yayıldığı görüldü.',
+                'Enerji, gıda ve alkolsüz içecekler, alkollü içkiler, tütün ve altın hariç hesaplanan C göstergesinde yıllık artış yüzde 30,07, aylık artış yüzde 1,81 oldu. İşlenmemiş gıda, enerji, alkollü içkiler, tütün ve altın hariç B göstergesi ise yıllık yüzde 30,68 arttı.',
+                'Aynı gün açıklanan Yurt İçi Üretici Fiyat Endeksi ağustosta aylık yüzde 2,57, yıllık yüzde 27,95 yükseldi. TÜİK takvimine göre bir sonraki tüketici enflasyonu bülteni 5 Ekim 2026 tarihinde yayımlanacak. Veriler ekonomik görünüm hakkında bilgi sağlar; bu içerik yatırım tavsiyesi değildir.'
+              ]
+            }
+          ]
+
+          added = []
+          for item in batch:
+              if item['slug'] not in existing:
+                  posts.append(item)
+                  added.append(item['slug'])
+
+          p.write_text(json.dumps(posts, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('Added:', ', '.join(added) if added else 'none')
+
+      - name: Verify batch
+        run: |
+          node <<'NODE'
+          const posts=require('./data/seo-posts.json');
+          const slugs=[
+            'eylul-2026-kira-artis-orani-yuzde-31-79-oldu-yeni-kira-ne-kadar',
+            'merkez-bankasi-faiz-karari-ne-zaman-eylul-2026-tcmb-ppk-tarihi',
+            'ecb-faiz-karari-ne-zaman-eylul-2026-euro-icin-kritik-tarih',
+            'turk-lirasinin-reel-degeri-agustosta-geriledi-rek-105-04',
+            'agustos-2026-enflasyon-ne-kadar-tuik-yillik-yuzde-31-51'
+          ];
+          for(const slug of slugs){
+            const matches=posts.filter(p=>p.slug===slug);
+            if(matches.length!==1) throw new Error(`${slug}: duplicate/missing`);
+            const p=matches[0];
+            if(p.status!=='published'||!['ekonomi','doviz'].includes(p.category)||!Array.isArray(p.body)||p.body.length<4||!p.sourceUrl) throw new Error(`${slug}: invalid`);
+          }
+          console.log('SEO batch verified:', slugs.length);
+          NODE
+      - name: Commit published news
+        run: |
+          git config user.name 'Bugün Altın Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/seo-posts.json
+          if git diff --cached --quiet; then
+            echo 'No new posts to commit.'
+            exit 0
+          fi
+          git commit -m '6 Eylül ekonomi ve döviz SEO haberlerini yayımla'
+          git pull --rebase origin main
+          git push
