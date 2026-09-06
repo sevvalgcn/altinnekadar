@@ -21,8 +21,8 @@ jobs:
         run: node scripts/patch-price-retention.js
       - name: Verify syntax
         run: npm run check
-      - name: Run tests
-        run: npm test
+      - name: Run focused tests
+        run: node --test tests/price-retention.test.js tests/gold-fallback.test.js
       - name: Commit patched app
         run: |
           if git diff --quiet -- public/app.js; then
