@@ -17,41 +17,32 @@ jobs:
           const fs=require('fs');
           const p='data/seo-posts.json';
           const posts=JSON.parse(fs.readFileSync(p,'utf8'));
-          const slug='opec-plus-ekim-2026-petrol-uretimi-karari';
+          const slug='opec-ekim-2026-petrol-uretimi-karari-degismedi';
           if(posts.some(x=>x.slug===slug)) process.exit(0);
           posts.push({
-            id:'2026-09-06-opec-plus-petrol',
-            slug,
-            slot:'gundem',
-            dayKey:'2026-09-06',
-            title:'OPEC+ Kararı Petrol Piyasasının Odağında: Ekim Üretimi İçin Kritik Toplantı',
-            description:'OPEC+ ülkeleri 6 Eylül 2026’da ekim ayı petrol üretim politikasını görüşüyor. Reuters kaynaklarına göre mevcut üretim politikasının korunması bekleniyor.',
-            category:'piyasalar',
-            status:'published',
+            id:'2026-09-06-opec-ekim-karari', slug, slot:'gundem', dayKey:'2026-09-06',
+            title:'OPEC+ Ekim Kararını Açıkladı: Petrol Üretim Politikası Değişmedi',
+            description:'OPEC+ 6 Eylül toplantısında ekim ayı petrol üretim politikasını değiştirmedi. Yedi ülkenin bir sonraki toplantısı 4 Ekim 2026 tarihinde yapılacak.',
+            category:'piyasalar', status:'published',
             body:[
-              'Petrol piyasalarında haftanın en önemli gündemlerinden biri OPEC+ grubunun 6 Eylül 2026 Pazar günü gerçekleştireceği toplantı oldu. Reuters’ın konuya yakın kaynaklara dayandırdığı haberine göre, OPEC ve Rusya dahil müttefiklerinden oluşan grubun ekim ayı için mevcut petrol üretim politikasını değiştirmemesi bekleniyor.',
-              'OPEC+ ağustos ayında eylül üretimi için kademeli bir artışa onay vermiş ve 2023 yılında devreye alınan günlük 1,65 milyon varillik arz kesintisinin geri alınması sürecini ilerletmişti. Buna karşın Reuters, grubun daha geniş kapsamlı bazı üretim kesintilerinin 2026 sonuna kadar yürürlükte kalmaya devam ettiğini aktarıyor.',
-              'Petrol fiyatlarında son günlerde Orta Doğu kaynaklı arz endişeleri de etkili oldu. Reuters verilerine göre Brent petrol 3 Eylül’de yüzde 1,7 yükselişle varil başına 97,29 dolara, ABD tipi WTI petrol ise yüzde 2,2 artışla 93,04 dolara çıktı. Bu hareket, enerji fiyatlarının küresel enflasyon ve merkez bankalarının para politikası beklentileri açısından yeniden yakından izlenmesine neden oldu.',
-              'Petrol fiyatları Türkiye açısından da önem taşıyor. Enerji maliyetlerindeki değişimler ithalat maliyetleri, enflasyon görünümü ve döviz piyasasına ilişkin beklentiler üzerinde etkili olabildiğinden OPEC+ kararları yalnızca küresel enerji piyasaları tarafından değil, yurt içindeki ekonomi takipçileri tarafından da izleniyor.',
-              'Toplantıdan çıkacak resmi kararın ardından üretim politikasında değişiklik olup olmadığı netleşecek. Bu haber mevcut doğrulanmış bilgiler ve Reuters’ın 6 Eylül tarihli haberinde aktarılan kaynak bilgileri temel alınarak hazırlanmıştır. İçerik yatırım tavsiyesi değildir.'
+              'Petrol piyasalarının yakından izlediği OPEC+ toplantısından karar çıktı. Reuters’ın 6 Eylül 2026 tarihli haberine göre Suudi Arabistan, Rusya, Irak, Kuveyt, Cezayir, Kazakistan ve Umman’ın yer aldığı yedi OPEC+ ülkesi, ekim ayı için mevcut petrol üretim politikasını değiştirmeme kararı aldı. Böylece piyasaların hafta sonu beklediği üretim kararı netleşmiş oldu.',
+              'OPEC+ ağustos ayında eylül üretimi için artış kararı almış ve 2023 yılında üzerinde uzlaşılan günlük 1,65 milyon varillik arz kesintisinin kademeli olarak geri alınması sürecini tamamlamıştı. Reuters, İran savaşı ve Hürmüz Boğazı üzerinden petrol sevkiyatında yaşanan aksaklıklar nedeniyle grubun fiili üretiminin belirlenen hedeflerin altında kaldığını aktardı.',
+              'Ekim ayı politikasının değiştirilmemesi, enerji piyasalarında arz görünümünün yakından izlenmeye devam edeceği anlamına geliyor. Hürmüz Boğazı küresel petrol ve LNG ticareti açısından kritik geçiş noktalarından biri olduğu için bölgedeki sevkiyat koşulları petrol fiyatları, enerji maliyetleri ve küresel enflasyon beklentileri bakımından önem taşıyor.',
+              'OPEC+ açısından sıradaki önemli başlıklardan biri 2027 yılı üretim kotalarının belirlenmesinde kullanılacak üretim kapasitelerinin yeniden değerlendirilmesi olacak. Reuters’ın aktardığına göre grup, yeni kotalar konusunda ilerlemeden önce üyelerin üretim kapasitelerini gözden geçirmeyi planlıyor. 6 Eylül’de yayımlanan açıklamada ekim sonrasındaki üretim politikası hakkında ayrıca bir karar duyurulmadı.',
+              'Yedi OPEC+ ülkesinin bir sonraki toplantısının 4 Ekim 2026 tarihinde yapılması planlanıyor. Petrol fiyatlarındaki değişimler küresel enflasyon, ulaştırma ve üretim maliyetleri üzerinden finansal piyasalar tarafından da takip ediliyor. Bu haber güncel gelişmeleri bilgilendirme amacıyla aktarmaktadır ve yatırım tavsiyesi değildir.'
             ],
-            sourceName:'Reuters',
-            sourceUrl:'https://www.reuters.com/business/energy/opec-set-keep-oil-output-policy-unchanged-sunday-sources-say-2026-09-06/',
-            sourceType:'editorial-web',
-            publishedAt:'2026-09-06T10:57:00.000Z',
-            updatedAt:'2026-09-06T10:57:00.000Z',
-            aiGenerated:true,
-            aiModel:'gpt-5.6-sol'
+            sourceName:'Reuters', sourceUrl:'https://www.reuters.com/business/energy/opec-set-keep-oil-output-policy-unchanged-sunday-sources-say-2026-09-06/', sourceType:'editorial-web',
+            publishedAt:'2026-09-06T16:04:00.000Z', updatedAt:'2026-09-06T16:04:00.000Z', aiGenerated:true, aiModel:'gpt-5.6-sol'
           });
           fs.writeFileSync(p,JSON.stringify(posts,null,2)+'\n');
           NODE
       - name: Verify
-        run: node -e "const p=require('./data/seo-posts.json'); const x=p.find(x=>x.slug==='opec-plus-ekim-2026-petrol-uretimi-karari'); if(!x||x.status!=='published'||x.body.length<4) process.exit(1)"
+        run: node -e "const p=require('./data/seo-posts.json'); const x=p.find(x=>x.slug==='opec-ekim-2026-petrol-uretimi-karari-degismedi'); if(!x||x.status!=='published'||x.body.length<4||!x.sourceUrl) process.exit(1)"
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/seo-posts.json
           git diff --cached --quiet && exit 0
-          git commit -m 'OPEC+ ekim üretim gündemi SEO haberini yayımla'
+          git commit -m 'OPEC+ ekim üretim kararı SEO haberini yayınla'
           git push
