@@ -14,6 +14,28 @@ const money=n=>Number.isFinite(Number(n))
 
 const number=n=>new Intl.NumberFormat("tr-TR",{maximumFractionDigits:4}).format(Number(n)||0);
 
+const GOLD_CACHE_KEY="bugunaltin:last-good-gold:v1";
+
+function saveGoldCache(data){
+  if(!data?.prices?.length)return;
+  try{
+    localStorage.setItem(GOLD_CACHE_KEY,JSON.stringify({city:currentCity,data,savedAt:Date.now()}));
+  }catch{}
+}
+
+function readGoldCache(){
+  try{
+    const cached=JSON.parse(localStorage.getItem(GOLD_CACHE_KEY)||"null");
+    if(cached?.city===currentCity&&cached?.data?.prices?.length)return cached.data;
+  }catch{}
+  return null;
+}
+
+function showGoldStaleNotice(){
+  if($("goldSourceChip"))$("goldSourceChip").textContent="Son başarılı fiyat";
+  if($("statusText"))$("statusText").textContent=`${CITIES[currentCity]} • canlı güncelleme bekleniyor`;
+}
+
 function cityFromPath(){
   const m=location.pathname.match(/^\/([a-z0-9-]+)-altin-fiyatlari\/?$/);
   return m&&CITIES[m[1]]?m[1]:"istanbul";
@@ -82,8 +104,20 @@ async function loadGold(){
   try{
     const r=await fetch(`/api/prices?city=${encodeURIComponent(currentCity)}`,{cache:"no-store"});
     if(!r.ok)throw 0;
-    renderGold(await r.json());
+    const data=await r.json();
+    renderGold(data);
+    saveGoldCache(data);
   }catch{
+    if(goldData?.prices?.length){
+      showGoldStaleNotice();
+      return;
+    }
+    const cached=readGoldCache();
+    if(cached){
+      renderGold(cached);
+      showGoldStaleNotice();
+      return;
+    }
     renderGold({verified:false,prices:[]});
   }
 }
