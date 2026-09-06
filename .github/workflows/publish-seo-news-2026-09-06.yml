@@ -1,0 +1,30 @@
+name: Publish SEO News 2026-09-06
+on:
+  push:
+    paths: ['.github/workflows/publish-seo-news-2026-09-06.yml']
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          p=Path('data/seo-posts.json')
+          posts=json.loads(p.read_text(encoding='utf-8'))
+          slug='altin-yeni-hafta-kritik-takvim-enflasyon-fed-eylul-2026'
+          if not any(x.get('slug')==slug for x in posts):
+            posts.append({'id':'2026-09-06-piyasa-takvimi','slug':slug,'title':'Altında Yeni Haftanın Kritik Takvimi: ABD Enflasyonu ve Fed Toplantısı Ne Zaman?','description':'Altın ve dolar için yeni haftada kritik veri takvimi: ABD ÜFE 10 Eylül, TÜFE 11 Eylül, Fed faiz kararı 16 Eylül 2026’da izlenecek.','body':['Altın ve döviz piyasalarında yeni haftanın gündemi ABD enflasyon verileri ve Federal Rezerv’in eylül toplantısı olacak. ABD Çalışma İstatistikleri Bürosunun resmi takvimine göre ağustos ayı Üretici Fiyat Endeksi 10 Eylül 2026 Perşembe, Tüketici Fiyat Endeksi ise 11 Eylül 2026 Cuma günü açıklanacak.','ABD’de ağustos ayında tarım dışı istihdam 162 bin kişi arttı ve işsizlik oranı yüzde 4,1’de kaldı. Beklentilerin üzerindeki istihdam artışı sonrasında dolar ve tahvil faizlerinde hareketlilik görülürken altın haftanın son işlem gününde geriledi. Bu nedenle enflasyon verileri, faiz beklentilerinin yeniden şekillenmesi açısından piyasaların yakından izleyeceği başlıklar arasında bulunuyor.','BLS verilerine göre temmuz ayında ABD tüketici fiyatları aylık yüzde 0,1, yıllık yüzde 3,4 arttı. Gıda ve enerji hariç çekirdek tüketici fiyatları ise temmuzda aylık yüzde 0,2 ve yıllık yüzde 2,5 yükseldi. 11 Eylül’de yayımlanacak ağustos verisi, enflasyon eğiliminin devam edip etmediğine ilişkin yeni bir gösterge sağlayacak.','Federal Rezervin yayımladığı son toplantı tutanaklarında bir sonraki Federal Açık Piyasa Komitesi toplantısının 15-16 Eylül 2026 tarihlerinde yapılacağı belirtiliyor. Temmuz toplantısında politika faizi değiştirilmezken bazı üyeler 25 baz puanlık artıştan yana oy kullanmıştı. Eylül toplantısı öncesinde açıklanacak üretici ve tüketici enflasyonu verileri bu nedenle ayrıca önem taşıyor.','Altın fiyatları faiz beklentileri, ABD doları, tahvil getirileri ve küresel risk algısındaki değişimlerden etkilenebiliyor. Türkiye’de gram altının yönünde bunlara ek olarak dolar/TL kuru da belirleyici olabiliyor. Bu haber yalnızca doğrulanmış ekonomik takvimi ve piyasa verilerini aktarmaktadır; yatırım tavsiyesi değildir.'],'category':'ekonomi','status':'published','image':'','sourceName':'U.S. Bureau of Labor Statistics • Federal Reserve','sourceUrl':'https://www.bls.gov/schedule/2026/09_sched_list.htm','sourceType':'editorial','publishedAt':'2026-09-06T06:00:00.000Z','updatedAt':'2026-09-06T06:00:00.000Z'})
+          p.write_text(json.dumps(posts,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+      - name: Verify and commit
+        run: |
+          node -e "const p=require('./data/seo-posts.json');const x=p.find(x=>x.slug==='altin-yeni-hafta-kritik-takvim-enflasyon-fed-eylul-2026');if(!x||x.status!=='published'||x.body.length<4)process.exit(1)"
+          git config user.name 'Bugün Altın Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data/seo-posts.json
+          git commit -m 'Yeni haftanın kritik piyasa takvimini yayımla'
+          git push
