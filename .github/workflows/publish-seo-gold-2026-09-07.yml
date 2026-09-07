@@ -1,0 +1,64 @@
+name: Publish Gold SEO 2026-09-07
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-seo-gold-2026-09-07.yml'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Publish verified gold news
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'data/seo-posts.json';
+          const posts = JSON.parse(fs.readFileSync(path, 'utf8'));
+          const post = {
+            id: '2026-09-07-ons-altin-fed-enflasyon',
+            slug: 'ons-altin-geriledi-fed-faiz-beklentisi-abd-enflasyon-7-eylul-2026',
+            slot: 'gundem',
+            dayKey: '2026-09-07',
+            title: 'Ons Altın Geriledi: Gözler ABD Enflasyonu ve Fed Kararında',
+            description: 'Ons altın 7 Eylül 2026’da 4.421 dolar civarına geriledi. Güçlü ABD istihdam verisinin ardından piyasaların odağında enflasyon verileri ve Fed’in 15-16 Eylül toplantısı var.',
+            category: 'altin',
+            status: 'published',
+            body: [
+              'Altın fiyatları yeni haftaya sınırlı düşüşle başladı. Reuters’ın 7 Eylül 2026 tarihli piyasa haberine göre spot ons altın yüzde 0,2 gerileyerek 4.421,04 dolar seviyesinde işlem gördü. Aralık vadeli ABD altın kontratları da yüzde 0,2 düşüşle 4.466,90 dolara indi. ABD’de tatil nedeniyle işlem hacimlerinin düşük kaldığı belirtildi.',
+              'Altındaki geri çekilmede geçen hafta açıklanan güçlü ABD istihdam verilerinin ardından Federal Rezerv’in eylül toplantısında faiz artırabileceğine ilişkin beklentilerin güçlenmesi etkili oldu. Reuters’ın aktardığı piyasa fiyatlamasına göre 15-16 Eylül’deki Fed toplantısında faiz artırımı olasılığı yüzde 58 civarında değerlendiriliyor. İstihdam verisi öncesinde bu olasılık yüzde 50 seviyesindeydi.',
+              'Piyasaların sıradaki önemli gündemi ABD enflasyon verileri olacak. Üretici fiyat endeksinin perşembe, tüketici fiyat endeksinin ise cuma günü açıklanması bekleniyor. Bu veriler, Fed’in faiz görünümüne ilişkin beklentileri etkileyebileceği için dolar, tahvil faizleri ve değerli metal fiyatları açısından yakından takip ediliyor.',
+              'Altın faiz getirisi sağlamayan bir varlık olduğu için tahvil getirilerindeki ve faiz beklentilerindeki yükseliş dönemlerinde baskı görebiliyor. Bununla birlikte enerji fiyatlarındaki yükseliş ve jeopolitik gelişmeler de küresel enflasyon görünümünü etkileyerek değerli metallerde gün içi oynaklığı artırabiliyor.',
+              'Türkiye’de gram altın fiyatı açısından küresel ons fiyatının yanında dolar/TL kuru da belirleyici olmaya devam ediyor. Bu nedenle ons altındaki hareketler gram altına aynı oranda yansımayabilir. Bu içerik yalnızca güncel piyasa gelişmelerini aktarmak amacıyla hazırlanmıştır ve yatırım tavsiyesi değildir.'
+            ],
+            sourceName: 'Reuters',
+            sourceUrl: 'https://www.reuters.com/world/india/gold-eases-robust-us-payrolls-boost-rate-hike-bets-inflation-data-focus-2026-09-07/',
+            sourceType: 'editorial-web',
+            publishedAt: '2026-09-07T10:55:00.000Z',
+            updatedAt: '2026-09-07T10:55:00.000Z',
+            aiGenerated: true,
+            aiModel: 'gpt-5.6-sol'
+          };
+          if (!posts.some(p => p.id === post.id || p.slug === post.slug)) {
+            posts.push(post);
+            fs.writeFileSync(path, JSON.stringify(posts, null, 2) + '\n');
+          }
+          NODE
+      - name: Verify post
+        run: |
+          node -e "const p=require('./data/seo-posts.json'); const x=p.find(x=>x.id==='2026-09-07-ons-altin-fed-enflasyon'); if(!x||x.status!=='published'||!Array.isArray(x.body)||x.body.length<4||!x.sourceUrl) process.exit(1);"
+      - name: Commit published news
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/seo-posts.json
+          if ! git diff --cached --quiet; then
+            git commit -m '7 Eylül ons altın ve Fed gündemi SEO haberini yayınla'
+            git push origin HEAD:main
+          fi
