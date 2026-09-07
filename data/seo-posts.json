@@ -2355,5 +2355,29 @@
     "updatedAt": "2026-09-07T10:55:00.000Z",
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-07-yen-yedi-ay-zirve",
+    "slug": "japon-yeni-yedi-ayin-zirvesinde-dolar-yen-geriledi-7-eylul-2026",
+    "slot": "gundem",
+    "dayKey": "2026-09-07",
+    "title": "Japon Yeni 7 Ayın Zirvesine Çıktı: Dolar/Yen 154 Seviyesine Geriledi",
+    "description": "Japon yeni 7 Eylül 2026’da dolar karşısında yedi ayın en güçlü seviyesine çıktı. Dolar/yen 154,05’e kadar gerilerken piyasaların odağında Japonya Merkez Bankası ve ABD enflasyonu var.",
+    "category": "doviz",
+    "status": "published",
+    "body": [
+      "Küresel döviz piyasalarında haftanın ilk işlem gününde Japon yeni öne çıktı. Reuters verilerine göre yen, 7 Eylül 2026 Pazartesi günü dolar karşısında yaklaşık yedi ayın en güçlü seviyesine yükseldi. Dolar/yen paritesi gün içinde 154,05 seviyesine kadar gerileyerek şubat ayından bu yana en düşük düzeyini gördü.",
+      "Yendeki güçlenmede Japonya Merkez Bankasının para politikasını daha da sıkılaştırabileceğine ilişkin beklentiler etkili oluyor. Reuters’ın aktardığı piyasa değerlendirmelerine göre Japon yatırımcıların yurt dışındaki fonlarını ülkeye geri getirebileceği beklentisi ve yen üzerinden finanse edilen carry trade işlemlerinin çözülmesi de Japon para birimini destekleyen başlıklar arasında bulunuyor.",
+      "Dolar/yen paritesinin 155 seviyesinin altına inmesi, döviz piyasasında yakından izlenen teknik ve psikolojik eşiklerden birinin aşılması anlamına geldi. Parite geçen hafta 160 seviyesinin üzerinde işlem görmüştü. Böylece kısa süre içinde yen lehine belirgin bir fiyat hareketi ortaya çıktı.",
+      "Döviz piyasalarının bu haftaki önemli gündem maddelerinden biri ABD tüketici enflasyonu olacak. Reuters’a göre cuma günü açıklanacak ABD TÜFE verisi, Federal Rezervin 15-16 Eylül toplantısında faiz artırıp artırmayacağına yönelik beklentileri etkileyebilir. Avrupa Merkez Bankasının da bu hafta faiz kararı açıklaması bekleniyor.",
+      "Japon yenindeki hareket yalnızca dolar/yen paritesini değil, küresel döviz ve varlık fiyatlamalarını da ilgilendiriyor. Yen uzun süredir düşük faiz nedeniyle finansman para birimi olarak kullanıldığı için carry trade pozisyonlarındaki hızlı değişimler farklı piyasalarda oynaklığa yol açabiliyor. Bu içerik güncel piyasa gelişmelerini aktarmak amacıyla hazırlanmıştır ve yatırım tavsiyesi değildir."
+    ],
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/world/asia-pacific/dollar-gets-little-lift-boost-fed-hike-expectations-2026-09-07/",
+    "sourceType": "editorial-web",
+    "publishedAt": "2026-09-07T16:01:49.000Z",
+    "updatedAt": "2026-09-07T16:01:49.000Z",
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol"
   }
 ]
