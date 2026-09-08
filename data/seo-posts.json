@@ -2379,5 +2379,30 @@
     "updatedAt": "2026-09-07T16:01:49.000Z",
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-08-altin-dolar-enflasyon",
+    "slug": "ons-altin-yukseldi-dolar-geriledi-abd-enflasyon-verisi-bekleniyor-8-eylul-2026",
+    "slot": "gundem",
+    "dayKey": "2026-09-08",
+    "title": "Ons Altın Yeniden Yükseldi: Dolar Gerilerken Gözler ABD Enflasyon Verisinde",
+    "description": "Ons altın 8 Eylül 2026’da yüzde 0,6 yükselerek 4.432,79 dolara çıktı. Dolar endeksindeki düşüş ve yaklaşan ABD enflasyon verileri piyasaların odağında.",
+    "category": "altin",
+    "status": "published",
+    "image": "",
+    "sourceType": "editorial-web",
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/world/india/gold-gains-dollar-eases-with-us-inflation-data-radar-2026-09-08/",
+    "publishedAt": "2026-09-08T05:57:00.000Z",
+    "updatedAt": "2026-09-08T05:57:00.000Z",
+    "body": [
+      "Altın fiyatları 8 Eylül 2026 Salı günü yeniden yükselişe geçti. Reuters verilerine göre spot ons altın yüzde 0,6 artışla 4.432,79 dolar seviyesine çıktı. Bir önceki gün güçlü ABD istihdam verilerinin faiz artışı beklentilerini güçlendirmesiyle gerileyen değerli metal, yeni işlem gününde doların zayıflamasından destek buldu.",
+      "Dolar endeksi aynı saatlerde yüzde 0,3 geriledi. Altının uluslararası piyasalarda dolar üzerinden fiyatlanması nedeniyle ABD para birimindeki değer kaybı, diğer para birimlerini kullanan yatırımcılar açısından altının göreli maliyetini düşürebiliyor. Bununla birlikte altın fiyatlarının yönünde tahvil faizleri, merkez bankası beklentileri ve küresel risk algısı da etkili olmaya devam ediyor.",
+      "Piyasaların bu haftaki ana gündemi ABD enflasyon verileri olacak. Üretici ve tüketici fiyat endekslerinden gelecek sonuçlar, ABD Merkez Bankasının 15-16 Eylül toplantısına ilişkin faiz beklentilerinin yeniden şekillenmesine neden olabilir. Geçen hafta açıklanan güçlü istihdam verilerinin ardından piyasalarda Fed’in faiz artırabileceği beklentisi belirgin biçimde güçlenmişti.",
+      "Reuters’ın aktardığı piyasa fiyatlamalarına göre yatırımcılar Fed’in eylül toplantısında faiz artırma ihtimalini yaklaşık yüzde 58 seviyesinde değerlendiriyor. Faiz beklentilerindeki değişimler altın açısından yakından izleniyor; çünkü faiz getirisi olmayan değerli metal, ABD tahvil getirilerindeki yükseliş veya düşüşlerden etkilenebiliyor.",
+      "Değerli metallerin genelinde de günün ilk bölümünde yükseliş görüldü. Reuters verilerine göre gümüş yüzde 1,2, platin ve paladyum ise yüzde 0,6 civarında değer kazandı. Türkiye’de gram altın fiyatı açısından ons altındaki hareketin yanında dolar/TL kuru da belirleyici olduğundan, küresel ons değişimi yurt içi fiyatlara aynı oranda yansımayabilir. Bu içerik yalnızca güncel piyasa gelişmelerini aktarmaktadır ve yatırım tavsiyesi değildir."
+    ],
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol"
   }
 ]
