@@ -2428,5 +2428,28 @@
     "updatedAt": "2026-09-08T11:04:00.000Z",
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-08-bakir-rekor",
+    "slug": "bakir-fiyatlari-rekor-kirdi-14736-dolar-eylul-2026",
+    "title": "Bakır Fiyatları Rekor Kırdı: Tonu 14.736 Dolara Çıktı",
+    "description": "Bakır fiyatları 8 Eylül 2026’da arz sıkışıklığı ve tarife beklentileriyle ton başına 14.736 dolara yükselerek rekor kırdı. Küresel piyasalardaki son durum.",
+    "category": "piyasalar",
+    "status": "published",
+    "image": "",
+    "sourceType": "editorial-web",
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/world/china/global-markets-wrapup-1-2026-09-08/",
+    "publishedAt": "2026-09-08T15:55:00.000Z",
+    "updatedAt": "2026-09-08T15:55:00.000Z",
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol",
+    "body": [
+      "Küresel emtia piyasalarında bakır 8 Eylül 2026 tarihinde yeni bir rekora ulaştı. Reuters’ın küresel piyasalar derlemesine göre bakır fiyatı ton başına 14.736 dolara kadar yükseldi. Hareket, yatırımcıların sanayi metalleri ve küresel büyüme görünümüne ilişkin fiyatlamaları yakından izlediği bir dönemde gerçekleşti.",
+      "Reuters, bakırdaki yükselişte küresel arzın sıkılaşmasına ilişkin endişeler ile ABD’de olası yeni tarifelere yönelik beklentilerin etkili olduğunu bildirdi. Bakır; elektrik şebekeleri, inşaat, otomotiv, elektronik ve yenilenebilir enerji altyapısında yoğun biçimde kullanılan temel sanayi metallerinden biri olduğu için fiyat hareketleri küresel ekonomik aktivite açısından da yakından takip ediliyor.",
+      "Aynı gün küresel piyasalarda enerji fiyatları ve tahvil faizleri de yükseldi. Brent petrol 98 doların üzerine çıkarken ABD 10 yıllık tahvil faizi yüzde 4,8 civarına geldi. Bu tablo, emtia fiyatları ile enflasyon beklentileri arasındaki ilişkiyi yeniden gündeme taşıdı ve yatırımcıların yaklaşan ABD enflasyon verilerine odaklanmasına neden oldu.",
+      "Bakır fiyatındaki rekor hareket Türkiye açısından da maliyet kanalı üzerinden önem taşıyor. Metal fiyatlarında kalıcı yükseliş; kablo, elektrik ekipmanları, otomotiv, beyaz eşya ve inşaat gibi bakır kullanan sektörlerin hammadde maliyetlerini etkileyebilir. Bununla birlikte şirketlere ve ürünlere yansıma; kur, stoklama, sözleşme fiyatları ve tedarik koşulları gibi birçok faktöre bağlı olarak değişebilir.",
+      "Önümüzdeki günlerde bakır piyasasında arz gelişmeleri, ABD ticaret politikası ve küresel ekonomik veriler izlenecek. Bu içerik yalnızca güncel piyasa gelişmelerini aktarmaktadır; yatırım tavsiyesi değildir ve emtia fiyatları piyasa koşullarına bağlı olarak hızlı değişebilir."
+    ]
   }
 ]
