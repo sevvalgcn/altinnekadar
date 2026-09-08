@@ -2404,5 +2404,29 @@
     ],
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-08-brent-99",
+    "slug": "brent-petrol-99-dolara-yaklasti-8-eylul-2026",
+    "slot": "gundem",
+    "dayKey": "2026-09-08",
+    "title": "Brent Petrol 99 Doları Aştı: Enerji Fiyatları Yeniden Gündemde",
+    "description": "Brent petrol 8 Eylül 2026’da 99 doların üzerine çıktı. Enerji arzına ilişkin gelişmeler ve yükselen petrol fiyatlarının küresel piyasalara etkisi izleniyor.",
+    "category": "piyasalar",
+    "status": "published",
+    "body": [
+      "Küresel petrol piyasasında fiyatlar 8 Eylül 2026 Salı günü çok haftalık zirvelere yükseldi. Reuters verilerine göre Brent petrolün varil fiyatı 99,46 dolara, ABD Batı Teksas türü ham petrolün fiyatı ise 94,73 dolara kadar çıktı.",
+      "Petrol fiyatlarındaki yükselişte enerji arzına ilişkin belirsizlikler etkili oldu. Piyasa katılımcıları küresel sevkiyat rotalarındaki akışı ve üretici ülkelerden gelen gelişmeleri yakından takip ediyor.",
+      "Enerji fiyatlarındaki hareket küresel enflasyon görünümü açısından da önem taşıyor. Petrol maliyetlerindeki kalıcı değişimler ulaştırma ve üretim maliyetleri üzerinden fiyat göstergelerini etkileyebildiği için merkez bankalarının para politikası beklentileriyle birlikte izleniyor.",
+      "Altın ve döviz piyasalarında da enerji fiyatları, enflasyon beklentileri ve tahvil faizleri arasındaki ilişki takip ediliyor. Bu nedenle petrolün 99 doların üzerine çıkması yaklaşan ABD enflasyon verileri öncesinde küresel piyasa gündeminde öne çıkan gelişmelerden biri oldu.",
+      "Bu içerik güncel piyasa gelişmelerini bilgilendirme amacıyla aktarmaktadır ve yatırım tavsiyesi değildir. Fiyatlar piyasa koşullarına bağlı olarak değişebilir."
+    ],
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/business/energy/oil-rises-risks-prolonged-mideast-conflict-heighten-supply-worries-2026-09-08/",
+    "sourceType": "editorial-web",
+    "publishedAt": "2026-09-08T11:04:00.000Z",
+    "updatedAt": "2026-09-08T11:04:00.000Z",
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol"
   }
 ]
