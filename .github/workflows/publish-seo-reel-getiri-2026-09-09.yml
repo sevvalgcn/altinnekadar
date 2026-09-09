@@ -1,0 +1,68 @@
+name: Publish SEO Reel Getiri 2026-09-09
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-seo-reel-getiri-2026-09-09.yml'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Publish verified SEO news
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const p = 'data/seo-posts.json';
+          const posts = JSON.parse(fs.readFileSync(p, 'utf8'));
+          const id = '2026-09-09-agustos-reel-getiri-kulce-altin';
+          const slug = 'agustos-2026-reel-getiri-kulce-altin-yuzde-7-93';
+          const duplicate = posts.some(x => x.id === id || x.slug === slug || /reel getiri.*külçe altın|külçe altın.*reel getiri/i.test(x.title || ''));
+          if (duplicate) {
+            console.log('Yakın konu zaten mevcut; yeni içerik eklenmedi.');
+            process.exit(0);
+          }
+          const post = {
+            id,
+            slug,
+            slot: 'gundem',
+            dayKey: '2026-09-09',
+            title: 'Ağustosta En Çok Kazandıran Yatırım Aracı Belli Oldu: Külçe Altın Öne Çıktı',
+            description: 'TÜİK verilerine göre Ağustos 2026’da TÜFE ile indirgendiğinde en yüksek aylık reel getiri yüzde 7,93 ile külçe altında gerçekleşti. Dolar ve BIST 100 ise reel kayıp yazdı.',
+            category: 'altin',
+            status: 'published',
+            body: [
+              'Türkiye İstatistik Kurumunun ağustos ayına ilişkin finansal yatırım araçlarının reel getiri oranları verileri açıklandı. TÜFE ile indirgendiğinde ağustos ayında yatırımcısına en yüksek aylık reel getiriyi yüzde 7,93 ile külçe altın sağladı. Yİ-ÜFE ile yapılan hesaplamada da külçe altının aylık reel getirisi yüzde 7,17 oldu.',
+              'TÜFE ile indirgendiğinde devlet iç borçlanma senetleri yüzde 1,38, avro yüzde 1,34 ve mevduat faizi brüt yüzde 1,05 reel getiri sağladı. Aynı hesaplamada dolar yüzde 0,15, BIST 100 endeksi ise yüzde 1,13 oranında reel kayıp gösterdi.',
+              'Üç aylık dönemde tablo değişti. Bu dönemde en yüksek reel getiri TÜFE ile indirgendiğinde yüzde 4,77 ile devlet iç borçlanma senetlerinde görüldü. Altı aylık değerlendirmede ise mevduat faizi brüt, TÜFE ile indirgendiğinde yüzde 2,87 ile en yüksek reel getiriyi sağlayan yatırım aracı oldu.',
+              'Yıllık değerlendirmede külçe altın yeniden ilk sıraya çıktı. TÜFE ile indirgendiğinde külçe altının yıllık reel getirisi yüzde 16,49, Yİ-ÜFE ile indirgendiğinde ise yüzde 19,73 olarak hesaplandı. Böylece altın hem ağustos ayının hem de yıllık dönemin reel getiri lideri oldu.',
+              'Reel getiri hesabı, yatırım aracının nominal değişimini enflasyon etkisinden arındırarak satın alma gücündeki değişimi göstermeyi amaçlıyor. Geçmiş dönem performansı gelecekteki getiriyi garanti etmez. Bu içerik yalnızca açıklanan resmi verileri aktarmaktadır ve yatırım tavsiyesi değildir.'
+            ],
+            sourceName: 'TÜİK / Anadolu Ajansı',
+            sourceUrl: 'https://www.aa.com.tr/tr/ekonomi/agustosta-en-fazla-aylik-reel-getiri-kulce-altinda-oldu/4050379',
+            sourceType: 'official-data-editorial',
+            publishedAt: '2026-09-09T06:04:00.000Z',
+            updatedAt: '2026-09-09T06:04:00.000Z',
+            aiGenerated: true,
+            aiModel: 'gpt-5.6-sol'
+          };
+          posts.push(post);
+          fs.writeFileSync(p, JSON.stringify(posts, null, 2) + '\n');
+          NODE
+      - name: Verify
+        run: |
+          node -e "const p=require('./data/seo-posts.json'); const x=p.find(x=>x.id==='2026-09-09-agustos-reel-getiri-kulce-altin'); if(!x || x.status!=='published' || !Array.isArray(x.body) || x.body.length<4) process.exit(1); console.log(x.title)"
+      - name: Commit published news
+        run: |
+          if git diff --quiet -- data/seo-posts.json; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/seo-posts.json
+          git commit -m 'Ağustos reel getiri SEO haberini yayınla'
+          git push origin main
