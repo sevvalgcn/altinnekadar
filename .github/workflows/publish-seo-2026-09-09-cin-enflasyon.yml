@@ -1,0 +1,35 @@
+name: Publish China Inflation SEO
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-seo-2026-09-09-cin-enflasyon.yml'
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Publish post
+        run: |
+          node <<'NODE'
+          const fs=require('fs'); const f='data/seo-posts.json'; const a=JSON.parse(fs.readFileSync(f,'utf8'));
+          const x={id:'2026-09-09-cin-enflasyon',slug:'cin-enflasyonu-agustos-2026-enerji-fiyatlari',slot:'gundem',dayKey:'2026-09-09',title:'Çin’de Enflasyon Hızlandı: Enerji Maliyetleri Fiyatları Yukarı Taşıdı',description:'Çin’de Ağustos 2026 tüketici enflasyonu yüzde 0,8’e, üretici enflasyonu yüzde 3,8’e yükseldi. Enerji maliyetleri fiyat artışında öne çıktı.',category:'ekonomi',status:'published',image:'',sourceType:'editorial-web',sourceName:'Reuters',sourceUrl:'https://www.reuters.com/world/asia-pacific/chinas-producer-inflation-regains-momentum-august-2026-09-09/',publishedAt:'2026-09-09T11:03:49.000Z',updatedAt:'2026-09-09T11:03:49.000Z',body:[
+          'Çin’de ağustos ayı enflasyon verileri enerji maliyetlerinin etkisiyle yükseldi. Reuters’ın Çin Ulusal İstatistik Bürosu verilerine dayandırdığı habere göre tüketici fiyatları ağustosta yıllık yüzde 0,8 arttı. Temmuz ayında yıllık tüketici enflasyonu yüzde 0,5 seviyesindeydi.',
+          'Üretici fiyatlarındaki artış daha belirgin gerçekleşti. Çin’de üretici fiyat endeksi ağustosta geçen yılın aynı dönemine göre yüzde 3,8 yükseldi. Temmuz ayında yüzde 3,5 olan yıllık üretici enflasyonunun hızlanmasında küresel enerji maliyetlerindeki yükseliş etkili oldu.',
+          'Sektörel veriler maliyet baskısının özellikle enerji ve metal alanlarında yoğunlaştığını gösterdi. Reuters’a göre demir dışı metal eritme ve işleme fiyatları yıllık yüzde 20,8, petrol ve kömür işleme fiyatları yüzde 11,1, petrol ve doğal gaz çıkarma fiyatları ise yüzde 10,5 arttı.',
+          'Gıda ve enerji fiyatlarını dışarıda bırakan çekirdek tüketici enflasyonu yüzde 1 seviyesinde kaldı. Bu görünüm, enerji kaynaklı fiyat artışına rağmen Çin’de iç talep tarafındaki fiyat baskılarının daha sınırlı seyrettiğine işaret ediyor. Aylık bazda tüketici fiyatları yüzde 0,4 yükseldi.',
+          'Çin dünyanın en büyük emtia tüketicilerinden biri olduğu için ülkedeki enflasyon ve üretim maliyetleri küresel emtia, döviz ve yatırım piyasaları tarafından yakından izleniyor. Verilerin ilerleyen dönemdeki seyri Çin ekonomisindeki talep görünümü açısından da takip edilecek. Bu içerik bilgilendirme amaçlıdır ve yatırım tavsiyesi değildir.'
+          ],aiGenerated:true,aiModel:'gpt-5.6-sol'};
+          if(!a.some(v=>v.id===x.id||v.slug===x.slug||v.title===x.title)){a.push(x);fs.writeFileSync(f,JSON.stringify(a,null,2)+'\n');}
+          NODE
+      - name: Verify and commit
+        run: |
+          node -e "const a=require('./data/seo-posts.json');const x=a.find(v=>v.id==='2026-09-09-cin-enflasyon');if(!x||x.status!=='published'||x.body.length<4)process.exit(1)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/seo-posts.json
+          git diff --cached --quiet || (git commit -m 'Çin enflasyon SEO haberini yayınla' && git push)
