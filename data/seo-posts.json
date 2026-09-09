@@ -2500,5 +2500,30 @@
     ],
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-09-brent-100-dolar",
+    "slug": "brent-petrol-100-dolari-asti-9-eylul-2026",
+    "slot": "gundem",
+    "dayKey": "2026-09-09",
+    "title": "Brent Petrol 100 Doları Aştı: Enerji Piyasalarında Yeni Eşik",
+    "description": "Brent petrol 9 Eylül 2026’da 100 doların üzerine çıktı. Orta Doğu’daki arz riskleri, küresel enflasyon ve piyasalara etkisi yakından izleniyor.",
+    "category": "piyasalar",
+    "status": "published",
+    "image": "",
+    "sourceType": "editorial-web",
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/business/energy/brent-crude-rises-above-100-barrel-middle-east-conflict-escalates-2026-09-09/",
+    "publishedAt": "2026-09-09T16:04:46.000Z",
+    "updatedAt": "2026-09-09T16:04:46.000Z",
+    "body": [
+      "Küresel enerji piyasalarında yakından izlenen Brent petrol, 9 Eylül 2026 tarihinde 100 dolar eşiğini aşarak temmuz sonundan bu yana ilk kez bu seviyenin üzerine çıktı. Reuters verilerine göre Brent vadeli işlemleri gün içinde 101,55 dolara kadar yükselirken, ABD tipi Batı Teksas petrolü de 96 doların üzerine çıktı.",
+      "Petrol fiyatlarındaki yükselişte Orta Doğu’daki çatışmaların enerji arzı ve deniz taşımacılığı üzerindeki etkisine ilişkin endişeler öne çıktı. Bölgede petrol tankerlerini ve enerji altyapısını etkileyen saldırıların artması, özellikle Hürmüz Boğazı üzerinden gerçekleşen sevkiyatlara yönelik risk algısını güçlendirdi.",
+      "Hürmüz Boğazı küresel petrol ve doğal gaz ticaretinin en kritik geçiş noktalarından biri konumunda bulunuyor. Reuters’ın aktardığı verilere göre bölgedeki enerji akışında yaşanan aksaklıklar petrol piyasasında arz güvenliğini yeniden ana gündem maddelerinden biri haline getirdi.",
+      "Petrol fiyatlarının 100 doların üzerine çıkması yalnızca enerji piyasası açısından değil, küresel enflasyon görünümü bakımından da önem taşıyor. Enerji maliyetlerindeki kalıcı artış; ulaşım, üretim ve lojistik maliyetleri üzerinden tüketici fiyatlarına yansıyabileceği için merkez bankalarının para politikası beklentileri de petrol fiyatlarıyla birlikte takip ediliyor.",
+      "Altın ve döviz piyasalarında işlem yapan yatırımcıların gündeminde de enerji fiyatlarındaki hareket bulunuyor. Petrol kaynaklı enflasyon endişeleri tahvil faizleri, dolar ve değerli metaller üzerinde dolaylı etkiler oluşturabildiğinden önümüzdeki günlerde hem enerji arzına ilişkin gelişmeler hem de açıklanacak ABD enflasyon verileri izlenecek. Bu içerik bilgilendirme amaçlıdır ve yatırım tavsiyesi değildir."
+    ],
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol"
   }
 ]
