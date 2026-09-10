@@ -2525,5 +2525,30 @@
     ],
     "aiGenerated": true,
     "aiModel": "gpt-5.6-sol"
+  },
+  {
+    "id": "2026-09-10-ons-altin-dolar-gerilerken-yukseldi",
+    "slug": "ons-altin-dolar-gerilerken-yukseldi-10-eylul-2026",
+    "slot": "gundem",
+    "dayKey": "2026-09-10",
+    "title": "Ons Altın Dolar Gerilerken Yükseldi: Gözler ABD Enflasyon Verilerinde",
+    "description": "Ons altın 10 Eylül 2026’da zayıflayan doların desteğiyle 4.405 dolar civarında yükseldi. Piyasaların odağında ABD ÜFE ve TÜFE verileri ile Fed kararı var.",
+    "category": "altin",
+    "status": "published",
+    "image": "",
+    "sourceType": "editorial-web",
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/world/india/gold-edges-higher-weaker-dollar-us-inflation-data-focus-2026-09-10/",
+    "publishedAt": "2026-09-10T11:04:03.000Z",
+    "updatedAt": "2026-09-10T11:04:03.000Z",
+    "body": [
+      "Altın fiyatları 10 Eylül 2026 Perşembe günü zayıflayan doların desteğiyle sınırlı yükseldi. Reuters verilerine göre spot ons altın yüzde 0,1 artışla 4.405,09 dolar seviyesinde işlem gördü. ABD altın vadeli işlemleri ise yüzde 0,3 düşüşle 4.448,80 dolar civarında seyretti.",
+      "Altındaki hareketin önemli nedenlerinden biri dolar endeksindeki gevşeme oldu. Doların değer kaybetmesi, dolar cinsinden fiyatlanan altını diğer para birimlerini kullanan alıcılar açısından görece daha erişilebilir hale getirebiliyor. Küresel borç görünümüne ilişkin endişeler de değerli metal piyasasının yakından izlediği başlıklar arasında bulunuyor.",
+      "Piyasaların kısa vadeli odağında ABD enflasyon verileri var. ABD üretici fiyat endeksinin 10 Eylül’de, tüketici fiyat endeksinin ise 11 Eylül’de açıklanması bekleniyor. Veriler, ABD Merkez Bankasının 15-16 Eylül toplantısında faiz politikasına ilişkin beklentilerin şekillenmesi açısından önem taşıyor.",
+      "Reuters anketine katılan ekonomistlerin çoğunluğu Fed’in eylül toplantısında politika faizini sabit tutmasını beklerken, piyasa fiyatlamalarında faiz artışı olasılığı da yakından takip ediliyor. Enflasyon verilerinin beklentilerin üzerinde veya altında gelmesi dolar, tahvil faizleri ve altın fiyatlarında kısa vadeli oynaklığı artırabilir.",
+      "Reuters verilerine göre spot gümüş yüzde 0,2 düşüşle 67,11 dolar, platin yüzde 1,2 kayıpla 1.873,84 dolar ve paladyum yüzde 0,2 düşüşle 1.350,82 dolar seviyesinde işlem gördü. Bu içerik yalnızca güncel piyasa gelişmelerini aktarmak amacıyla hazırlanmıştır ve yatırım tavsiyesi değildir."
+    ],
+    "aiGenerated": true,
+    "aiModel": "gpt-5.6-sol"
   }
 ]
