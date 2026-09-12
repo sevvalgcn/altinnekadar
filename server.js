@@ -211,7 +211,8 @@ async function ensureSeoPost(slot,force=false){
   const posts=loadSeoPosts(),existing=posts.find(p=>p.id===id);
   if(existing&&!force)return existing;
   if(existing&&force)snapshotSeoPost(existing,"ai-regenerate");
-  const live=await fetchHaremGold(force);
+  let live=await fetchHaremGold(force);
+  if(!live)live=await fetchCentralGold(force);
   const base=buildSeoPostFromGold(live,slot,now);
   if(!base)return null;
   const post=await enhanceSeoPostWithAI(base,live);
@@ -719,7 +720,7 @@ async function fetchCentralGold(force=false){
 }
 
 
-const HAREM_GOLD_URL="https://api.hasfiyat.com/api/prices?source=harem";
+const HAREM_GOLD_URLS=["https://api.hasfiyat.com/api/prices?source=harem","https://api.hasfiyat.com/api/prices?source=harem-canli"];
 const HAREM_TTL=Math.max(15,Number(process.env.HAREM_CACHE_SECONDS)||60)*1000;
 let haremCache={time:0,data:null,lastError:null};
 
@@ -781,16 +782,20 @@ async function fetchHaremGold(force=false){
   }
 
   try{
-    const response=await fetch(HAREM_GOLD_URL,{
-      headers:{
-        "Authorization":`Bearer ${token}`,
-        "Accept":"application/json",
-        "User-Agent":"BugunAltin.com/1.0"
-      },
-      signal:AbortSignal.timeout(10000)
-    });
+    let response=null;
+    for(const url of HAREM_GOLD_URLS){
+      response=await fetch(url,{
+        headers:{
+          "Authorization":`Bearer ${token}`,
+          "Accept":"application/json",
+          "User-Agent":"BugunAltin.com/1.0"
+        },
+        signal:AbortSignal.timeout(10000)
+      });
+      if(response.ok)break;
+    }
 
-    if(!response.ok)throw new Error(`harem_http_${response.status}`);
+    if(!response?.ok)throw new Error(`harem_http_${response?.status||"network"}`);
 
     const json=await response.json();
     const items=haremList(json);
@@ -1054,8 +1059,9 @@ app.get("/api/harem-status",async(req,res)=>{
 
 app.get("/api/gold",async(req,res)=>{
  const force=req.query.refresh==="1"&&validSession(req);
- const data=await fetchHaremGold(force);
- if(!data)return res.status(503).json({error:"harem_gold_unavailable",configured:Boolean(process.env.HAREM_API_KEY)});
+ let data=await fetchHaremGold(force);
+ if(!data)data=await fetchCentralGold(force);
+ if(!data)return res.status(503).json({error:"live_gold_unavailable",haremConfigured:Boolean(process.env.HAREM_API_KEY),centralConfigured:Boolean(process.env.GOLD_API_KEY)});
  res.set("Cache-Control","public,max-age=30,stale-while-revalidate=300").json(data);
 });
 app.get("/api/prices",async(req,res)=>{const city=String(req.query.city||"").toLowerCase();if(!CITIES[city])return res.status(400).json({error:"invalid_city"});try{const d=await cityGold(city);if(!d)return res.status(404).json({city,verified:false,error:"source_not_configured"});res.set("Cache-Control","public,max-age=15").json(d)}catch{res.status(502).json({error:"source_unavailable"})}});
