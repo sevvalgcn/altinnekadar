@@ -1,0 +1,78 @@
+name: Repair Market FX Source
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-market-fx-source.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Add regression test
+        shell: bash
+        run: |
+          cat > tests/market-fx-source.test.js <<'EOF'
+          const test=require('node:test');
+          const assert=require('node:assert/strict');
+          const fs=require('node:fs');
+
+          test('Kapalıçarşı döviz akışı güncel doviz-api kaynağını dener ve legacy kaynağı yedek tutar',()=>{
+            const src=fs.readFileSync('server.js','utf8');
+            const start=src.indexOf('async function marketFx(){');
+            const end=src.indexOf('\napp.get("/api/market-fx-status"',start);
+            assert.ok(start>=0&&end>start,'marketFx bloğu bulunamadı');
+            const block=src.slice(start,end);
+            assert.match(block,/const urls=\[/);
+            assert.match(block,/source=doviz-api/);
+            assert.match(block,/source=doviz/);
+            assert.match(block,/for\(const url of urls\)/);
+          });
+          EOF
+
+      - name: Verify RED
+        shell: bash
+        run: |
+          set +e
+          node --test tests/market-fx-source.test.js > /tmp/red.log 2>&1
+          code=$?
+          cat /tmp/red.log
+          if [ "$code" -eq 0 ]; then
+            echo 'Test unexpectedly passed before repair.'
+            exit 1
+          fi
+          exit 0
+
+      - name: Apply market FX repair
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('server.js')
+          s=p.read_text(encoding='utf-8')
+          old=''' const url="https://api.hasfiyat.com/api/prices?source=doviz";\n  const r=await fetch(url,{\n    headers:{\n      "Authorization":`Bearer ${token}`,\n      "Accept":"application/json",\n      "User-Agent":"BugunAltin.com/1.0"\n    },\n    signal:AbortSignal.timeout(10000)\n  });\n  if(!r.ok)throw new Error(`market_fx_http_${r.status}`);\n\n  const json=await r.json();'''
+          new=''' const urls=[\n    "https://api.hasfiyat.com/api/prices?source=doviz-api",\n    "https://api.hasfiyat.com/api/prices?source=doviz"\n  ];\n  let r=null;\n  for(const url of urls){\n    r=await fetch(url,{\n      headers:{\n        "Authorization":`Bearer ${token}`,\n        "Accept":"application/json",\n        "User-Agent":"BugunAltin.com/1.0"\n      },\n      signal:AbortSignal.timeout(10000)\n    });\n    if(r.ok)break;\n  }\n  if(!r?.ok)throw new Error(`market_fx_http_${r?.status||"network"}`);\n\n  const json=await r.json();'''
+          if old not in s: raise SystemExit('marketFx fetch block not found')
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+
+      - name: Verify GREEN
+        run: |
+          node --test tests/market-fx-source.test.js
+          npm run check
+
+      - name: Commit repair
+        run: |
+          git config user.name 'Bugün Altın Automation'
+          git config user.email 'actions@users.noreply.github.com'
+          git add server.js tests/market-fx-source.test.js
+          git commit -m 'Kapalıçarşı döviz kaynağını güncel doviz-api ile düzelt'
+          git push
