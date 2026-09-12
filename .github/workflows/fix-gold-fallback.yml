@@ -1,4 +1,4 @@
-name: Fix Gold Source Fallback
+name: Repair Live Gold And SEO Feed
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  fix:
+  repair:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Add regression test
+      - name: Add regression tests
         shell: bash
         run: |
           cat > tests/gold-fallback.test.js <<'EOF'
@@ -27,20 +27,49 @@ jobs:
           const assert=require('node:assert/strict');
           const fs=require('node:fs');
 
+          const src=()=>fs.readFileSync('server.js','utf8');
+
           test('şehir fiyatlarında Harem kullanılamazsa merkezi canlı kaynak devreye girer',()=>{
-            const src=fs.readFileSync('server.js','utf8');
-            const start=src.indexOf('async function cityGold(city){');
-            const end=src.indexOf('\napp.get("/api/city-source"',start);
+            const s=src();
+            const start=s.indexOf('async function cityGold(city){');
+            const end=s.indexOf('\napp.get("/api/city-source"',start);
             assert.ok(start>=0&&end>start,'cityGold bloğu bulunamadı');
-            const block=src.slice(start,end);
+            const block=s.slice(start,end);
             assert.match(block,/const centralFallback=await fetchCentralGold\(\);/);
             assert.match(block,/centralFallback\?\.prices\?\.length/);
-            assert.match(block,/return \{\.\.\.centralFallback,city,verified:true,local:false/);
+          });
+
+          test('SEO otomasyonu Harem kesilirse merkezi canlı veriden üretime devam eder',()=>{
+            const s=src();
+            const start=s.indexOf('async function ensureSeoPost(slot,force=false){');
+            const end=s.indexOf('\nasync function runSeoScheduler()',start);
+            assert.ok(start>=0&&end>start,'ensureSeoPost bloğu bulunamadı');
+            const block=s.slice(start,end);
+            assert.match(block,/let live=await fetchHaremGold\(force\);/);
+            assert.match(block,/if\(!live\)live=await fetchCentralGold\(force\);/);
+          });
+
+          test('ana altın API Harem kesilirse merkezi canlı veriyi döndürür',()=>{
+            const s=src();
+            const start=s.indexOf('app.get("/api/gold"');
+            const end=s.indexOf('\napp.get("/api/prices"',start);
+            assert.ok(start>=0&&end>start,'/api/gold bloğu bulunamadı');
+            const block=s.slice(start,end);
+            assert.match(block,/let data=await fetchHaremGold\(force\);/);
+            assert.match(block,/if\(!data\)data=await fetchCentralGold\(force\);/);
+          });
+
+          test('Harem kaynağı için normal ve canlı alternatif uç noktalar denenir',()=>{
+            const s=src();
+            assert.match(s,/const HAREM_GOLD_URLS=\[/);
+            assert.match(s,/source=harem"/);
+            assert.match(s,/source=harem-canli"/);
+            assert.match(s,/for\(const url of HAREM_GOLD_URLS\)/);
           });
 
           test('yedek kaynak ön yüzde yerel kaynak gibi etiketlenmez',()=>{
-            const src=fs.readFileSync('public/app.js','utf8');
-            assert.match(src,/data\.local\?"Doğrulanmış yerel kaynak":"Canlı yedek kaynak"/);
+            const app=fs.readFileSync('public/app.js','utf8');
+            assert.match(app,/data\.local\?"Doğrulanmış yerel kaynak":"Canlı yedek kaynak"/);
           });
           EOF
 
@@ -48,47 +77,55 @@ jobs:
         shell: bash
         run: |
           set +e
-          node --test tests/gold-fallback.test.js > /tmp/gold-red.log 2>&1
+          node --test tests/gold-fallback.test.js > /tmp/red.log 2>&1
           code=$?
-          cat /tmp/gold-red.log
+          cat /tmp/red.log
           if [ "$code" -eq 0 ]; then
-            echo 'Regression tests unexpectedly passed before implementation.'
+            echo 'Tests unexpectedly passed before repair.'
             exit 1
           fi
           exit 0
 
-      - name: Apply root-cause fix
+      - name: Apply root-cause repair
         shell: python
         run: |
           from pathlib import Path
 
-          server_path=Path('server.js')
-          server=server_path.read_text(encoding='utf-8')
-          old=''' const haremFallback=await fetchHaremGold();\n if(!haremFallback)return null;\n const entry=citySourceRegistry?.[city]||{};\n let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";\n if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";\n if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";\n return {...haremFallback,city,local:false,official:false,sourceName};'''
-          new=''' const haremFallback=await fetchHaremGold();\n const entry=citySourceRegistry?.[city]||{};\n if(haremFallback){\n  let sourceName="Türkiye Geneli Canlı Altın Verisi • Harem Altın";\n  if(entry.mode==="izko")sourceName="İZKO canlı sayfası okunamadı • Harem canlı yedek";\n  if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı erişilemedi • Harem canlı yedek";\n  return {...haremFallback,city,local:false,official:false,sourceName};\n }\n\n const centralFallback=await fetchCentralGold();\n if(centralFallback?.prices?.length){\n  let sourceName="Türkiye Geneli Canlı Altın Verisi • Merkezi yedek kaynak";\n  if(entry.mode==="izko")sourceName="İZKO ve Harem erişilemedi • Merkezi canlı yedek";\n  if(entry.mode==="sakaryaPage")sourceName="Sakarya şehir kaynağı ve Harem erişilemedi • Merkezi canlı yedek";\n  return {...centralFallback,city,verified:true,local:false,official:false,sourceName,sourceUrl:centralFallback.sourceUrl||""};\n }\n return null;'''
-          if old not in server:
-              raise SystemExit('cityGold fallback block not found')
-          server=server.replace(old,new,1)
-          server_path.write_text(server,encoding='utf-8')
+          p=Path('server.js')
+          s=p.read_text(encoding='utf-8')
 
-          app_path=Path('public/app.js')
-          app=app_path.read_text(encoding='utf-8')
-          old_ui='''if($("goldSourceChip"))$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":"Doğrulanmış yerel kaynak";'''
-          new_ui='''if($("goldSourceChip"))$("goldSourceChip").textContent=data.manual?"Panelden girilen fiyat":(data.local?"Doğrulanmış yerel kaynak":"Canlı yedek kaynak");'''
-          if old_ui not in app:
-              raise SystemExit('goldSourceChip line not found')
-          app=app.replace(old_ui,new_ui,1)
-          app_path.write_text(app,encoding='utf-8')
+          old='const HAREM_GOLD_URL="https://api.hasfiyat.com/api/prices?source=harem";'
+          new='const HAREM_GOLD_URLS=["https://api.hasfiyat.com/api/prices?source=harem","https://api.hasfiyat.com/api/prices?source=harem-canli"];'
+          if old not in s: raise SystemExit('Harem URL constant not found')
+          s=s.replace(old,new,1)
+
+          old='''    const response=await fetch(HAREM_GOLD_URL,{\n      headers:{\n        "Authorization":`Bearer ${token}`,\n        "Accept":"application/json",\n        "User-Agent":"BugunAltin.com/1.0"\n      },\n      signal:AbortSignal.timeout(10000)\n    });\n\n    if(!response.ok)throw new Error(`harem_http_${response.status}`);'''
+          new='''    let response=null;\n    for(const url of HAREM_GOLD_URLS){\n      response=await fetch(url,{\n        headers:{\n          "Authorization":`Bearer ${token}`,\n          "Accept":"application/json",\n          "User-Agent":"BugunAltin.com/1.0"\n        },\n        signal:AbortSignal.timeout(10000)\n      });\n      if(response.ok)break;\n    }\n\n    if(!response?.ok)throw new Error(`harem_http_${response?.status||"network"}`);'''
+          if old not in s: raise SystemExit('Harem fetch block not found')
+          s=s.replace(old,new,1)
+
+          old='''  const live=await fetchHaremGold(force);\n  const base=buildSeoPostFromGold(live,slot,now);'''
+          new='''  let live=await fetchHaremGold(force);\n  if(!live)live=await fetchCentralGold(force);\n  const base=buildSeoPostFromGold(live,slot,now);'''
+          if old not in s: raise SystemExit('SEO live source block not found')
+          s=s.replace(old,new,1)
+
+          old='''app.get("/api/gold",async(req,res)=>{\n const force=req.query.refresh==="1"&&validSession(req);\n const data=await fetchHaremGold(force);\n if(!data)return res.status(503).json({error:"harem_gold_unavailable",configured:Boolean(process.env.HAREM_API_KEY)});\n res.set("Cache-Control","public,max-age=30,stale-while-revalidate=300").json(data);\n});'''
+          new='''app.get("/api/gold",async(req,res)=>{\n const force=req.query.refresh==="1"&&validSession(req);\n let data=await fetchHaremGold(force);\n if(!data)data=await fetchCentralGold(force);\n if(!data)return res.status(503).json({error:"live_gold_unavailable",haremConfigured:Boolean(process.env.HAREM_API_KEY),centralConfigured:Boolean(process.env.GOLD_API_KEY)});\n res.set("Cache-Control","public,max-age=30,stale-while-revalidate=300").json(data);\n});'''
+          if old not in s: raise SystemExit('/api/gold block not found')
+          s=s.replace(old,new,1)
+
+          p.write_text(s,encoding='utf-8')
 
       - name: Verify GREEN
         run: |
           node --test tests/gold-fallback.test.js
           npm run check
+          npm test
 
-      - name: Commit fix
+      - name: Commit repair
         run: |
           git config user.name 'Bugün Altın Automation'
           git config user.email 'actions@users.noreply.github.com'
-          git add server.js public/app.js tests/gold-fallback.test.js
-          git commit -m 'Şehir altın fiyatlarına merkezi canlı yedek ekle'
+          git add server.js tests/gold-fallback.test.js
+          git commit -m 'Harem kesintisinde canlı fiyat ve SEO akışını sürdür'
           git push
