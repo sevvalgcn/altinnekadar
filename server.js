@@ -1136,16 +1136,23 @@ async function marketFx(){
   const token=String(process.env.HAREM_API_KEY||"").trim();
   if(!token)throw new Error("HAREM_API_KEY_missing");
 
- const url="https://api.hasfiyat.com/api/prices?source=doviz";
-  const r=await fetch(url,{
-    headers:{
-      "Authorization":`Bearer ${token}`,
-      "Accept":"application/json",
-      "User-Agent":"BugunAltin.com/1.0"
-    },
-    signal:AbortSignal.timeout(10000)
-  });
-  if(!r.ok)throw new Error(`market_fx_http_${r.status}`);
+ const urls=[
+    "https://api.hasfiyat.com/api/prices?source=doviz-api",
+    "https://api.hasfiyat.com/api/prices?source=doviz"
+  ];
+  let r=null;
+  for(const url of urls){
+    r=await fetch(url,{
+      headers:{
+        "Authorization":`Bearer ${token}`,
+        "Accept":"application/json",
+        "User-Agent":"BugunAltin.com/1.0"
+      },
+      signal:AbortSignal.timeout(10000)
+    });
+    if(r.ok)break;
+  }
+  if(!r?.ok)throw new Error(`market_fx_http_${r?.status||"network"}`);
 
   const json=await r.json();
   const items=haremList(json);
