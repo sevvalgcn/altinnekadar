@@ -4422,5 +4422,57 @@
     "aiGenerated": false,
     "aiModel": "gpt-5.4-mini",
     "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
+  },
+  {
+    "id": "2026-09-21-gece",
+    "slug": "2026-09-21-gece-altin-piyasasi",
+    "slot": "gece",
+    "dayKey": "2026-09-21",
+    "title": "Günün Altın Piyasası Özeti: Gram Altın 6.865,89 TL",
+    "description": "Günün kapanışında gram altın 6.865,89 TL, çeyrek altın 11.116,00 TL seviyesinde. Gün sonu altın özeti.",
+    "body": [
+      "Günün sonunda altın piyasasında gram, çeyrek ve diğer temel ürünlerde oluşan fiyatlar öne çıkıyor.",
+      "Bugün Altın canlı veri ekranında gram altının satış fiyatı 6.865,89 TL, çeyrek altının satış fiyatı 11.116,00 TL olarak görüntüleniyor.",
+      "Gram Altın: alış 6.865,06 TL, satış 6.865,89 TL • Çeyrek Altın: alış 10.865,75 TL, satış 11.116,00 TL • Yarım Altın: alış 21.663,59 TL, satış 22.232,00 TL • Tam Altın: alış 43.463,00 TL, satış 44.328,02 TL",
+      "Altın fiyatları gün içinde ons altın, döviz kuru ve piyasa likiditesindeki değişimlere bağlı olarak hareket edebilir. Fiziki kuyumcu fiyatlarında işçilik ve alış-satış makası nedeniyle farklılık görülebilir.",
+      "Şehir bazlı fiyatları görmek için Bugün Altın şehir sayfalarını, farklı altın türlerinin güncel değerleri için gram altın ve çeyrek altın sayfalarını kullanabilirsiniz."
+    ],
+    "sourceName": "apinoktam Altın API",
+    "sourceUrl": "https://apinoktam.erenozdemir.com.tr/docs",
+    "publishedAt": "2026-09-20T21:04:46.909Z",
+    "updatedAt": "2026-09-20T21:04:47.622Z",
+    "prices": {
+      "gram": {
+        "key": "gram",
+        "name": "Gram Altın",
+        "buy": 6865.06,
+        "sell": 6865.89,
+        "change": 0.94
+      },
+      "ceyrek": {
+        "key": "ceyrek",
+        "name": "Çeyrek Altın",
+        "buy": 10865.75,
+        "sell": 11116,
+        "change": -0.3
+      },
+      "yarim": {
+        "key": "yarim",
+        "name": "Yarım Altın",
+        "buy": 21663.59,
+        "sell": 22232,
+        "change": -0.3
+      },
+      "tam": {
+        "key": "tam",
+        "name": "Tam Altın",
+        "buy": 43463,
+        "sell": 44328.02,
+        "change": -0.3
+      }
+    },
+    "aiGenerated": false,
+    "aiModel": "gpt-5.4-mini",
+    "aiError": "OpenAI 401: Incorrect API key provided: Bb1721266.. You can find your API key at https://platform.openai.com/account/api-keys."
   }
 ]
